@@ -186,7 +186,7 @@ const toTiled = (parsed) => {
  */
 module.exports.handler = async (event) => {
   try {
-    const levelId = event.queryStringParameters.levelId
+    const levelId = event.pathParameters.levelId
     const levelUrl = `${url}/${levelId}.txt`
     const result = await axios.get(levelUrl)
     const parsed = queryString.parse(result.data)

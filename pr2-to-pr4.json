@@ -1,5 +1,5 @@
 {
-  "queryStringParameters": {
+  "pathParameters": {
     "levelId": 1000066
   }
 }

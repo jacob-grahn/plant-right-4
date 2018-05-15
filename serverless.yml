@@ -23,8 +23,12 @@ functions:
     handler: pr2-to-pr4.cbHandler
     events:
       - http:
-          path: pr2-to-pr4
+          path: pr2-to-pr4/{levelId}
           method: get
+          request:
+            parameters:
+               paths:
+                 levelId: true
 custom:
   client:
     bucketName: pr4-static-site
