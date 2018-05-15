@@ -81,7 +81,7 @@ const parseBlocks = (blockArr, chunkSize = 16) => {
   blockArr.forEach(command => {
     const [moveX, moveY, newTileId] = command.split(';')
     if (newTileId !== undefined) {
-      tileId = Number(newTileId)
+      tileId = Number(newTileId) + 1
     }
     x += Number(moveX)
     y += Number(moveY)
@@ -138,14 +138,14 @@ const toTiled = (parsed) => {
     infinite: true,
     layers: [
       {
-        height: 16,
         name: 'Tile Layer',
         opacity: 1,
-        startx: -16,
-        starty: -16,
+        startx: 0,
+        starty: 0,
         type: 'tilelayer',
         visible: true,
-        width: 16,
+        width: 100,
+        height: 100,
         x: 0,
         y: 0,
         chunks: parsed.data.blocks
@@ -161,19 +161,19 @@ const toTiled = (parsed) => {
       gravity: Number(parsed.gravity),
       song: Number(parsed.song)
     },
-    tileset: {
-      columns: 5,
+    tilesets: [{
+      columns: 10,
       firstgid: 1,
-      image: 'pr2-tiles.png',
-      imageheight: 480,
-      imagewidth: 640,
-      margin: 3,
-      name: 'pr2-tiles',
-      spacing: 1,
-      tilecount: 266,
-      tileheight: 32,
-      tilewidth: 32
-    }
+      image: 'pr2-blocks.png',
+      imageheight: 120,
+      imagewidth: 300,
+      margin: 0,
+      name: 'pr2-blocks',
+      spacing: 0,
+      tilecount: 40,
+      tileheight: 30,
+      tilewidth: 30
+    }]
   }
 }
 
