@@ -91,6 +91,77 @@ const parseBlocks = (blockArr, chunkSize = 16) => {
 }
 
 /**
+ * Converts pr2's line drawings into a Tiled object layer
+ */
+const parseArt = (artArr) => {
+  let color = '000000'
+  let thickness = 1
+  const objects = []
+
+  artArr.forEach(command => {
+    const type = command.substr(0, 1)
+    const content = command.substr(1)
+    if (type === 'c') {
+      color = content
+    }
+    if (type === 't') {
+      thickness = Number(content)
+    }
+    if (type === 'd') {
+      objects.push(parseLine(content, color, thickness))
+    }
+  })
+
+  return {
+    draworder: 'topdown',
+    name: 'Line Layer',
+    objects,
+    offsetx: 0,
+    offsety: 0,
+    opacity: 1,
+    type: 'objectgroup',
+    visible: true
+  }
+}
+
+/**
+ * Converts pr2's line format into an array of x, y coordinates
+ */
+const parseLine = (lineStr, color, thickness) => {
+  const values = lineStr.split(';')
+  const polyline = []
+  let x = 0
+  let y = 0
+  let startX = 0
+  let startY = 0
+  let len = values.length / 2
+
+  for (let i = 0; i < len; i += 2) {
+    let valueX = Number(values[i])
+    let valueY = Number(values[i + 1])
+    if (i === 0) {
+      startX = valueX
+      startY = valueY
+      polyline.push({ x: 0, y: 0 })
+      continue
+    }
+    x += valueX
+    y += valueY
+    polyline.push({ x, y })
+  }
+
+  return {
+    x: startX,
+    y: startY,
+    polyline,
+    properties: {
+      color,
+      thickness
+    }
+  }
+}
+
+/**
  * @returns void
  * SIDE EFFECT: mutates chunkDict
  */
@@ -149,7 +220,8 @@ const toTiled = (parsed) => {
         x: 0,
         y: 0,
         chunks: parsed.data.blocks
-      }
+      },
+      ...parsed.artLayers
     ],
     orientation: 'orthogonal',
     tileheight: 30,
@@ -191,8 +263,10 @@ module.exports.handler = async (event) => {
     const result = await axios.get(levelUrl)
     const parsed = queryString.parse(result.data)
     parsed.data = parsePr2Data(parsed.data)
-    parsed.items = parsePr2Items(parsed.items)
-    parsed.data.blocks = parseBlocks(parsed.data.blocks)
+    const { blocks, items, art1, art2, art3, art4 } = parsed.data
+    parsed.items = parsePr2Items(items)
+    parsed.data.blocks = parseBlocks(blocks)
+    parsed.artLayers = [art1, art2, art3, art4].map(parseArt)
     const tiled = toTiled(parsed)
     return { statusCode: 200, body: JSON.stringify(tiled) }
   } catch (e) {
