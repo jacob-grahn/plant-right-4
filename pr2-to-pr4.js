@@ -99,7 +99,7 @@ const placeTile = (chunkDict, chunkSize, x, y, tileId) => {
   const chunkY = Math.floor(y / chunkSize) * chunkSize
   const innerX = x % chunkSize
   const innerY = y % chunkSize
-  const pos = (innerX * chunkSize) + innerY
+  const pos = (innerY * chunkSize) + innerX
   const chunkId = `${chunkX},${chunkY}`
   if (!chunkDict[chunkId]) {
     chunkDict[chunkId] = makeChunk(chunkSize, chunkX, chunkY)
