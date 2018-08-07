@@ -134,7 +134,7 @@ const parseLine = (lineStr, color, thickness) => {
   let y = 0
   let startX = 0
   let startY = 0
-  let len = values.length / 2
+  let len = values.length
 
   for (let i = 0; i < len; i += 2) {
     let valueX = Number(values[i])
