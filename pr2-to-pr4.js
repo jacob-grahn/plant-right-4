@@ -5,6 +5,7 @@
 const axios = require('axios')
 const queryString = require('query-string')
 const url = 'https://pr2hub.com/levels'
+const parseStamp = require('./parse-stamp')
 
 /**
  * split string, crease an empty array if the string is falsy
@@ -103,12 +104,15 @@ const parseArt = (artArr) => {
     const content = command.substr(1)
     if (type === 'c') {
       color = content
-    }
-    if (type === 't') {
+    } else if (type === 't') {
       thickness = Number(content)
-    }
-    if (type === 'd') {
+    } else if (type === 'd') {
       objects.push(parseLine(content, color, thickness))
+    } else {
+      const segs = command.split(';')
+      if (segs.length === 3 || segs.length === 5) {
+        objects.push(parseStamp(command))
+      }
     }
   })
 
