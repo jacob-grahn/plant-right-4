@@ -6,6 +6,8 @@ const axios = require('axios')
 const queryString = require('query-string')
 const url = 'https://pr2hub.com/levels'
 const parseStamp = require('./parse-stamp')
+const blockTileset = require('./tilesets/blocks')
+const stampTileset = require('./tilesets/stamps')
 
 /**
  * split string, crease an empty array if the string is falsy
@@ -237,19 +239,7 @@ const toTiled = (parsed) => {
       gravity: Number(parsed.gravity),
       song: Number(parsed.song)
     },
-    tilesets: [{
-      columns: 10,
-      firstgid: 1,
-      image: 'pr2-blocks.png',
-      imageheight: 120,
-      imagewidth: 300,
-      margin: 0,
-      name: 'pr2-blocks',
-      spacing: 0,
-      tilecount: 40,
-      tileheight: 30,
-      tilewidth: 30
-    }]
+    tilesets: [blockTileset, stampTileset]
   }
 }
 
