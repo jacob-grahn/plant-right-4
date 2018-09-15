@@ -8,7 +8,7 @@
     "query-string": "^6.1.0"
   },
   "devDependencies": {
-    "serverless-finch": "^2.1.2"
+    "serverless-finch": "^2.3.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
