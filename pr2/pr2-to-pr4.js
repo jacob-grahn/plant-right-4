@@ -4,10 +4,11 @@
 
 const axios = require('axios')
 const queryString = require('query-string')
-const url = 'https://pr2hub.com/levels'
 const parseStamp = require('./parse-stamp')
 const blockTileset = require('./tilesets/blocks')
 const stampTileset = require('./tilesets/stamps')
+
+const url = 'https://pr2hub.com/levels'
 
 /**
  * split string, crease an empty array if the string is falsy

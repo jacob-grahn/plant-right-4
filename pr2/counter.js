@@ -1,2 +1,2 @@
 let i = 0
-export default () => i++
+module.exports = () => i++

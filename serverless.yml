@@ -20,7 +20,7 @@ functions:
           method: get
           authorizer: authorize
   pr2-to-pr4:
-    handler: pr2-to-pr4.cbHandler
+    handler: pr2/pr2-to-pr4.cbHandler
     events:
       - http:
           path: pr2-to-pr4/{levelId}
