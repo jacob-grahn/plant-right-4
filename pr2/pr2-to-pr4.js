@@ -112,10 +112,7 @@ const parseArt = (artArr) => {
     } else if (type === 'd') {
       objects.push(parseLine(content, color, thickness))
     } else {
-      const segs = command.split(';')
-      if (segs.length === 3 || segs.length === 5) {
-        objects.push(parseStamp(command))
-      }
+      objects.push(parseStamp(command))
     }
   })
 
