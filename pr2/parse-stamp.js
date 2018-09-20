@@ -21,5 +21,5 @@ module.exports = (command) => {
   const height = Number(scaleY) * stampData.imagewidth * 0.01 * scaleFactor
   x += Number(shiftX)
   y += Number(shiftY)
-  return { gid, x, y, width, height }
+  return { gid, x, y: y + height, width, height }
 }
