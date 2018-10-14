@@ -5,6 +5,7 @@
   "main": "handler.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "big-render": "^1.0.0",
     "canvas": "^2.0.0-alpha.14",
     "query-string": "^6.1.0"
   },
