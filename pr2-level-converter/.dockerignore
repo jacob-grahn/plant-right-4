@@ -1,0 +1,7 @@
+# Ignore everything
+**
+
+# Allow a few files
+!package.json
+!package-lock.json
+!serverless.yml

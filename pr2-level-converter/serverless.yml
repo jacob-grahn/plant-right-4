@@ -2,25 +2,14 @@ service: platform-racing
 package:
   exclude:
     - "node_modules/.bin"
-plugins:
-  - serverless-finch
 provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
 functions:
-  authorize:
-    handler: authorize.handler
-  hello:
-    handler: hello.handler
-    events:
-      - http:
-          path: hello
-          method: get
-          authorizer: authorize
   pr2-to-pr4:
-    handler: pr2/pr2-to-pr4.cbHandler
+    handler: pr2-to-pr4.cbHandler
     events:
       - http:
           path: pr2-to-pr4/{levelId}
@@ -29,6 +18,5 @@ functions:
             parameters:
                paths:
                  levelId: true
-custom:
-  client:
-    bucketName: pr4-static-site
+  canvas-test:
+    handler: canvas-test.hello
