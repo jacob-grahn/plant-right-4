@@ -77,14 +77,3 @@ module.exports.handler = async (event) => {
     return { statusCode, body: JSON.stringify({ error: e.message }) }
   }
 }
-
-/**
- * Workaround, serverless doesn't support promises
- * when using 'sls invoke local'
- * https://github.com/serverless/serverless/issues/4911
- */
-module.exports.cbHandler = (event, ctx, callback) => {
-  module.exports.handler(event)
-    .then(result => callback(null, result))
-    .catch(err => callback(err))
-}

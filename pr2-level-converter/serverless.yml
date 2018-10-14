@@ -8,8 +8,8 @@ provider:
   stage: dev
   region: us-east-1
 functions:
-  pr2-to-pr4:
-    handler: pr2-to-pr4.cbHandler
+  convert-level:
+    handler: src/convert-level.handler
     events:
       - http:
           path: pr2-to-pr4/{levelId}
@@ -19,4 +19,4 @@ functions:
                paths:
                  levelId: true
   canvas-test:
-    handler: canvas-test.hello
+    handler: src/canvas-test.hello
