@@ -1,9 +1,10 @@
 const BigRender = require('big-render')
 const { createCanvas } = require('canvas')
+const path = require('path')
 const tileWidth = 500
 const tileHeight = 500
 
-const renderLines = (lines) => {
+const renderLines = async (lines) => {
   const bounds = {
     minX: Infinity,
     maxX: -Infinity,
@@ -23,7 +24,7 @@ const renderLines = (lines) => {
     renderLine(line, bigCtx)
   })
 
-  stashImages(bigCtx, bounds)
+  await renderImages(bigCtx, bounds)
 }
 
 const renderLine = (line, ctx) => {
@@ -41,7 +42,7 @@ const renderLine = (line, ctx) => {
   ctx.stroke()
 }
 
-const stashImages = (big, bounds) => {
+const renderImages = async (big, bounds) => {
   const canvas = createCanvas()
   canvas.width = tileWidth
   canvas.height = tileHeight
@@ -52,12 +53,22 @@ const stashImages = (big, bounds) => {
   for (let x = startX; x < bounds.maxX; x += tileWidth) {
     for (let y = startY; y < bounds.maxY; y += tileHeight) {
       big.render(ctx, x, y)
-      // well, this won't work
-      canvas.toBlob((blob) => {
-      })
+      await toPng(canvas, x, y)
+      console.log('rendered', x, y)
       clearCtx(ctx)
     }
   }
+}
+
+const toPng = (canvas, x, y) => {
+  return new Promise((resolve, reject) => {
+    const fs = require('fs')
+    const out = fs.createWriteStream(path.join(__dirname, `tile_${x}-${y}.png`))
+    const stream = canvas.createPNGStream()
+    stream.pipe(out)
+    out.on('finish', resolve)
+    out.on('error', reject)
+  })
 }
 
 const clearCtx = (ctx) => {
