@@ -1,10 +1,9 @@
 const BigRender = require('big-render')
 const { createCanvas } = require('canvas')
-const path = require('path')
-const tileWidth = 500
-const tileHeight = 500
+const imageWidth = 500
+const imageHeight = 500
 
-const renderLines = async (lines) => {
+const renderLines = (lines) => {
   const bounds = {
     minX: Infinity,
     maxX: -Infinity,
@@ -21,54 +20,43 @@ const renderLines = async (lines) => {
     if (line.y > bounds.maxY) bounds.maxY = line.y
     if (line.y < bounds.minY) bounds.minY = line.y
 
-    renderLine(line, bigCtx)
+    drawLine(line, bigCtx)
   })
 
-  await renderImages(bigCtx, bounds)
+  return renderImages(bigCtx, bounds)
 }
 
-const renderLine = (line, ctx) => {
+const drawLine = (line, ctx) => {
   ctx.beginPath()
   ctx.moveTo(line.x, line.y)
   ctx.strokeStyle = '#' + line.properties.color
   ctx.lineWidth = line.properties.width
-  let x = line.x
-  let y = line.y
   line.polyline.forEach(point => {
-    x = line.x + point.x
-    y = line.y + point.y
+    let x = line.x + point.x
+    let y = line.y + point.y
     ctx.lineTo(x, y)
   })
   ctx.stroke()
 }
 
-const renderImages = async (big, bounds) => {
+const renderImages = (big, bounds) => {
   const canvas = createCanvas()
-  canvas.width = tileWidth
-  canvas.height = tileHeight
   const ctx = canvas.getContext('2d')
+  const imageMap = {}
+  canvas.width = imageWidth
+  canvas.height = imageHeight
 
-  let startX = Math.floor(bounds.minX / tileWidth) * tileWidth
-  let startY = Math.floor(bounds.minY / tileHeight) * tileHeight
-  for (let x = startX; x < bounds.maxX; x += tileWidth) {
-    for (let y = startY; y < bounds.maxY; y += tileHeight) {
+  let startX = Math.floor(bounds.minX / imageWidth) * imageWidth
+  let startY = Math.floor(bounds.minY / imageHeight) * imageHeight
+  for (let x = startX; x < bounds.maxX; x += imageWidth) {
+    for (let y = startY; y < bounds.maxY; y += imageHeight) {
       big.render(ctx, x, y)
-      await toPng(canvas, x, y)
-      console.log('rendered', x, y)
+      imageMap[`${x}-${y}`] = canvas.toBuffer('image/png')
       clearCtx(ctx)
     }
   }
-}
 
-const toPng = (canvas, x, y) => {
-  return new Promise((resolve, reject) => {
-    const fs = require('fs')
-    const out = fs.createWriteStream(path.join(__dirname, `tile_${x}-${y}.png`))
-    const stream = canvas.createPNGStream()
-    stream.pipe(out)
-    out.on('finish', resolve)
-    out.on('error', reject)
-  })
+  return imageMap
 }
 
 const clearCtx = (ctx) => {
