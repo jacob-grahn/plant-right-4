@@ -1,15 +1,28 @@
 service: platform-racing
+
 package:
   exclude:
     - "node_modules/.bin"
+
+custom:
+  bucket: pr4-levels
+
 provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::${self:custom.bucket}/pr2/*"
+
 functions:
   convert-level:
     handler: src/convert-level.handler
+    environment:
+      BUCKET: ${self:custom.bucket}
     events:
       - http:
           path: pr2-to-pr4/{levelId}
@@ -18,5 +31,3 @@ functions:
             parameters:
                paths:
                  levelId: true
-  canvas-test:
-    handler: src/canvas-test.hello

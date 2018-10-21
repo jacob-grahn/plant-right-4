@@ -4,6 +4,7 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
+    "aws-sdk": "^2.339.0",
     "axios": "^0.18.0",
     "big-render": "^1.0.1",
     "canvas": "^2.0.1",
