@@ -1,7 +1,7 @@
 const BigRender = require('big-render')
 const { createCanvas } = require('canvas')
-const imageWidth = 500
-const imageHeight = 500
+const imageWidth = 512
+const imageHeight = 512
 
 const renderLines = (lines) => {
   const bounds = {

@@ -7,8 +7,8 @@ test('draw a line to the filesystem', () => {
   // known good
   const canvas = createCanvas()
   const ctx = canvas.getContext('2d')
-  canvas.width = 500
-  canvas.height = 500
+  canvas.width = 512
+  canvas.height = 512
   ctx.strokeStyle = '#947325'
   ctx.lineWidth = 10
   ctx.beginPath()
