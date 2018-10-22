@@ -42,7 +42,7 @@ const drawLine = (line, ctx) => {
 const renderImages = (big, bounds) => {
   const canvas = createCanvas()
   const ctx = canvas.getContext('2d')
-  const imageMap = {}
+  const images = []
   canvas.width = imageWidth
   canvas.height = imageHeight
 
@@ -51,12 +51,13 @@ const renderImages = (big, bounds) => {
   for (let x = startX; x < bounds.maxX; x += imageWidth) {
     for (let y = startY; y < bounds.maxY; y += imageHeight) {
       big.render(ctx, x, y)
-      imageMap[`${x}-${y}`] = canvas.toBuffer('image/png')
+      const buffer = canvas.toBuffer('image/png')
+      images.push({ x, y, buffer })
       clearCtx(ctx)
     }
   }
 
-  return imageMap
+  return images
 }
 
 const clearCtx = (ctx) => {

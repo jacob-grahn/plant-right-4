@@ -10,6 +10,9 @@ const parseMainSections = require('./parse-main-sections')
 const parseItems = require('./parse-items')
 const parseBlocks = require('./parse-blocks')
 const parseArt = require('./parse-art')
+const renderLines = require('./render-lines')
+const toHash = require('./to-hash')
+const stashFile = require('./stash-file')
 
 const url = 'https://pr2hub.com/levels'
 
@@ -36,7 +39,7 @@ const toTiled = (parsed) => {
         y: 0,
         chunks: parsed.data.blocks
       },
-      ...parsed.artLayers
+      ...parsed.stampLayers
     ],
     orientation: 'orthogonal',
     tileheight: 30,
@@ -69,7 +72,28 @@ module.exports.handler = async (event) => {
     const { blocks, items, art1, art2, art3, art4 } = parsed.data
     parsed.items = parseItems(items)
     parsed.data.blocks = parseBlocks(blocks)
-    parsed.artLayers = [art1, art2, art3, art4].map(parseArt)
+
+    const artLayers = [art1, art2, art3, art4].map(parseArt)
+    const stampLayers = artLayers.map(layer => {
+      const lines = layer.objects.filter(obj => obj.polyline)
+      const stamps = layer.objects.filter(obj => obj.gid)
+      const images = renderLines(lines)
+      images.forEach(image => {
+        const hash = toHash(image)
+        const key = `pr2/${levelId}/${hash}`
+        stashFile(key, image)
+        stamps.push({
+          gid: key,
+          x: image.x,
+          y: image.y,
+          width: image.width,
+          height: image.height
+        })
+      })
+      return stamps
+    })
+    parsed.stampLayers = stampLayers
+
     const tiled = toTiled(parsed)
     return { statusCode: 200, body: JSON.stringify(tiled) }
   } catch (e) {

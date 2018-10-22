@@ -28,8 +28,8 @@ test('draw a line to the filesystem', () => {
       { x: 15, y: 450 }
     ]
   }]
-  const imageMap = renderLines(lines)
+  const images = renderLines(lines)
 
   //
-  expect(imageMap).toEqual({ '0-0': buffer })
+  expect(images).toEqual([{ x: 0, y: 0, buffer }])
 })
