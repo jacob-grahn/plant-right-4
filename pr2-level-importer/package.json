@@ -1,5 +1,5 @@
 {
-  "name": "pr2-level-converter",
+  "name": "pr2-level-importer",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
