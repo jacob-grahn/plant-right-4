@@ -22,7 +22,7 @@ const pr2ToPr4 = (pr2Data) => {
         height: 100,
         x: 0,
         y: 0,
-        chunks: pr2Data.data.blocks
+        chunks: pr2Data.blocks
       },
       ...pr2Data.artLayers
     ],
