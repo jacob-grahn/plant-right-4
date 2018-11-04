@@ -1,9 +1,11 @@
 const BigRender = require('big-render')
 const { createCanvas } = require('canvas')
+const toHash = require('./to-hash')
+const stashFile = require('./stash-file')
 const imageWidth = 512
 const imageHeight = 512
 
-const renderLines = (lines) => {
+const renderLines = async (levelId, lines) => {
   const bounds = {
     minX: Infinity,
     maxX: -Infinity,
@@ -23,7 +25,8 @@ const renderLines = (lines) => {
     drawLine(line, bigCtx)
   })
 
-  return renderImages(bigCtx, bounds)
+  const imageMetadataList = await renderImages(levelId, bigCtx, bounds)
+  return imageMetadataList
 }
 
 const drawLine = (line, ctx) => {
@@ -39,10 +42,10 @@ const drawLine = (line, ctx) => {
   ctx.stroke()
 }
 
-const renderImages = (big, bounds) => {
+const renderImages = async (levelId, big, bounds) => {
   const canvas = createCanvas()
   const ctx = canvas.getContext('2d')
-  const images = []
+  const imageMetadataList = []
   canvas.width = imageWidth
   canvas.height = imageHeight
 
@@ -51,13 +54,22 @@ const renderImages = (big, bounds) => {
   for (let x = startX; x < bounds.maxX; x += imageWidth) {
     for (let y = startY; y < bounds.maxY; y += imageHeight) {
       big.render(ctx, x, y)
-      const buffer = canvas.toBuffer('image/png')
-      images.push({ x, y, buffer })
+      const image = canvas.toBuffer('image/png')
+      const hash = toHash(image)
+      const key = `pr2/${levelId}/${hash}.png`
+      await stashFile(key, image)
       clearCtx(ctx)
+      imageMetadataList.push({
+        x,
+        y,
+        width: imageWidth,
+        height: imageHeight,
+        key
+      })
     }
   }
 
-  return images
+  return imageMetadataList
 }
 
 const clearCtx = (ctx) => {

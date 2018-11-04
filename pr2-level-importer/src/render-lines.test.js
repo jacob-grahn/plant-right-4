@@ -1,10 +1,13 @@
-/* global test, expect */
+/* global test, expect, jest */
 
 const renderLines = require('./render-lines')
 const { createCanvas } = require('canvas')
+const stashFile = require('./stash-file')
+jest.mock('./stash-file')
 
-test('draw a line to the filesystem', () => {
+test('render a line, and save the image', async () => {
   // known good
+  const levelId = 123
   const canvas = createCanvas()
   const ctx = canvas.getContext('2d')
   canvas.width = 512
@@ -28,8 +31,16 @@ test('draw a line to the filesystem', () => {
       { x: 15, y: 450 }
     ]
   }]
-  const images = renderLines(lines)
+  const imageMatadataList = await renderLines(levelId, lines)
 
   //
-  expect(images).toEqual([{ x: 0, y: 0, buffer }])
+  const key = 'pr2/123/34707f30dbf66b5f8e9da895825db9fe.png'
+  expect(imageMatadataList).toEqual([{
+    key,
+    x: 0,
+    y: 0,
+    width: 512,
+    height: 512
+  }])
+  expect(stashFile.lastCallParams).toEqual({ buffer, key })
 })

@@ -1,30 +1,16 @@
-const renderLines = require('./render-lines')
-const toHash = require('./to-hash')
-const stashFile = require('./stash-file')
+const renderLayer = require('./render-layer')
 
-const renderLevel = (levelId, pr4Level) => {
+const renderLevel = async (levelId, pr4Level) => {
   const { layers } = pr4Level
   const artLayers = layers.filter(layer => layer.type === 'objectgroup')
   const otherLayers = layers.filter(layer => layer.type !== 'objectgroup')
+  const renderedArtLayers = []
 
-  const renderedArtLayers = artLayers.map(layer => {
-    const lines = layer.objects.filter(obj => obj.polyline)
-    const stamps = layer.objects.filter(obj => obj.gid)
-    const images = renderLines(lines)
-    images.forEach(image => {
-      const hash = toHash(image)
-      const key = `pr2/${levelId}/${hash}`
-      stashFile(key, image)
-      stamps.push({
-        gid: key,
-        x: image.x,
-        y: image.y,
-        width: image.width,
-        height: image.height
-      })
-    })
-    return stamps
-  })
+  for (let i = 0; i < artLayers.length; i++) {
+    const layer = artLayers[i]
+    const renderedLayer = await renderLayer(levelId, layer)
+    renderedArtLayers.push(renderedLayer)
+  }
 
   return {
     ...pr4Level,
