@@ -4,7 +4,7 @@ const parseStamp = require('./parse-stamp')
 /**
  * Converts pr2's line drawings into a Tiled object layer
  */
-const parseArt = (artArr) => {
+const parseArt = (artArr = []) => {
   let color = '000000'
   let thickness = 1
   const objects = []

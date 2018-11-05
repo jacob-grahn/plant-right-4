@@ -10,7 +10,7 @@
  * ]}]
  * @returns array of chunks
  */
-const parseBlocks = (blockArr, chunkSize = 16) => {
+const parseBlocks = (blockArr = [], chunkSize = 16) => {
   const chunkDict = {}
   let x = 0
   let y = 0

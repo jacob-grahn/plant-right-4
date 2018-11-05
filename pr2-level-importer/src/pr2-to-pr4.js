@@ -1,10 +1,14 @@
 const blockTileset = require('./tilesets/blocks')
 const stampTileset = require('./tilesets/stamps')
+const parseItems = require('./parse-items')
+const parseBlocks = require('./parse-blocks')
+const parseArt = require('./parse-art')
 
 /**
  * convert a pr2 level object to a tiled level object
  */
 const pr2ToPr4 = (pr2Data) => {
+  const artLayers = (pr2Data.artLayers || []).map(parseArt)
   return {
     backgroundcolor: '#FFFFFF',
     width: 100,
@@ -22,16 +26,16 @@ const pr2ToPr4 = (pr2Data) => {
         height: 100,
         x: 0,
         y: 0,
-        chunks: pr2Data.blocks
+        chunks: parseBlocks(pr2Data.blocks)
       },
-      ...pr2Data.artLayers
+      ...artLayers
     ],
     orientation: 'orthogonal',
     tileheight: 30,
     tilewidth: 30,
     tiledversion: '1.1.5',
     properties: {
-      items: pr2Data.items,
+      items: parseItems(pr2Data.items),
       note: pr2Data.note,
       gravity: Number(pr2Data.gravity),
       song: Number(pr2Data.song),
