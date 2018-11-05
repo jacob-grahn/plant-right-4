@@ -14,7 +14,7 @@ const renderLines = async (levelId, lines) => {
   }
   let bigCtx = new BigRender()
 
-  if (lines.length === 0) return
+  if (lines.length === 0) return []
 
   lines.forEach(line => {
     if (line.x > bounds.maxX) bounds.maxX = line.x
