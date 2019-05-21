@@ -1,7 +1,7 @@
 // pick a random level from the db
 
 const axios = require('axios')
-const url = 'https://pr2hub.com/levels_by_random.php'
+const url = 'https://pr2hub.com/random_level.php'
 
 module.exports = async () => {
   const result = await axios.get(url)
