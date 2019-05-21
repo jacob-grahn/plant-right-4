@@ -1,0 +1,16 @@
+{
+  "name": "prf-server",
+  "version": "1.0.0",
+  "description": "Platform Racing Forever Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "jiber-server": "^0.1.5",
+    "query-string": "^5.0.1"
+  }
+}
