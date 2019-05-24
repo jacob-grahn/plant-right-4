@@ -69,18 +69,29 @@ function create () {
     const map = this.make.tilemap({ key: "map", tileWidth: 30, tileHeight: 30 })
     const tileset = map.addTilesetImage("pr2-blocks", "pr2-blocks")
     tileLayer = map.createDynamicLayer("Tile Layer", tileset, 0, 0)
-    tileLayer.x = -1000
+    tileLayer.x = -3400
     tileLayer.y = -1000
-    tileLayer.setCollisionBetween(1, 200, true, false)
+    tileLayer.setCollisionByProperty({ collides: true })
 
     // camera
     this.cameras.main.startFollow(player)
     this.cameras.main.setLerp(0.1, 0.1)
 
     // physics
-    this.physics.add.collider(player, tileLayer)
+    this.physics.add.collider(player, tileLayer, tileCallback)
     this.physics.world.bounds.width = tileLayer.width
     this.physics.world.bounds.height = tileLayer.height
+}
+
+function tileCallback (player, tile) {
+    if (tile.properties.collideHandlers) {
+        const collideHandlers = tile.properties.collideHandlers.split(',')
+        collideHandlers.forEach((handlerName) => {
+            if (handlerName === 'right') {
+                player.setVelocityX(300)
+            }
+        })
+    }
 }
 
 function update () {
@@ -95,7 +106,7 @@ function update () {
         player.anims.play('right', true)
     }
     else {
-        player.setVelocityX(0)
+        // player.setVelocityX(0)
         player.anims.play('turn')
     }
 
