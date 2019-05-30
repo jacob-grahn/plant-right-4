@@ -4,7 +4,8 @@ import 'phaser'
 export class Player {
     constructor (scene, x, y) {
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
-        this.sprite.body.gravity = { x: 0, y: 600 }
+        this.sprite.body.gravity = { x: 0, y: 1000 }
+        this.sprite.body.setDrag(600, 200)
 
         scene.anims.create({
             key: 'left',
@@ -32,11 +33,11 @@ export class Player {
         const accel = new Phaser.Math.Vector2(0, 0)
         
         if (cursors.left.isDown) {
-            accel.x = -16
+            accel.x = -400
             sprite.anims.play('left', true)
         }
         else if (cursors.right.isDown) {
-            accel.x = 16
+            accel.x = 400
             sprite.anims.play('right', true)
         }
         else {
@@ -44,7 +45,7 @@ export class Player {
         }
 
         if (cursors.up.isDown && (sprite.body.onFloor() || sprite.body.touching.down)) {
-            accel.y = -500
+            accel.y = -30000
         }
 
         if (cursors.down.isDown) {
@@ -52,13 +53,9 @@ export class Player {
         }
 
         const rotatedAccel = rotateVector(accel, this.sprite.angle)
-        
-        // dampen
-        rotatedAccel.x += - sprite.body.velocity.x * 0.02
-        rotatedAccel.y += - sprite.body.velocity.y * 0.02
 
         // apply
-        sprite.setVelocity(sprite.body.velocity.x + rotatedAccel.x, sprite.body.velocity.y + rotatedAccel.y)
+        sprite.body.setAcceleration(rotatedAccel.x, rotatedAccel.y)
     }
 
     rotate (degrees) {
