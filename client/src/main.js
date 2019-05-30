@@ -1,4 +1,5 @@
 import 'phaser'
+import { Player } from './player'
 
 const config = {
     parent: 'content',
@@ -7,7 +8,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { x: 0, y: 0 },
             debug: false
         }
     },
@@ -40,30 +41,7 @@ function create () {
     this.add.image(400, 300, 'sky')
 
     // player
-    player = this.physics.add.sprite(100, 450, 'dude')
-
-    player.setBounce(0)
-    player.body.setGravityY(300)
-
-    this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-        frameRate: 10,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
-        frameRate: 20
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-        frameRate: 10,
-        repeat: -1
-    })
+    player = new Player(this, 100, 450)
 
     // map
     const map = this.make.tilemap({ key: "map", tileWidth: 30, tileHeight: 30 })
@@ -74,43 +52,27 @@ function create () {
     tileLayer.setCollisionByProperty({ collides: true })
 
     // camera
-    this.cameras.main.startFollow(player)
+    this.cameras.main.startFollow(player.sprite)
     this.cameras.main.setLerp(0.1, 0.1)
 
     // physics
-    this.physics.add.collider(player, tileLayer, tileCallback)
+    this.physics.add.collider(player.sprite, tileLayer, tileCallback)
     this.physics.world.bounds.width = tileLayer.width
     this.physics.world.bounds.height = tileLayer.height
 }
 
-function tileCallback (player, tile) {
+function tileCallback (playerSprite, tile) {
     if (tile.properties.collideHandlers) {
         const collideHandlers = tile.properties.collideHandlers.split(',')
         collideHandlers.forEach((handlerName) => {
             if (handlerName === 'right') {
-                player.setVelocityX(300)
+                playerSprite.setVelocityX(300)
             }
         })
     }
 }
 
 function update () {
-    // player
     const cursors = this.input.keyboard.createCursorKeys()
-    if (cursors.left.isDown) {
-        player.setVelocityX(-160)
-        player.anims.play('left', true)
-    }
-    else if (cursors.right.isDown) {
-        player.setVelocityX(160)
-        player.anims.play('right', true)
-    }
-    else {
-        // player.setVelocityX(0)
-        player.anims.play('turn')
-    }
-
-    if (cursors.up.isDown && (player.body.onFloor() || player.body.touching.down)) {
-        player.setVelocityY(-500)
-    }
+    player.update(cursors)
 }
