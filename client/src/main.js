@@ -75,4 +75,5 @@ function tileCallback (playerSprite, tile) {
 function update () {
     const cursors = this.input.keyboard.createCursorKeys()
     player.update(cursors)
+    this.cameras.main.setAngle(-player.sprite.angle)
 }

@@ -29,12 +29,14 @@ export class Player {
 
     update (cursors) {
         const sprite = this.sprite
+        const accel = new Phaser.Math.Vector2(0, 0)
+        
         if (cursors.left.isDown) {
-            sprite.setVelocityX(-160)
+            accel.x = -16
             sprite.anims.play('left', true)
         }
         else if (cursors.right.isDown) {
-            sprite.setVelocityX(160)
+            accel.x = 16
             sprite.anims.play('right', true)
         }
         else {
@@ -42,11 +44,25 @@ export class Player {
         }
 
         if (cursors.up.isDown && (sprite.body.onFloor() || sprite.body.touching.down)) {
-            sprite.setVelocityY(-500)
+            accel.y = -500
         }
 
         if (cursors.down.isDown) {
-            sprite.body.gravity = rotateVector(sprite.body.gravity, -1)
+            this.rotate(90)
         }
+
+        const rotatedAccel = rotateVector(accel, this.sprite.angle)
+        
+        // dampen
+        rotatedAccel.x += - sprite.body.velocity.x * 0.02
+        rotatedAccel.y += - sprite.body.velocity.y * 0.02
+
+        // apply
+        sprite.setVelocity(sprite.body.velocity.x + rotatedAccel.x, sprite.body.velocity.y + rotatedAccel.y)
+    }
+
+    rotate (degrees) {
+        this.sprite.setAngle(this.sprite.angle + degrees)
+        this.sprite.body.gravity = rotateVector(this.sprite.body.gravity, degrees)
     }
 }
