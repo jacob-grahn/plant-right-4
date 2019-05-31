@@ -5,7 +5,11 @@ export class Player {
     constructor (scene, x, y) {
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.body.gravity = { x: 0, y: 1000 }
-        this.sprite.body.setDrag(600, 200)
+        this.sprite.body.setDrag(0.95, 0.95)
+        this.sprite.body.maxSpeed = 1000
+        this.sprite.body.useDamping = true
+
+        this.dir = 'down'
 
         scene.anims.create({
             key: 'left',
@@ -33,19 +37,19 @@ export class Player {
         const accel = new Phaser.Math.Vector2(0, 0)
         
         if (cursors.left.isDown) {
-            accel.x = -400
+            accel.x = -800
             sprite.anims.play('left', true)
         }
         else if (cursors.right.isDown) {
-            accel.x = 400
+            accel.x = 800
             sprite.anims.play('right', true)
         }
         else {
             sprite.anims.play('turn')
         }
 
-        if (cursors.up.isDown && (sprite.body.onFloor() || sprite.body.touching.down)) {
-            accel.y = -30000
+        if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
+            accel.y = -60000
         }
 
         if (cursors.down.isDown) {
@@ -61,5 +65,16 @@ export class Player {
     rotate (degrees) {
         this.sprite.setAngle(this.sprite.angle + degrees)
         this.sprite.body.gravity = rotateVector(this.sprite.body.gravity, degrees)
+
+        const angle = this.sprite.angle
+        if (angle > -45 && angle < 45) {
+            this.dir = 'down'
+        } else if (angle >= 45 && angle <= 135) {
+            this.dir = 'left'
+        } else if (angle > 135 || angle < -135) {
+            this.dir = 'up'
+        } else {
+            this.dir = 'right'
+        }
     }
 }
