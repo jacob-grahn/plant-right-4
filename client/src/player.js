@@ -5,11 +5,13 @@ export class Player {
     constructor (scene, x, y) {
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.body.gravity = { x: 0, y: 1000 }
-        this.sprite.body.setDrag(0.95, 0.95)
         this.sprite.body.maxSpeed = 1000
         this.sprite.body.useDamping = true
+        this.sprite.body.setDrag(0.95, 0.95)
+        this.sprite.body.setSize(25, 25)
+        this.canRotate = true
 
-        this.dir = 'down'
+        this.onRotate()
 
         scene.anims.create({
             key: 'left',
@@ -53,28 +55,38 @@ export class Player {
         }
 
         if (cursors.down.isDown) {
-            this.rotate(90)
+            if (this.canRotate) {
+                this.rotate(90)
+                this.canRotate = false
+            }
+        } else {
+            this.canRotate = true
         }
 
         const rotatedAccel = rotateVector(accel, this.sprite.angle)
-
-        // apply
         sprite.body.setAcceleration(rotatedAccel.x, rotatedAccel.y)
     }
 
     rotate (degrees) {
         this.sprite.setAngle(this.sprite.angle + degrees)
         this.sprite.body.gravity = rotateVector(this.sprite.body.gravity, degrees)
+        this.onRotate()
+    }
 
+    onRotate () {
         const angle = this.sprite.angle
         if (angle > -45 && angle < 45) {
             this.dir = 'down'
+            this.sprite.body.setOffset(4, 23)
         } else if (angle >= 45 && angle <= 135) {
             this.dir = 'left'
+            this.sprite.body.setOffset(-8, 10)
         } else if (angle > 135 || angle < -135) {
             this.dir = 'up'
+            this.sprite.body.setOffset(4, 0)
         } else {
             this.dir = 'right'
+            this.sprite.body.setOffset(15, 12)
         }
     }
 }
