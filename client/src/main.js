@@ -1,5 +1,6 @@
 import 'phaser'
 import { Player } from './player'
+import { tileEffects } from './tile-effects'
 
 const config = {
     parent: 'content',
@@ -56,20 +57,9 @@ function create () {
     this.cameras.main.setLerp(0.1, 0.1)
 
     // physics
-    this.physics.add.collider(player.sprite, tileLayer, tileCallback)
+    this.physics.add.collider(player.sprite, tileLayer, tileEffects)
     this.physics.world.bounds.width = tileLayer.width
     this.physics.world.bounds.height = tileLayer.height
-}
-
-function tileCallback (playerSprite, tile) {
-    if (tile.properties.collideHandlers) {
-        const collideHandlers = tile.properties.collideHandlers.split(',')
-        collideHandlers.forEach((handlerName) => {
-            if (handlerName === 'right') {
-                playerSprite.setVelocityX(300)
-            }
-        })
-    }
 }
 
 function update () {

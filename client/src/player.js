@@ -10,6 +10,7 @@ export class Player {
         this.sprite.body.setDrag(0.95, 0.95)
         this.sprite.body.setSize(25, 25)
         this.canRotate = true
+        this.sprite.externalAcceleration = { x: 0, y: 0 }
 
         this.onRotate()
 
@@ -36,6 +37,7 @@ export class Player {
 
     update (cursors) {
         const sprite = this.sprite
+        const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
         
         if (cursors.left.isDown) {
@@ -64,7 +66,13 @@ export class Player {
         }
 
         const rotatedAccel = rotateVector(accel, this.sprite.angle)
-        sprite.body.setAcceleration(rotatedAccel.x, rotatedAccel.y)
+        sprite.body.setAcceleration(
+            this.sprite.externalAcceleration.x + rotatedAccel.x,
+            this.sprite.externalAcceleration.y + rotatedAccel.y
+        )
+
+        this.sprite.externalAcceleration.x = 0
+        this.sprite.externalAcceleration.y = 0
     }
 
     rotate (degrees) {
