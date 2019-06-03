@@ -39,13 +39,20 @@ export class Player {
         const sprite = this.sprite
         const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
-        
+        var ang = sprite.angle * Math.PI / 180
+        var trigVec = new Phaser.Math.Vector2(
+            Math.round(Math.cos(ang)),
+            Math.round(Math.sin(ang))
+         )
+
         if (cursors.left.isDown) {
-            accel.x = -800
+            accel.x = trigVec.x * -800
+            accel.y = trigVec.y * -800
             sprite.anims.play('left', true)
         }
         else if (cursors.right.isDown) {
-            accel.x = 800
+            accel.x = trigVec.x * 800
+            accel.y = trigVec.y * 800
             sprite.anims.play('right', true)
         }
         else {
@@ -53,7 +60,8 @@ export class Player {
         }
 
         if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
-            accel.y = -60000
+            accel.x = trigVec.y * 60000
+            accel.y = trigVec.x * -60000
         }
 
         if (cursors.down.isDown) {
@@ -65,11 +73,10 @@ export class Player {
             this.canRotate = true
         }
 
-        const rotatedAccel = rotateVector(accel, this.sprite.angle)
         sprite.body.setAcceleration(
-            this.sprite.externalAcceleration.x + rotatedAccel.x,
-            this.sprite.externalAcceleration.y + rotatedAccel.y
-        )
+            this.sprite.externalAcceleration.x + accel.x,
+             this.sprite.externalAcceleration.y + accel.y
+             )
 
         this.sprite.externalAcceleration.x = 0
         this.sprite.externalAcceleration.y = 0
