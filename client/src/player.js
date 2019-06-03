@@ -7,14 +7,10 @@ export class Player {
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.body.gravity = { x: 0, y: 1000 }
         this.sprite.body.maxSpeed = 1000
-        // this.sprite.body.useDamping = true
-        // this.sprite.body.setDrag(0.95, 0.95)
         this.sprite.body.setSize(25, 25)
         this.canRotate = true
         this.sprite.externalAcceleration = { x: 0, y: 0 }
         this.attributes = new PlayerAttributes()
-
-        console.log(this.attributes.velX, this.attributes.velX, this.attributes.ease)
         this.onRotate()
 
         scene.anims.create({
@@ -42,7 +38,7 @@ export class Player {
         const sprite = this.sprite
         const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
-        const rotatedVelocity = rotateVector({x: body.velocity.x, y: body.velocity.y}, -this.sprite.angle)
+        const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
         
         if (cursors.left.isDown) {
             accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
@@ -80,6 +76,8 @@ export class Player {
 
         this.sprite.externalAcceleration.x = 0
         this.sprite.externalAcceleration.y = 0
+        
+        this.onRotate()
     }
 
     rotate (degrees) {
@@ -90,18 +88,24 @@ export class Player {
 
     onRotate () {
         const angle = this.sprite.angle
+        const rotatedVelocity = rotateVector(this.sprite.body.velocity, -this.sprite.angle)
+        const kicker = rotatedVelocity.y < 0 ? 25 : 0
         if (angle > -45 && angle < 45) {
             this.dir = 'down'
-            this.sprite.body.setOffset(4, 23)
+            this.sprite.body.setSize(25, 25 + kicker)
+            this.sprite.body.setOffset(4, 23 - kicker)
         } else if (angle >= 45 && angle <= 135) {
             this.dir = 'left'
+            this.sprite.body.setSize(25 + kicker, 25)
             this.sprite.body.setOffset(-8, 10)
         } else if (angle > 135 || angle < -135) {
             this.dir = 'up'
+            this.sprite.body.setSize(25, 25 + kicker)
             this.sprite.body.setOffset(4, 0)
         } else {
             this.dir = 'right'
-            this.sprite.body.setOffset(15, 12)
+            this.sprite.body.setSize(25 + kicker, 25)
+            this.sprite.body.setOffset(15 - kicker, 12)
         }
     }
 }

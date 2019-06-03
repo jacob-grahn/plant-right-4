@@ -1,3 +1,3 @@
 export const down = (playerSprite) => {
-    playerSprite.externalAcceleration.y += 600
+    playerSprite.externalAcceleration.y += 400
 }
