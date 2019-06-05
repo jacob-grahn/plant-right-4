@@ -5,7 +5,7 @@ module.exports = {
   imageheight: 120,
   imagewidth: 300,
   margin: 0,
-  name: 'pr2-blocks',
+  name: 'blocks',
   spacing: 0,
   tilecount: 40,
   tileheight: 30,
