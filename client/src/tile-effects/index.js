@@ -2,12 +2,14 @@ import { left } from './left'
 import { right } from './right'
 import { up } from './up'
 import { down } from './down'
+import { mine } from './mine'
 
 const collideHandlers = {
     up,
     down,
     left,
-    right
+    right,
+    mine
 }
 
 export function tileEffects (playerSprite, tile) {
