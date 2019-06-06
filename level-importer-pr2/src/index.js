@@ -19,4 +19,4 @@ const pr2LevelImporter = async (event) => {
   }
 }
 
-module.exports = pr2LevelImporter
+module.exports = { handler: pr2LevelImporter }
