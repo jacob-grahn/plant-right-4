@@ -35,22 +35,28 @@ function preload () {
         { frameWidth: 32, frameHeight: 48 }
     )
     this.load.tilemapTiledJSON("map", "assets/tilemaps/50815.json")
-    this.load.image('pr2-blocks', 'assets/images/pr2-blocks.png')
+    this.load.image('blocks', 'assets/images/pr2-blocks.png')
 }
 
 function create () {
     this.add.image(400, 300, 'sky')
 
     // player
-    player = new Player(this, 100, 450)
+    player = new Player(this, 0, 0)
 
     // map
     const map = this.make.tilemap({ key: "map", tileWidth: 30, tileHeight: 30 })
-    const tileset = map.addTilesetImage("pr2-blocks", "pr2-blocks")
+    const tileset = map.addTilesetImage("blocks", "blocks")
     tileLayer = map.createDynamicLayer("Tile Layer", tileset, 0, 0)
-    tileLayer.x = -3400
-    tileLayer.y = -1000
     tileLayer.setCollisionByProperty({ collides: true })
+
+    // start position
+    const startTileIndexes = findStartTileIndexes(map)
+    const startPositions = findStartPositions(startTileIndexes, tileLayer)
+    if (startPositions.length > 0) {
+        const startPosition = startPositions[0]
+        player.sprite.setPosition(startPosition.x, startPosition.y)
+    }
 
     // camera
     this.cameras.main.startFollow(player.sprite)
@@ -66,4 +72,30 @@ function update () {
     const cursors = this.input.keyboard.createCursorKeys()
     player.update(cursors)
     this.cameras.main.setAngle(-player.sprite.angle)
+}
+
+function findStartPositions (tileIndexes, tileLayer) {
+    const startPositions = []
+    tileIndexes.forEach(tileIndex => {
+        const tile = tileLayer.findByIndex(tileIndex)
+        if (tile) {
+            startPositions.push({ x: tile.pixelX, y: tile.pixelY })
+        }
+    })
+    return startPositions
+}
+
+function findStartTileIndexes (tileMap) {
+    const tileIndexes = []
+    tileMap.tilesets.forEach(tileset => {
+        if (tileset.name === 'blocks') {
+            Object.keys(tileset.tileProperties).forEach(tileIndex => {
+                const tilePropertyObj = tileset.tileProperties[tileIndex]
+                if (tilePropertyObj.startpos) {
+                    tileIndexes.push(Number(tileIndex))
+                }
+            })
+        }
+    })
+    return tileIndexes
 }
