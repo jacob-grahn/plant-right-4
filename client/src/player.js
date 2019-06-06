@@ -1,4 +1,5 @@
 import { rotateVector } from './rotateVector'
+import { PlayerAttributes } from './player-attributes'
 import 'phaser'
 
 export class Player {
@@ -6,12 +7,10 @@ export class Player {
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.body.gravity = { x: 0, y: 1000 }
         this.sprite.body.maxSpeed = 1000
-        this.sprite.body.useDamping = true
-        this.sprite.body.setDrag(0.95, 0.95)
         this.sprite.body.setSize(25, 25)
         this.canRotate = true
         this.sprite.externalAcceleration = { x: 0, y: 0 }
-
+        this.attributes = new PlayerAttributes()
         this.onRotate()
 
         scene.anims.create({
@@ -39,29 +38,23 @@ export class Player {
         const sprite = this.sprite
         const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
-        var ang = sprite.angle * Math.PI / 180
-        var trigVec = new Phaser.Math.Vector2(
-            Math.round(Math.cos(ang)),
-            Math.round(Math.sin(ang))
-         )
-
+        const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
+        
         if (cursors.left.isDown) {
-            accel.x = trigVec.x * -800
-            accel.y = trigVec.y * -800
+            accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
             sprite.anims.play('left', true)
         }
         else if (cursors.right.isDown) {
-            accel.x = trigVec.x * 800
-            accel.y = trigVec.y * 800
+            accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
             sprite.anims.play('right', true)
         }
         else {
+            accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
             sprite.anims.play('turn')
         }
 
         if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
-            accel.x = trigVec.y * 60000
-            accel.y = trigVec.x * -60000
+            accel.y = -this.attributes.velY
         }
 
         if (cursors.down.isDown) {
@@ -73,13 +66,18 @@ export class Player {
             this.canRotate = true
         }
 
-        sprite.body.setAcceleration(
-            this.sprite.externalAcceleration.x + accel.x,
-             this.sprite.externalAcceleration.y + accel.y
-             )
+        const rotatedAccel = rotateVector(accel, this.sprite.angle)
+        body.velocity.x += this.sprite.externalAcceleration.x + rotatedAccel.x
+        body.velocity.y += this.sprite.externalAcceleration.y + rotatedAccel.y
+
+        // limit speed so we can't run through blocks
+        body.velocity.x = Phaser.Math.Clamp(body.velocity.x, -800, 800)
+        body.velocity.y = Phaser.Math.Clamp(body.velocity.y, -800, 800)
 
         this.sprite.externalAcceleration.x = 0
         this.sprite.externalAcceleration.y = 0
+        
+        this.onRotate()
     }
 
     rotate (degrees) {
@@ -90,18 +88,24 @@ export class Player {
 
     onRotate () {
         const angle = this.sprite.angle
+        const rotatedVelocity = rotateVector(this.sprite.body.velocity, -this.sprite.angle)
+        const kicker = rotatedVelocity.y < 0 ? 25 : 0
         if (angle > -45 && angle < 45) {
             this.dir = 'down'
-            this.sprite.body.setOffset(4, 23)
+            this.sprite.body.setSize(25, 25 + kicker)
+            this.sprite.body.setOffset(4, 23 - kicker)
         } else if (angle >= 45 && angle <= 135) {
             this.dir = 'left'
+            this.sprite.body.setSize(25 + kicker, 25)
             this.sprite.body.setOffset(-8, 10)
         } else if (angle > 135 || angle < -135) {
             this.dir = 'up'
+            this.sprite.body.setSize(25, 25 + kicker)
             this.sprite.body.setOffset(4, 0)
         } else {
             this.dir = 'right'
-            this.sprite.body.setOffset(15, 12)
+            this.sprite.body.setSize(25 + kicker, 25)
+            this.sprite.body.setOffset(15 - kicker, 12)
         }
     }
 }
