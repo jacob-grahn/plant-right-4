@@ -21,6 +21,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config)
+let tweener
 let player
 let tileLayer
 
@@ -39,6 +40,7 @@ function preload () {
 }
 
 function create () {
+    tweener = this.tweens
     this.add.image(400, 300, 'sky')
 
     // player
@@ -98,4 +100,8 @@ function findStartTileIndexes (tileMap) {
         }
     })
     return tileIndexes
+}
+
+export function CreateTween(config) {
+    tweener.add(config)
 }

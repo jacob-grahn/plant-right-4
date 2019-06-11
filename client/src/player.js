@@ -1,6 +1,9 @@
 import { rotateVector } from './rotateVector'
 import { PlayerAttributes } from './player-attributes'
+import { CreateTween } from './main.js'
 import 'phaser'
+
+let rotating = false
 
 export class Player {
     constructor (scene, x, y) {
@@ -35,6 +38,14 @@ export class Player {
     }
 
     update (cursors) {
+        if(!rotating)
+        {
+            this.handleMovement(cursors)
+        }
+    }
+
+    handleMovement(cursors)
+    {
         const sprite = this.sprite
         const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
@@ -80,8 +91,20 @@ export class Player {
         this.onRotate()
     }
 
-    rotate (degrees) {
-        this.sprite.setAngle(this.sprite.angle + degrees)
+    rotationComplete(tween, targets, body) {
+        //Reenable the body while setting velocity back to 0
+        body.enable = true
+        body.velocity = new Phaser.Math.Vector2(0, 0)
+        rotating = false
+    }
+
+    rotate (degrees, duration = 1000) {
+        //Disable body while rotating
+        this.sprite.body.enable = false
+        rotating = true
+        //Create the tween for rotation and set callback for when complete
+        CreateTween({targets: this.sprite, ease: "Sine.easeInOut", duration: duration,  onComplete: this.rotationComplete,  onCompleteParams: [ this.sprite.body ], angle: this.sprite.angle + degrees})
+
         this.sprite.body.gravity = rotateVector(this.sprite.body.gravity, degrees)
         this.onRotate()
     }
