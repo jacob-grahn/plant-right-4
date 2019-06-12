@@ -50,16 +50,18 @@ const bumpHandlers = {
 }
 
 export function tileEffects (playerSprite, tile) {
-    let handlers = null
     if (tile.properties.collideHandlers) {
-        handlers = tile.properties.collideHandlers
+        const collideHandlerNames = tile.properties.collideHandlers.split(',')
+        collideHandlerNames.forEach((handlerName) => {
+            const handler = collideHandlers[handlerName]
+            if (handler) {
+                handler(playerSprite, tile)
+            }
+        })
     } else if (tile.properties.bumpHandlers) {
-        handlers = tile.properties.bumpHandlers
-    }
-    if (handlers) {
-        const handlerNames = handlers.split(',')
-        handlerNames.forEach((handlerName) => {
-            const handler = handlers[handlerName]
+        const bumpHandlerNames = tile.properties.bumpHandlers.split(',')
+        bumpHandlerNames.forEach((handlerName) => {
+            const handler = bumpHandlers[handlerName]
             if (handler) {
                 handler(playerSprite, tile)
             }
