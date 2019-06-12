@@ -1,8 +1,9 @@
 import { rotateVector } from './rotateVector'
 import { PlayerAttributes } from './player-attributes'
-import { CreateTween } from './main.js'
+import { CreateTween, deltaTime } from './main.js'
 import 'phaser'
 
+export let recoveryTimer = 0
 let rotating = false
 
 export class Player {
@@ -41,40 +42,48 @@ export class Player {
         if(!rotating)
         {
             this.handleMovement(cursors)
+
+            if(recoveryTimer > 0)
+                recoveryTimer -= deltaTime
         }
     }
 
-    handleMovement(cursors)
-    {
+    handleMovement(cursors) {
         const sprite = this.sprite
         const body = sprite.body
         const accel = new Phaser.Math.Vector2(0, 0)
         const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
-        
-        if (cursors.left.isDown) {
-            accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
-            sprite.anims.play('left', true)
-        }
-        else if (cursors.right.isDown) {
-            accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
-            sprite.anims.play('right', true)
+
+         if(recoveryTimer <= 0) {
+            if (cursors.left.isDown) {
+                accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
+                sprite.anims.play('left', true)
+            }
+            else if (cursors.right.isDown) {
+                accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
+                sprite.anims.play('right', true)
+            }
+            else {
+                accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
+                sprite.anims.play('turn')
+            }
+
+            if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
+                accel.y = -this.attributes.velY
+            }
+
+            if (cursors.down.isDown) {
+                if (this.canRotate) {
+                    this.rotate(90)
+                    this.canRotate = false
+                }
+            } else {
+                this.canRotate = true
+            }
         }
         else {
-            accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
-            sprite.anims.play('turn')
-        }
-
-        if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
-            accel.y = -this.attributes.velY
-        }
-
-        if (cursors.down.isDown) {
-            if (this.canRotate) {
-                this.rotate(90)
-                this.canRotate = false
-            }
-        } else {
-            this.canRotate = true
+            //Recovering
+            accel.x = (-rotatedVelocity.x * .03)
         }
 
         const rotatedAccel = rotateVector(accel, this.sprite.angle)
@@ -131,4 +140,8 @@ export class Player {
             this.sprite.body.setOffset(15 - kicker, 12)
         }
     }
+}
+
+export function SetRecovery(recovery) {
+    recoveryTimer = recovery
 }

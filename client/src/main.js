@@ -21,6 +21,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config)
+export let deltaTime
 let tweener
 let player
 let tileLayer
@@ -40,8 +41,10 @@ function preload () {
 }
 
 function create () {
-    tweener = this.tweens
     this.add.image(400, 300, 'sky')
+
+    // tweens
+    tweener = this.tweens
 
     // player
     player = new Player(this, 0, 0)
@@ -70,7 +73,9 @@ function create () {
     this.physics.world.bounds.height = tileLayer.height
 }
 
-function update () {
+function update (time, delta) {
+    //Set delta time for export variable to be accessed elsewhere(Should eventually multiply movement by this so that movement is framerate independent)
+    deltaTime = delta
     const cursors = this.input.keyboard.createCursorKeys()
     player.update(cursors)
     this.cameras.main.setAngle(-player.sprite.angle)
