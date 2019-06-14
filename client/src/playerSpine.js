@@ -7,6 +7,7 @@ let spine
 export class PlayerSpine {
     constructor (scene, x, y, spine = 'PRFGuy', animation = 'idle', play = true) {
     	this.spine = scene.add.spine(x, y, spine, animation, play)
+    	this.spine.depth = 1
     	this.spine.setScale(.2)
     	console.log(this.spine.skeleton)
     	//Here, just testing the possibily of changing colors and also tested textures later, its a go for sure. Might be a bit weird to implement though
