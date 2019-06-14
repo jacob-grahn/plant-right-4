@@ -1,0 +1,313 @@
+{
+"skeleton": { "hash": "1sXd6gIy5XrPsC0sD0FqTPAysZA", "spine": "3.7.94", "width": 130.13, "height": 338.89 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Body Bone", "parent": "root", "length": 98.65, "rotation": -90.74, "x": 3.23, "y": 53.53 },
+	{ "name": "Head Bone", "parent": "root", "length": 38.01, "rotation": -90.64, "x": -7.45, "y": 108.61 },
+	{ "name": "Foot 1 Bone", "parent": "root", "length": 8.98, "rotation": -90.74, "x": -2.75, "y": -109.59 },
+	{ "name": "Foot 2 Bone", "parent": "root", "length": 8.98, "rotation": -90.74, "x": 10.85, "y": -107.58 }
+],
+"slots": [
+	{ "name": "Foot01LColor", "bone": "Foot 2 Bone", "attachment": "Foot01Color" },
+	{ "name": "Foot01LOutline", "bone": "Foot 2 Bone", "attachment": "Foot01Outline" },
+	{ "name": "Foot01Color", "bone": "Foot 1 Bone", "attachment": "Foot01Color" },
+	{ "name": "Foot01Outline", "bone": "Foot 1 Bone", "attachment": "Foot01Outline" },
+	{ "name": "Body01Color", "bone": "Body Bone", "attachment": "Body01Color" },
+	{ "name": "Body01Outline", "bone": "Body Bone", "attachment": "Body01Outline" },
+	{ "name": "Head01Color", "bone": "Head Bone", "attachment": "Head01Color" },
+	{ "name": "Head01Outline2", "bone": "Head Bone", "attachment": "Head01Outline" }
+],
+"skins": {
+	"default": {
+		"Body01Color": {
+			"Body01Color": {
+				"x": 52.86,
+				"y": -2.88,
+				"scaleX": 0.75,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 67,
+				"height": 145
+			}
+		},
+		"Body01Outline": {
+			"Body01Outline": {
+				"x": 53.57,
+				"y": -3.22,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 67,
+				"height": 145
+			}
+		},
+		"Foot01Color": {
+			"Foot01Color": {
+				"x": -10.09,
+				"y": 1.99,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			}
+		},
+		"Foot01LColor": {
+			"Foot01Color": {
+				"x": -10.12,
+				"y": 0.85,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			}
+		},
+		"Foot01LOutline": {
+			"Foot01Outline": {
+				"x": -10.12,
+				"y": 1.6,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			}
+		},
+		"Foot01Outline": {
+			"Foot01Outline": {
+				"x": -10.09,
+				"y": 2.22,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			}
+		},
+		"Head01Color": {
+			"Head01Color": {
+				"x": 6.22,
+				"y": 5.54,
+				"scaleX": 0.785,
+				"scaleY": 0.8,
+				"rotation": 75.58,
+				"width": 103,
+				"height": 103
+			}
+		},
+		"Head01Outline2": {
+			"Head01Outline": {
+				"x": -25.64,
+				"y": 7.02,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 75.58,
+				"width": 120,
+				"height": 180
+			}
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"bones": {
+			"Foot 2 Bone": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": -19.19,
+						"curve": [ 0.147, 0, 0.75, 1 ]
+					},
+					{ "time": 0.8333, "angle": -29.26 },
+					{ "time": 1.3333, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"x": 0.72,
+						"y": 6.41,
+						"curve": [ 0.147, 0, 0.75, 1 ]
+					},
+					{ "time": 0.8333, "x": 0.72, "y": 9.63 },
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				]
+			},
+			"Foot 1 Bone": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.381, 0.01, 0.663, 1 ]
+					},
+					{
+						"time": 0.7667,
+						"angle": -31.56,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.3333, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.381, 0.01, 0.663, 1 ]
+					},
+					{
+						"time": 0.7667,
+						"x": 0,
+						"y": 12.56,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				]
+			},
+			"Body Bone": {
+				"rotate": [
+					{
+						"time": 0.3333,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5333,
+						"angle": -2.84,
+						"curve": [ 0.793, 0, 0.696, 1.01 ]
+					},
+					{ "time": 1.0667, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{
+						"time": 0.3333,
+						"x": 8.11,
+						"y": 3.6,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5333,
+						"x": 15.28,
+						"y": 7.68,
+						"curve": [ 0.793, 0, 0.696, 1.01 ]
+					},
+					{ "time": 1.0667, "x": 4.5, "y": 1.8 },
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				]
+			},
+			"Head Bone": {
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.464, 0, 0.506, 1 ]
+					},
+					{
+						"time": 0.6667,
+						"x": 25.23,
+						"y": 5.41,
+						"curve": [ 0.403, 0, 0.75, 1 ]
+					},
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"run": {
+		"bones": {
+			"Foot 1 Bone": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": -42.46,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.1,
+						"angle": -9.26,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.2333, "angle": -42.46 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": -92.61,
+						"y": 44.91,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.1,
+						"x": 0,
+						"y": 3.6,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.2333, "x": -92.61, "y": 44.91 }
+				]
+			},
+			"Body Bone": {
+				"rotate": [
+					{ "time": 0, "angle": 14.03 }
+				],
+				"translate": [
+					{ "time": 0, "x": -24.3, "y": 10.8 },
+					{ "time": 0.1333, "x": -24.3, "y": 18 },
+					{ "time": 0.2333, "x": -24.3, "y": 10.8 }
+				]
+			},
+			"Head Bone": {
+				"rotate": [
+					{ "time": 0, "angle": 7.83 }
+				],
+				"translate": [
+					{ "time": 0, "x": -55.8, "y": 11.7 },
+					{ "time": 0.1333, "x": -55.8, "y": 1.8 },
+					{ "time": 0.2333, "x": -55.8, "y": 11.7 }
+				]
+			},
+			"Foot 2 Bone": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 52,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.1,
+						"angle": 0.74,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.2333, "angle": 52 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 87.09,
+						"y": 55.35,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.1,
+						"x": 3.6,
+						"y": 2.7,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.2333, "x": 87.09, "y": 55.35 }
+				]
+			}
+		}
+	}
+}
+}

@@ -3,6 +3,7 @@ import { Player } from './player'
 import { tileEffects } from './tile-effects'
 
 const config = {
+    type: Phaser.AUTO,
     parent: 'content',
     width: 800,
     height: 600,
@@ -16,7 +17,17 @@ const config = {
     scene: {
         preload,
         create,
-        update
+        update,
+        pack: {
+            files: [
+            {
+                type: 'scenePlugin',
+                key: 'SpineWebGLPlugin',
+                url: 'plugins/SpineWebGLPlugin.js',
+                start: true,
+                sceneKey: 'spine'
+            }]
+        }
     }
 };
 
@@ -38,6 +49,9 @@ function preload () {
     )
     this.load.tilemapTiledJSON("map", "assets/tilemaps/50815.json")
     this.load.image('blocks', 'assets/images/pr2-blocks.png')
+    this.load.setPath('assets/animations/spine/')
+
+     this.load.spine('PRFGuy', 'PRFGuy.json', 'PRFGuy.atlas')
 }
 
 function create () {
@@ -66,6 +80,7 @@ function create () {
     // camera
     this.cameras.main.startFollow(player.sprite)
     this.cameras.main.setLerp(0.1, 0.1)
+    this.cameras.main.zoom = 1.5
 
     // physics
     this.physics.add.collider(player.sprite, tileLayer, tileEffects)
