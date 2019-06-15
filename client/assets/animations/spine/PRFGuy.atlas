@@ -1,0 +1,48 @@
+
+PRFGuy.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body01Color
+  rotate: true
+  xy: 184, 55
+  size: 67, 145
+  orig: 67, 145
+  offset: 0, 0
+  index: -1
+Body01Outline
+  rotate: true
+  xy: 331, 55
+  size: 67, 145
+  orig: 67, 145
+  offset: 0, 0
+  index: -1
+Foot01Color
+  rotate: false
+  xy: 583, 64
+  size: 90, 58
+  orig: 90, 58
+  offset: 0, 0
+  index: -1
+Foot01Outline
+  rotate: false
+  xy: 675, 64
+  size: 90, 58
+  orig: 90, 58
+  offset: 0, 0
+  index: -1
+Head01Color
+  rotate: false
+  xy: 478, 19
+  size: 103, 103
+  orig: 103, 103
+  offset: 0, 0
+  index: -1
+Head01Outline
+  rotate: true
+  xy: 2, 2
+  size: 120, 180
+  orig: 120, 180
+  offset: 0, 0
+  index: -1
