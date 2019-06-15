@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "8z6YYj0pDCwRycDvWhHCL1xj1cU", "spine": "3.7.94", "width": 130.13, "height": 338.89 },
+"skeleton": { "hash": "6Z/kVpAtXxcMhZuyvkoAO23ffzs", "spine": "3.7.94", "width": 130.13, "height": 338.89 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body Bone", "parent": "root", "length": 98.65, "rotation": -90.74, "x": 3.23, "y": 53.53 },
@@ -8,19 +8,28 @@
 	{ "name": "Foot 2 Bone", "parent": "root", "length": 8.98, "rotation": -90.74, "x": 10.85, "y": -107.58 }
 ],
 "slots": [
-	{ "name": "Foot01LColor", "bone": "Foot 2 Bone", "attachment": "Foot01Color" },
-	{ "name": "Foot01LOutline", "bone": "Foot 2 Bone", "attachment": "Foot01Outline" },
-	{ "name": "Foot01Color", "bone": "Foot 1 Bone", "attachment": "Foot01Color" },
-	{ "name": "Foot01Outline", "bone": "Foot 1 Bone", "attachment": "Foot01Outline" },
-	{ "name": "Body01Color", "bone": "Body Bone", "attachment": "Body01Color" },
-	{ "name": "Body01Outline", "bone": "Body Bone", "attachment": "Body01Outline" },
-	{ "name": "Head01Color", "bone": "Head Bone", "attachment": "Head01Color" },
-	{ "name": "Head01Outline2", "bone": "Head Bone", "attachment": "Head01Outline" }
+	{ "name": "RFootColor", "bone": "Foot 2 Bone", "attachment": "Foot1Color" },
+	{ "name": "RFootOutline", "bone": "Foot 2 Bone", "attachment": "Foot1Outline" },
+	{ "name": "LFootColor", "bone": "Foot 1 Bone", "attachment": "Foot1Color" },
+	{ "name": "LFootOutline", "bone": "Foot 1 Bone", "attachment": "Foot1Outline" },
+	{ "name": "BodyColor", "bone": "Body Bone", "attachment": "Body1Color" },
+	{ "name": "BodyOutline", "bone": "Body Bone", "attachment": "Body1Outline" },
+	{ "name": "HeadColor", "bone": "Head Bone", "attachment": "Head1Color" },
+	{ "name": "HeadOutline", "bone": "Head Bone", "attachment": "Head1Outline" }
 ],
 "skins": {
 	"default": {
-		"Body01Color": {
-			"Body01Color": {
+		"BodyColor": {
+			"Body1Color": {
+				"x": 52.86,
+				"y": -2.88,
+				"scaleX": 0.75,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 67,
+				"height": 145
+			},
+			"Body2Color": {
 				"x": 52.86,
 				"y": -2.88,
 				"scaleX": 0.75,
@@ -30,8 +39,17 @@
 				"height": 145
 			}
 		},
-		"Body01Outline": {
-			"Body01Outline": {
+		"BodyOutline": {
+			"Body1Outline": {
+				"x": 53.57,
+				"y": -3.22,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 67,
+				"height": 145
+			},
+			"Body2Outline": {
 				"x": 53.57,
 				"y": -3.22,
 				"scaleX": 0.8,
@@ -41,52 +59,8 @@
 				"height": 145
 			}
 		},
-		"Foot01Color": {
-			"Foot01Color": {
-				"x": -10.09,
-				"y": 1.99,
-				"scaleX": 0.8,
-				"scaleY": 0.8,
-				"rotation": 90.74,
-				"width": 90,
-				"height": 58
-			}
-		},
-		"Foot01LColor": {
-			"Foot01Color": {
-				"x": -10.12,
-				"y": 0.85,
-				"scaleX": 0.8,
-				"scaleY": 0.8,
-				"rotation": 90.74,
-				"width": 90,
-				"height": 58
-			}
-		},
-		"Foot01LOutline": {
-			"Foot01Outline": {
-				"x": -10.12,
-				"y": 1.6,
-				"scaleX": 0.8,
-				"scaleY": 0.8,
-				"rotation": 90.74,
-				"width": 90,
-				"height": 58
-			}
-		},
-		"Foot01Outline": {
-			"Foot01Outline": {
-				"x": -10.09,
-				"y": 2.22,
-				"scaleX": 0.8,
-				"scaleY": 0.8,
-				"rotation": 90.74,
-				"width": 90,
-				"height": 58
-			}
-		},
-		"Head01Color": {
-			"Head01Color": {
+		"HeadColor": {
+			"Head1Color": {
 				"x": 6.22,
 				"y": 5.54,
 				"scaleX": 0.785,
@@ -94,10 +68,19 @@
 				"rotation": 75.58,
 				"width": 103,
 				"height": 103
+			},
+			"Head2Color": {
+				"x": -8.61,
+				"y": -5.19,
+				"scaleX": 0.78,
+				"scaleY": 0.8,
+				"rotation": 73.62,
+				"width": 119,
+				"height": 116
 			}
 		},
-		"Head01Outline2": {
-			"Head01Outline": {
+		"HeadOutline": {
+			"Head1Outline": {
 				"x": -25.64,
 				"y": 7.02,
 				"scaleX": 0.8,
@@ -105,6 +88,95 @@
 				"rotation": 75.58,
 				"width": 120,
 				"height": 180
+			},
+			"Head2Outline": {
+				"x": -8.75,
+				"y": -5.43,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 73.62,
+				"width": 119,
+				"height": 116
+			}
+		},
+		"LFootColor": {
+			"Foot1Color": {
+				"x": -10.09,
+				"y": 1.99,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			},
+			"Foot2Color": {
+				"x": -13.65,
+				"y": -5.94,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 68,
+				"height": 59
+			}
+		},
+		"LFootOutline": {
+			"Foot1Outline": {
+				"x": -10.09,
+				"y": 2.22,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			},
+			"Foot2Outline": {
+				"x": -11.93,
+				"y": -4,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 68,
+				"height": 59
+			}
+		},
+		"RFootColor": {
+			"Foot1Color": {
+				"x": -10.12,
+				"y": 0.85,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			},
+			"Foot2Color": {
+				"x": -11.89,
+				"y": -1.72,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 68,
+				"height": 59
+			}
+		},
+		"RFootOutline": {
+			"Foot1Outline": {
+				"x": -10.12,
+				"y": 1.6,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 90,
+				"height": 58
+			},
+			"Foot2Outline": {
+				"x": -10.41,
+				"y": 0.34,
+				"scaleX": 0.8,
+				"scaleY": 0.8,
+				"rotation": 90.74,
+				"width": 68,
+				"height": 59
 			}
 		}
 	}

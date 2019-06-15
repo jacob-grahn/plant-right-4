@@ -22,6 +22,8 @@ import { sad } from './sad'
 import { heal } from './heal'
 import { time } from './time'
 */
+import { GetScene } from '../main.js'
+import { sceneInstance }  from '../player.js'
 import { brick } from './brick'
 
 const collideHandlers = {

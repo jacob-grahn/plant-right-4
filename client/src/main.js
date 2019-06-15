@@ -1,6 +1,7 @@
 import 'phaser'
 import { Player } from './player'
 import { tileEffects } from './tile-effects'
+import { rotateVector } from './rotateVector.js'
 
 const config = {
     type: Phaser.AUTO,
@@ -34,8 +35,11 @@ const config = {
 const game = new Phaser.Game(config)
 export let deltaTime
 let tweener
+let sceneInstance
 let player
 let tileLayer
+//Used for particle system I started, will probably move to main.js
+let particleList = []
 
 function preload () {
     this.load.image('sky', 'assets/images/sky.png')
@@ -48,6 +52,12 @@ function preload () {
         { frameWidth: 32, frameHeight: 48 }
     )
     this.load.tilemapTiledJSON("map", "assets/tilemaps/50815.json")
+    //Used for shatter particle effect
+    this.load.spritesheet(
+        'blocksSH', 
+        'assets/images/pr2-blocks.png',
+        { frameWidth: 30, frameHeight: 30 }
+    )
     this.load.image('blocks', 'assets/images/pr2-blocks.png')
     this.load.setPath('assets/animations/spine/')
 
@@ -59,6 +69,8 @@ function create () {
 
     // tweens
     tweener = this.tweens
+
+    sceneInstance = this.scene.scene
 
     // player
     player = new Player(this, 0, 0)
@@ -94,6 +106,12 @@ function update (time, delta) {
     const cursors = this.input.keyboard.createCursorKeys()
     player.update(cursors)
     this.cameras.main.setAngle(-player.sprite.angle)
+
+     particleList.forEach(updateParticles)
+}
+
+function updateParticles(item, index) {
+    item.update()
 }
 
 function findStartPositions (tileIndexes, tileLayer) {
@@ -124,4 +142,24 @@ function findStartTileIndexes (tileMap) {
 
 export function CreateTween(config) {
     tweener.add(config)
+}
+
+export function GetScene() {
+    return sceneInstance
+}
+
+export function IsTweenRunning() {
+    return tweener._active.length > 0
+}
+
+export function AddParticle(particle) {
+    particleList.push(particle)
+}
+
+export function RemoveParticle(particle) {
+    //Used for particle system I started, will probably move to main.js
+    var index = particleList.indexOf(particle);
+    if (index > -1) {
+      particleList.splice(index, 1);
+    }
 }

@@ -2,20 +2,46 @@ import { deltaTime } from './main.js'
 import 'phaser'
 
 let spine
-
+let headNum = 2
+let bodyNum = 2
+let feetNum = 1
 
 export class PlayerSpine {
     constructor (scene, x, y, spine = 'PRFGuy', animation = 'idle', play = true) {
     	this.spine = scene.add.spine(x, y, spine, animation, play)
     	this.spine.depth = 1
     	this.spine.setScale(.2)
-    	console.log(this.spine.skeleton)
-    	//Here, just testing the possibily of changing colors and also tested textures later, its a go for sure. Might be a bit weird to implement though
-    	var color = Phaser.Display.Color.HexStringToColor('#FF0000');
-    	this.spine.skeleton.slots[4].attachment.color = color
+
+    	//Set the part and color
+    	this.setParts()
+    	this.setColors()
+    	
     	this.spine.customParams = {
      		animation,
   		}
+    }
+
+    setParts() {
+    	this.spine.skeleton.setAttachment('HeadOutline', 'Head' + headNum + 'Outline')
+    	this.spine.skeleton.setAttachment('HeadColor', 'Head' + headNum + 'Color')
+    	this.spine.skeleton.setAttachment('BodyOutline', 'Body' + bodyNum + 'Outline')
+    	this.spine.skeleton.setAttachment('BodyColor', 'Body' + bodyNum + 'Color')
+    	this.spine.skeleton.setAttachment('LFootOutline', 'Foot' + feetNum + 'Outline')
+    	this.spine.skeleton.setAttachment('LFootColor', 'Foot' + feetNum + 'Color')
+    	this.spine.skeleton.setAttachment('RFootOutline', 'Foot' + feetNum + 'Outline')
+    	this.spine.skeleton.setAttachment('RFootColor', 'Foot' + feetNum + 'Color')
+
+    }
+
+    setColors() {
+    	var HeadColor = Phaser.Display.Color.HexStringToColor('#3300FF')
+    	this.spine.skeleton.getAttachmentByName('HeadColor', 'Head' + headNum + 'Color').color = HeadColor
+    	var BodyColor = Phaser.Display.Color.HexStringToColor('#FF0000')
+    	this.spine.skeleton.getAttachmentByName('BodyColor', 'Body' + bodyNum + 'Color').color = BodyColor
+    	var FeetColor = Phaser.Display.Color.HexStringToColor('#00ff00')
+    	this.spine.skeleton.getAttachmentByName('LFootColor', 'Foot' + feetNum + 'Color').color = FeetColor
+    	this.spine.skeleton.getAttachmentByName('RFootColor', 'Foot' + feetNum + 'Color').color = FeetColor
+    	
     }
 
     playAnimation(animation, repeat = false) {

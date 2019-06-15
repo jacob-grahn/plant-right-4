@@ -8,16 +8,11 @@ import 'phaser'
 export let recoveryTimer = 0
 let rotating = false
 let playerSpine = null
-//Used for particles a work in progress
-let sceneInstance
-//Used for particle system I started, will probably move to main.js
-let particleList = []
 
 let grounded = false
 
 export class Player {
     constructor (scene, x, y) {
-        sceneInstance = scene
         //Used as base but set to invisible
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.visible = false
@@ -64,12 +59,6 @@ export class Player {
                 recoveryTimer -= deltaTime
         }
         playerSpine.update(this)
-
-        particleList.forEach(this.updateParticles)
-    }
-
-    updateParticles(item, index) {
-        item.update()
     }
 
     handleMovement(cursors) {
@@ -167,7 +156,7 @@ export class Player {
     onRotate () {
         const angle = this.sprite.angle
         const rotatedVelocity = rotateVector(this.sprite.body.newVelocity, -this.sprite.angle)
-        
+
         let kicker = rotatedVelocity.y <= 0 ? 25 : 0
         if(this.sprite.body.blocked[this.dir])
         {
@@ -191,15 +180,6 @@ export class Player {
             this.sprite.body.setSize(25 + kicker, 25)
             this.sprite.body.setOffset(15 - kicker, 11.5)
         }
-    }
-
-    removeFromList(particle) {
-        //Used for particle system I started, will probably move to main.js
-        var index = particleList.indexOf(particle);
-        if (index > -1) {
-          particleList.splice(index, 1);
-        }
-        console.log(particleList)
     }
 }
 
