@@ -1,6 +1,6 @@
 import { rotateVector } from './rotateVector'
 import { PlayerAttributes } from './player-attributes'
-import { CreateTween, deltaTime } from './main.js'
+import { CreateTween, deltaTime, BlockedSide } from './main.js'
 import { PlayerSpine } from './playerSpine.js'
 import { ParticleEffect } from './particleEffect.js'
 import 'phaser'
@@ -67,7 +67,7 @@ export class Player {
         const accel = new Phaser.Math.Vector2(0, 0)
         const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
 
-        if(sprite.body.blocked[this.dir]) {
+        if(BlockedSide('down')) {
             grounded = true
         }
         else {

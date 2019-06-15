@@ -2,8 +2,8 @@ import { deltaTime } from './main.js'
 import 'phaser'
 
 let spine
-let headNum = 2
-let bodyNum = 2
+let headNum = 1
+let bodyNum = 1
 let feetNum = 1
 
 export class PlayerSpine {
@@ -34,13 +34,15 @@ export class PlayerSpine {
     }
 
     setColors() {
-        var HeadColor = Phaser.Display.Color.HexStringToColor('#3300FF')
-        this.spine.skeleton.getAttachmentByName('HeadColor', 'Head' + headNum + 'Color').color = HeadColor
-        var BodyColor = Phaser.Display.Color.HexStringToColor('#FF0000')
-        this.spine.skeleton.getAttachmentByName('BodyColor', 'Body' + bodyNum + 'Color').color = BodyColor
-        var FeetColor = Phaser.Display.Color.HexStringToColor('#00ff00')
-        this.spine.skeleton.getAttachmentByName('LFootColor', 'Foot' + feetNum + 'Color').color = FeetColor
-        this.spine.skeleton.getAttachmentByName('RFootColor', 'Foot' + feetNum + 'Color').color = FeetColor
+        var HeadColor = '#3300FF'
+        this.spine.skeleton.getAttachmentByName('HeadColor', 'Head' + headNum + 'Color').color.setFromString(HeadColor)
+
+        var BodyColor = '#4d4dff'
+        this.spine.skeleton.getAttachmentByName('BodyColor', 'Body' + bodyNum + 'Color').color.setFromString(BodyColor) 
+
+        var FeetColor = '#00ff00'
+        this.spine.skeleton.getAttachmentByName('LFootColor', 'Foot' + feetNum + 'Color').color.setFromString(FeetColor)
+        this.spine.skeleton.getAttachmentByName('RFootColor', 'Foot' + feetNum + 'Color').color.setFromString(FeetColor)
         
     }
 
@@ -56,7 +58,7 @@ export class PlayerSpine {
         this.spine.flipX = flip
     }
 
-     update(player) {
+    update(player) {
         let newVel = player.sprite.body.newVelocity
 
         //Make sure we dont move the sprite to a position that the body will be blocked at
@@ -69,5 +71,5 @@ export class PlayerSpine {
 
         this.spine.x = player.sprite.x + newVel.x
         this.spine.y = player.sprite.y + newVel.y 
-     }
+    }
 }

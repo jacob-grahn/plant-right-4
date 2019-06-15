@@ -41,6 +41,13 @@ let tileLayer
 //Used for particle system I started, will probably move to main.js
 let particleList = []
 
+let sides = [
+    'down',
+    'left',
+    'up',
+    'right'
+]
+
 function preload () {
     this.load.image('sky', 'assets/images/sky.png')
     this.load.image('ground', 'assets/images/platform.png')
@@ -162,4 +169,25 @@ export function RemoveParticle(particle) {
     if (index > -1) {
       particleList.splice(index, 1);
     }
+}
+
+export function BlockedSide(side) {
+    return player.sprite.body.blocked[rotateSide(side, player.sprite.angle)]
+}
+
+
+function rotateSide(side, angle) {
+    const sideIndex = sides.indexOf(side)
+    let i = 0
+
+    if (angle > -45 && angle < 50) {
+        i = 0
+    } else if (angle >= 45 && angle <= 135) {
+        i += 1
+    } else if (angle > 135 || angle < -135) {
+        i += 2
+    } else {
+       i += 3
+    }
+    return(sides[(sideIndex + i) % sides.length])
 }
