@@ -31,7 +31,17 @@ export class PlayerSpine {
     }
 
      update(player) {
-     	this.spine.x = player.sprite.x + player.sprite.body.newVelocity .x
-    	this.spine.y = player.sprite.y + player.sprite.body.newVelocity .y 
+     	let newVel = player.sprite.body.newVelocity
+
+     	//Make sure we dont move the sprite to a position that the body will be blocked at
+     	if(player.sprite.body.blocked.left || player.sprite.body.blocked.right) {
+     		newVel.x = 0
+     	}
+     	if(player.sprite.body.blocked.down || player.sprite.body.blocked.up) {
+     		newVel.y = 0
+     	}
+
+     	this.spine.x = player.sprite.x + newVel.x
+    	this.spine.y = player.sprite.y + newVel.y 
      }
 }

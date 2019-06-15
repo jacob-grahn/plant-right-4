@@ -49,6 +49,13 @@ const bumpHandlers = {
     brick
 }
 
+let sides = [
+    'down',
+    'left',
+    'up',
+    'right'
+]
+
 export function tileEffects (playerSprite, tile) {
     if (tile.properties.collideHandlers) {
         const collideHandlerNames = tile.properties.collideHandlers.split(',')
@@ -58,7 +65,7 @@ export function tileEffects (playerSprite, tile) {
                 handler(playerSprite, tile)
             }
         })
-    } else if (tile.properties.bumpHandlers) {
+    } else if (tile.properties.bumpHandlers && touchingSide(playerSprite, 'up')) {
         const bumpHandlerNames = tile.properties.bumpHandlers.split(',')
         bumpHandlerNames.forEach((handlerName) => {
             const handler = bumpHandlers[handlerName]
@@ -67,4 +74,24 @@ export function tileEffects (playerSprite, tile) {
             }
         })
     }
+}
+
+function touchingSide(playerSprite, side) {
+    return playerSprite.body.blocked[rotateSide(side, playerSprite.angle)]
+}
+
+function rotateSide(side, angle) {
+    const sideIndex = sides.indexOf(side)
+    let i = 0
+
+    if (angle > -45 && angle < 50) {
+        i = 0
+    } else if (angle >= 45 && angle <= 135) {
+        i += 1
+    } else if (angle > 135 || angle < -135) {
+        i += 2
+    } else {
+       i += 3
+    }
+    return(sides[(sideIndex + i) % sides.length])
 }

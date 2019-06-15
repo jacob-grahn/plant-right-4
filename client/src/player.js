@@ -13,9 +13,12 @@ let sceneInstance
 //Used for particle system I started, will probably move to main.js
 let particleList = []
 
+let grounded = false
+
 export class Player {
     constructor (scene, x, y) {
         sceneInstance = scene
+        //Used as base but set to invisible
         this.sprite = scene.physics.add.sprite(x, y, 'dude')
         this.sprite.visible = false
         this.sprite.body.gravity = { x: 0, y: 1000 }
@@ -26,6 +29,7 @@ export class Player {
         this.attributes = new PlayerAttributes()
         this.onRotate()
 
+        /* Dont think we'll need this again?
         scene.anims.create({
             key: 'left',
             frames: scene.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -45,6 +49,7 @@ export class Player {
             frameRate: 10,
             repeat: -1
         })
+        */
         
         //Create the player spine class(Handles animation and setting up the spine)
         playerSpine = new PlayerSpine(scene, this.sprite.body.x, this.sprite.body.y)
@@ -73,31 +78,43 @@ export class Player {
         const accel = new Phaser.Math.Vector2(0, 0)
         const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
 
+        if(sprite.body.blocked[this.dir]) {
+            grounded = true
+        }
+        else {
+            grounded = false
+        }
+
          if(recoveryTimer <= 0) {
             if (cursors.left.isDown) {
                 accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
                 playerSpine.flipPlayer(true)
-                playerSpine.playAnimation('run', true)
 
-                //sprite.anims.play('left', true)
+                if(grounded) {
+                    playerSpine.playAnimation('run', true)
+                }
             }
             else if (cursors.right.isDown) {
                 accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
                 playerSpine.flipPlayer(false)
-                playerSpine.playAnimation('run', true)
                 
-                
-                //sprite.anims.play('right', true)
+                if(grounded) {
+                    playerSpine.playAnimation('run', true)
+                }
             }
             else {
                 accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
-                playerSpine.playAnimation('idle', true)
-                //sprite.anims.play('turn')
+                if(grounded) { 
+                    playerSpine.playAnimation('idle', true)
+                }
             }
 
             if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
                 accel.y = -this.attributes.velY
             }
+
+            if(!grounded)
+                    playerSpine.playAnimation('jump', false)
 
             if (cursors.down.isDown) {
                 if (this.canRotate) {
@@ -149,24 +166,30 @@ export class Player {
 
     onRotate () {
         const angle = this.sprite.angle
-        const rotatedVelocity = rotateVector(this.sprite.body.velocity, -this.sprite.angle)
-        const kicker = rotatedVelocity.y < 0 ? 25 : 0
-        if (angle > -45 && angle < 45) {
+        const rotatedVelocity = rotateVector(this.sprite.body.newVelocity, -this.sprite.angle)
+        
+        let kicker = rotatedVelocity.y <= 0 ? 25 : 0
+        if(this.sprite.body.blocked[this.dir])
+        {
+            kicker = 0
+        }
+
+        if (angle > -45 && angle < 50) {
             this.dir = 'down'
             this.sprite.body.setSize(25, 25 + kicker)
             this.sprite.body.setOffset(4, 23 - kicker)
         } else if (angle >= 45 && angle <= 135) {
             this.dir = 'left'
             this.sprite.body.setSize(25 + kicker, 25)
-            this.sprite.body.setOffset(-8, 10)
+            this.sprite.body.setOffset(-8, 11.5)
         } else if (angle > 135 || angle < -135) {
             this.dir = 'up'
             this.sprite.body.setSize(25, 25 + kicker)
-            this.sprite.body.setOffset(4, 0)
+            this.sprite.body.setOffset(3.5, 0)
         } else {
             this.dir = 'right'
             this.sprite.body.setSize(25 + kicker, 25)
-            this.sprite.body.setOffset(15 - kicker, 12)
+            this.sprite.body.setOffset(15 - kicker, 11.5)
         }
     }
 
