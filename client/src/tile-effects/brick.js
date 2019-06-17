@@ -12,6 +12,4 @@ export const brick = (playerSprite, tile) => {
 		particle.sprite.x = tile.getCenterX()
 		particle.sprite.y = tile.getCenterY()
 	}
-	
-	
 }
