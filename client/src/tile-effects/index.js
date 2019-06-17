@@ -23,7 +23,7 @@ import { heal } from './heal'
 import { time } from './time'
 */
 import { GetScene, BlockedSide } from '../main.js'
-import { sceneInstance }  from '../player.js'
+import { sceneInstance, SetBlockAbove }  from '../player.js'
 import { brick } from './brick'
 
 const collideHandlers = {
@@ -69,4 +69,8 @@ export function tileEffects (playerSprite, tile) {
             }
         })
     }
+}
+
+export function tileOverlap (name, tile, rect) {
+    SetBlockAbove(name, tile, rect)
 }

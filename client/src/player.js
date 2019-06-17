@@ -1,6 +1,6 @@
 import { rotateVector } from './rotateVector'
 import { PlayerAttributes } from './player-attributes'
-import { CreateTween, deltaTime, BlockedSide } from './main.js'
+import { CreateTween, deltaTime, BlockedSide, CheckOverlapping, TileOverlapping } from './main.js'
 import { PlayerSpine } from './playerSpine.js'
 import { ParticleEffect } from './particleEffect.js'
 import 'phaser'
@@ -8,8 +8,12 @@ import 'phaser'
 export let recoveryTimer = 0
 let rotating = false
 let playerSpine = null
+let extraSideVel = 0
+let playerSprite
 
-let grounded = false
+let grounded, crouching = false
+let blockAbove = false
+let rect
 
 export class Player {
     constructor (scene, x, y) {
@@ -19,11 +23,13 @@ export class Player {
         this.sprite.body.gravity = { x: 0, y: 1000 }
         this.sprite.body.maxSpeed = 1000
         this.sprite.body.setSize(25, 25)
+        playerSprite = this.sprite
         this.canRotate = true
         this.sprite.externalAcceleration = { x: 0, y: 0 }
         this.attributes = new PlayerAttributes()
         this.onRotate()
-
+        rect = scene.add.graphics(0, 0)
+        rect.depth = 1
         /* Dont think we'll need this again?
         scene.anims.create({
             key: 'left',
@@ -50,9 +56,89 @@ export class Player {
         playerSpine = new PlayerSpine(scene, this.sprite.body.x, this.sprite.body.y)
     }
 
+    updatePlayerHeadCheck() {
+        const nextSize = new Phaser.Math.Vector2(15, 25)
+        const nextSizeSmall = new Phaser.Math.Vector2(7.5, 25)
+        let rotatedSize = rotateVector(nextSize, this.sprite.angle)
+        let rotatedSizeSmall = rotateVector(nextSizeSmall, this.sprite.angle)
+         //Make size absolute
+        rotatedSize = new Phaser.Math.Vector2(Math.abs(rotatedSize.x), Math.abs(rotatedSize.y))
+        rotatedSizeSmall = new Phaser.Math.Vector2(Math.abs(rotatedSizeSmall.x), Math.abs(rotatedSizeSmall.y))
+        
+        //Update positions
+        let centerRectPos = new Phaser.Math.Vector2(0, -40)
+        let rightRectPos = new Phaser.Math.Vector2(0, -40)
+        let leftRectPos = new Phaser.Math.Vector2(0, -40)
+
+        let rotatedPos, leftRotatedPos, rightRotatedPos
+        let kicker = grounded ? 10 : 0
+        //Fixing positions after rotate
+        switch(this.dir) {
+            case('down'):
+                centerRectPos.x = leftRectPos.x = rightRectPos.x += .5
+            break
+            case('left'):
+                centerRectPos.x = leftRectPos.x = rightRectPos.x += .5
+            break
+            case('up'):
+                centerRectPos.x = leftRectPos.x = rightRectPos.x -= .5
+            break
+            case('right'):
+                centerRectPos.x = leftRectPos.x = rightRectPos.x -= .5
+            break
+        }
+
+        centerRectPos.y += kicker
+        leftRectPos.x -= nextSize.x / 2
+        leftRectPos.y += kicker
+        rightRectPos.x += nextSize.x / 2
+        rightRectPos.y += kicker
+
+        centerRectPos = rotateVector(centerRectPos, this.sprite.angle)
+        centerRectPos.add(this.sprite.body.center)
+
+        leftRectPos = rotateVector(leftRectPos, this.sprite.angle)
+        leftRectPos.add(this.sprite.body.center)
+
+        rightRectPos = rotateVector(rightRectPos, this.sprite.angle)
+        rightRectPos.add(this.sprite.body.center)
+
+        rect.clear()
+        rect.lineStyle(.1, 0x00ff00, 1)
+        rect.fillStyle(0xFFFFFF, 1.0)
+
+       
+
+        let rect1 = new Phaser.Geom. Rectangle(centerRectPos.x, centerRectPos.y, rotatedSize.x, rotatedSize.y)
+        rect1.centerX = centerRectPos.x
+        rect1.centerY = centerRectPos.y
+        //Enable for debug
+        //rect.strokeRect(rect1.x, rect1.y, rect1.width, rect1.height)
+        TileOverlapping(rect1, "center")
+
+        let rect2 = new Phaser.Geom. Rectangle(leftRectPos.x, leftRectPos.y, rotatedSizeSmall.x, rotatedSizeSmall.y)
+        rect2.centerX = leftRectPos.x
+        rect2.centerY = leftRectPos.y
+        //Enable for debug
+        //rect.strokeRect(rect2.x, rect2.y, rect2.width, rect2.height)
+        TileOverlapping(rect2, "left")
+
+        let rect3 = new Phaser.Geom. Rectangle(rightRectPos.x, rightRectPos.y, rotatedSizeSmall.x, rotatedSizeSmall.y)
+        rect3.centerX = rightRectPos.x
+        rect3.centerY = rightRectPos.y
+        //Enable for debug
+        //rect.strokeRect(rect3.x, rect3.y, rect3.width, rect3.height)
+        TileOverlapping(rect3, "right")
+    }
+
     update (cursors) {
         if(!rotating)
         {
+            blockAbove = false
+            extraSideVel = 0
+
+            this.updatePlayerHeadCheck()
+
             this.handleMovement(cursors)
 
             if(recoveryTimer > 0)
@@ -74,31 +160,52 @@ export class Player {
             grounded = false
         }
 
+        if(grounded && blockAbove) {
+            console.log("Crawl man")
+            crouching = true;
+        }
+        else {
+            crouching = false
+        }
+
          if(recoveryTimer <= 0) {
             if (cursors.left.isDown) {
-                accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
                 playerSpine.flipPlayer(true)
+                if(!crouching) {
+                    accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
-                if(grounded) {
-                    playerSpine.playAnimation('run', true)
+                    if(grounded) {
+                        playerSpine.playAnimation('run', true)
+                    }
+                }
+                else {
+                    accel.x = (-this.attributes.velX * .2 - rotatedVelocity.x) * this.attributes.ease
                 }
             }
             else if (cursors.right.isDown) {
-                accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
                 playerSpine.flipPlayer(false)
-                
-                if(grounded) {
-                    playerSpine.playAnimation('run', true)
+                if(!crouching) {
+                    accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
+                    
+                    if(grounded) {
+                        playerSpine.playAnimation('run', true)
+                    }
+                }
+                else {
+                    accel.x = (this.attributes.velX * .2 - rotatedVelocity.x) * this.attributes.ease
                 }
             }
             else {
                 accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
-                if(grounded) { 
+                if(grounded && !crouching) { 
                     playerSpine.playAnimation('idle', true)
                 }
             }
 
-            if (cursors.up.isDown && sprite.body.blocked[this.dir]) {
+            if (cursors.up.isDown && sprite.body.blocked[this.dir] && !crouching) {
+                //Placeholder until find better way of doing this, without this if you do ledge jump you'll just hit the brick above you, maybe set x position to be outside of block when jump?
+                accel.x -= extraSideVel
+
                 accel.y = -this.attributes.velY
             }
 
@@ -160,7 +267,7 @@ export class Player {
         let kicker = rotatedVelocity.y <= 0 ? 25 : 0
         if(this.sprite.body.blocked[this.dir])
         {
-            kicker = 0
+            kicker = -10
         }
 
         if (angle > -45 && angle < 50) {
@@ -186,4 +293,19 @@ export class Player {
 export function SetRecovery(recovery) {
     recoveryTimer = recovery
     //playerSpine.playAnimation('death', false)
+}
+
+export function SetBlockAbove(name, tile, rect) {
+    //Very WIP probably need to find different way for ledge jump, open to suggestions
+    const rotatedTileCenter = rotateVector(new Phaser.Math.Vector2(tile.getCenterX(), tile.getCenterY()), playerSprite.angle)
+    const rotatedRect = rotateVector(new Phaser.Math.Vector2(rect.x, rect.y), playerSprite.angle)
+    const dist = (rotatedTileCenter.x - rotatedRect.x)
+    const multiple = dist <= 19.5 ? 2 : 1
+    if (name == "left") {
+        extraSideVel = -100 * multiple
+    } else if (name == "right") {
+        extraSideVel = 100 * multiple
+    } else {
+         blockAbove = true
+    }
 }

@@ -1,6 +1,6 @@
 import 'phaser'
 import { Player } from './player'
-import { tileEffects } from './tile-effects'
+import { tileEffects, tileOverlap } from './tile-effects'
 import { rotateVector } from './rotateVector.js'
 
 const config = {
@@ -79,8 +79,8 @@ function create () {
 
     sceneInstance = this.scene.scene
 
-    // player
-    player = new Player(this, 0, 0)
+    // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
+    player = new Player(this, 10000, 0)
 
     // map
     const map = this.make.tilemap({ key: "map", tileWidth: 30, tileHeight: 30 })
@@ -93,6 +93,7 @@ function create () {
     const startPositions = findStartPositions(startTileIndexes, tileLayer)
     if (startPositions.length > 0) {
         const startPosition = startPositions[0]
+        //Comment this out if you want to hard code position for debugging(easier to test ledge jump)
         player.sprite.setPosition(startPosition.x, startPosition.y)
     }
 
@@ -175,6 +176,19 @@ export function BlockedSide(side) {
     return player.sprite.body.blocked[rotateSide(side, player.sprite.angle)]
 }
 
+export function TileOverlapping(rect1, name = "center") {
+    let rect2
+    for(let i = 0; i < tileLayer.culledTiles.length; i++) {
+        rect2 = tileLayer.culledTiles[i].getBounds()
+
+        if (rect1.x < rect2.x + rect2.width &&
+            rect1.x + rect1.width > rect2.x &&
+            rect1.y < rect2.y + rect2.height &&
+            rect1.y + rect1.height > rect2.y) {
+            tileOverlap(name, tileLayer.culledTiles[i], rect1)
+        }
+    }
+}
 
 function rotateSide(side, angle) {
     const sideIndex = sides.indexOf(side)
