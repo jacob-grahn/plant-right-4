@@ -9,7 +9,6 @@ import { up } from './up'
 import { left } from './left'
 import { right } from './right'
 import { mine } from './mine'
-
 /* for when these are added
 import { item } from './item'
 import { finish } from './finish'
@@ -21,6 +20,8 @@ import { sad } from './sad'
 import { heal } from './heal'
 import { time } from './time'
 */
+import { BlockedSide } from '../main.js'
+import { SetBlockAbove } from '../player.js'
 import { brick } from './brick'
 
 const collideHandlers = {
@@ -48,13 +49,6 @@ const bumpHandlers = {
   brick
 }
 
-let sides = [
-  'down',
-  'left',
-  'up',
-  'right'
-]
-
 export function tileEffects (playerSprite, tile) {
   if (tile.properties.collideHandlers) {
     const collideHandlerNames = tile.properties.collideHandlers.split(',')
@@ -64,7 +58,7 @@ export function tileEffects (playerSprite, tile) {
         handler(playerSprite, tile)
       }
     })
-  } else if (tile.properties.bumpHandlers && touchingSide(playerSprite, 'up')) {
+  } else if (tile.properties.bumpHandlers && BlockedSide('up')) {
     const bumpHandlerNames = tile.properties.bumpHandlers.split(',')
     bumpHandlerNames.forEach((handlerName) => {
       const handler = bumpHandlers[handlerName]
@@ -75,22 +69,6 @@ export function tileEffects (playerSprite, tile) {
   }
 }
 
-function touchingSide (playerSprite, side) {
-  return playerSprite.body.blocked[rotateSide(side, playerSprite.angle)]
-}
-
-function rotateSide (side, angle) {
-  const sideIndex = sides.indexOf(side)
-  let i = 0
-
-  if (angle > -45 && angle < 50) {
-    i = 0
-  } else if (angle >= 45 && angle <= 135) {
-    i += 1
-  } else if (angle > 135 || angle < -135) {
-    i += 2
-  } else {
-    i += 3
-  }
-  return (sides[(sideIndex + i) % sides.length])
+export function tileOverlap (sprite, tile) {
+  SetBlockAbove(sprite, tile)
 }

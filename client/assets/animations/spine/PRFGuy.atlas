@@ -1,48 +1,90 @@
 
 PRFGuy.png
-size: 1024,128
+size: 256,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Body01Color
-  rotate: true
-  xy: 184, 55
+Body1Color
+  rotate: false
+  xy: 2, 63
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
-Body01Outline
-  rotate: true
-  xy: 331, 55
+Body2Color
+  rotate: false
+  xy: 2, 63
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
-Foot01Color
+Body1Outline
   rotate: false
-  xy: 583, 64
+  xy: 71, 63
+  size: 67, 145
+  orig: 67, 145
+  offset: 0, 0
+  index: -1
+Body2Outline
+  rotate: false
+  xy: 140, 80
+  size: 67, 145
+  orig: 67, 145
+  offset: 0, 0
+  index: -1
+Foot1Color
+  rotate: false
+  xy: 2, 3
   size: 90, 58
   orig: 90, 58
   offset: 0, 0
   index: -1
-Foot01Outline
+Foot1Outline
   rotate: false
-  xy: 675, 64
+  xy: 123, 227
   size: 90, 58
   orig: 90, 58
   offset: 0, 0
   index: -1
-Head01Color
+Foot2Color
   rotate: false
-  xy: 478, 19
+  xy: 94, 2
+  size: 68, 59
+  orig: 68, 59
+  offset: 0, 0
+  index: -1
+Foot2Outline
+  rotate: true
+  xy: 164, 10
+  size: 68, 59
+  orig: 68, 59
+  offset: 0, 0
+  index: -1
+Head1Color
+  rotate: false
+  xy: 124, 287
   size: 103, 103
   orig: 103, 103
   offset: 0, 0
   index: -1
-Head01Outline
-  rotate: true
-  xy: 2, 2
+Head1Outline
+  rotate: false
+  xy: 2, 328
   size: 120, 180
   orig: 120, 180
+  offset: 0, 0
+  index: -1
+Head2Color
+  rotate: false
+  xy: 2, 210
+  size: 119, 116
+  orig: 119, 116
+  offset: 0, 0
+  index: -1
+Head2Outline
+  rotate: false
+  xy: 124, 392
+  size: 119, 116
+  orig: 119, 116
   offset: 0, 0
   index: -1
