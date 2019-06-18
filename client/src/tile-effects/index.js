@@ -70,5 +70,5 @@ export function tileEffects (playerSprite, tile) {
 }
 
 export function tileOverlap (sprite, tile) {
-  SetBlockAbove(sprite)
+  SetBlockAbove(sprite, tile)
 }

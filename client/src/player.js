@@ -108,6 +108,7 @@ export class Player {
             playerSpine.playAnimation('run', true)
           }
         } else {
+          playerSpine.playAnimation('crouchWalk', true)
           accel.x = (-this.attributes.velX * 0.2 - rotatedVelocity.x) * this.attributes.ease
         }
       } else if (cursors.right.isDown) {
@@ -119,12 +120,15 @@ export class Player {
             playerSpine.playAnimation('run', true)
           }
         } else {
+          playerSpine.playAnimation('crouchWalk', true)
           accel.x = (this.attributes.velX * 0.2 - rotatedVelocity.x) * this.attributes.ease
         }
       } else {
         accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
         if (grounded && !crouching) {
           playerSpine.playAnimation('idle', true)
+        } else if (crouching) {
+          playerSpine.playAnimation('crouch', true)
         }
       }
 
@@ -218,6 +222,6 @@ export function SetRecovery (recovery) {
   // playerSpine.playAnimation('death', false)
 }
 
-export function SetBlockAbove (name, tile, rect) {
+export function SetBlockAbove (sprite, tile) {
   blockAbove = true
 }

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "6Z/kVpAtXxcMhZuyvkoAO23ffzs", "spine": "3.7.94", "width": 130.13, "height": 338.89 },
+"skeleton": { "hash": "FeVLU0KHc3qmHL6Nf9oGur67miU", "spine": "3.7.94", "width": 130.13, "height": 338.89 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body Bone", "parent": "root", "length": 98.65, "rotation": -90.74, "x": 3.23, "y": 53.53 },
@@ -10,10 +10,10 @@
 "slots": [
 	{ "name": "RFootColor", "bone": "Foot 2 Bone", "attachment": "Foot1Color" },
 	{ "name": "RFootOutline", "bone": "Foot 2 Bone", "attachment": "Foot1Outline" },
-	{ "name": "LFootColor", "bone": "Foot 1 Bone", "attachment": "Foot1Color" },
-	{ "name": "LFootOutline", "bone": "Foot 1 Bone", "attachment": "Foot1Outline" },
 	{ "name": "BodyColor", "bone": "Body Bone", "attachment": "Body1Color" },
 	{ "name": "BodyOutline", "bone": "Body Bone", "attachment": "Body1Outline" },
+	{ "name": "LFootColor", "bone": "Foot 1 Bone", "attachment": "Foot1Color" },
+	{ "name": "LFootOutline", "bone": "Foot 1 Bone", "attachment": "Foot1Outline" },
 	{ "name": "HeadColor", "bone": "Head Bone", "attachment": "Head1Color" },
 	{ "name": "HeadOutline", "bone": "Head Bone", "attachment": "Head1Outline" }
 ],
@@ -182,6 +182,69 @@
 	}
 },
 "animations": {
+	"crouch": {
+		"bones": {
+			"Body Bone": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": -51.15 },
+					{ "time": 0.2, "x": 0.47, "y": -51.13 },
+					{ "time": 0.4, "x": 0, "y": -51.15 }
+				]
+			},
+			"Head Bone": {
+				"rotate": [
+					{ "time": 0, "angle": -10.51 }
+				],
+				"translate": [
+					{ "time": 0, "x": 8.75, "y": -120.47 },
+					{ "time": 0.2, "x": 10.24, "y": -121.14 },
+					{ "time": 0.4, "x": 8.75, "y": -120.47 }
+				]
+			}
+		}
+	},
+	"crouchWalk": {
+		"bones": {
+			"Body Bone": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": -51.15 },
+					{ "time": 0.1, "x": 0, "y": -52.06 },
+					{ "time": 0.2, "x": 0, "y": -51.15 },
+					{ "time": 0.3, "x": 0, "y": -52.06 },
+					{ "time": 0.3667, "x": 0, "y": -51.15 }
+				]
+			},
+			"Head Bone": {
+				"rotate": [
+					{ "time": 0, "angle": -10.51 }
+				],
+				"translate": [
+					{ "time": 0, "x": 8.75, "y": -120.47 },
+					{ "time": 0.1333, "x": 8.75, "y": -125.31 },
+					{ "time": 0.2667, "x": 8.75, "y": -120.47 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 0.92, "y": 1 },
+					{ "time": 0.2667, "x": 1, "y": 1 }
+				]
+			},
+			"Foot 1 Bone": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 10.91 },
+					{ "time": 0.2, "x": 0, "y": 0 },
+					{ "time": 0.3667, "x": 0, "y": 10.91 }
+				]
+			},
+			"Foot 2 Bone": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.2, "x": 0, "y": 9.7 },
+					{ "time": 0.3667, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
 	"idle": {
 		"bones": {
 			"Foot 2 Bone": {
