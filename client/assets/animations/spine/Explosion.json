@@ -1,0 +1,82 @@
+{
+"skeleton": { "hash": "IYyHCjP8EqVO9aT1JhgYBEwgl1g", "spine": "3.7.94", "width": 512, "height": 528 },
+"bones": [
+	{ "name": "root", "x": 4.15, "y": 1.5 },
+	{ "name": "bone", "parent": "root", "length": 32.45 },
+	{ "name": "BoneExplodeWhite", "parent": "bone" },
+	{ "name": "BoneExplodeYellow", "parent": "bone" }
+],
+"slots": [
+	{ "name": "ExplosionWhite", "bone": "BoneExplodeWhite", "attachment": "ExplosionWhite" },
+	{ "name": "ExplosionYellow", "bone": "BoneExplodeYellow", "attachment": "ExplosionYellow" }
+],
+"skins": {
+	"default": {
+		"ExplosionWhite": {
+			"ExplosionWhite": { "scaleX": 0.7, "width": 512, "height": 498 }
+		},
+		"ExplosionYellow": {
+			"ExplosionYellow": { "width": 512, "height": 528 }
+		}
+	}
+},
+"events": {
+	"DeleteSelf": {}
+},
+"animations": {
+	"Explode": {
+		"slots": {
+			"ExplosionWhite": {
+				"color": [
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.3, "color": "ffffffaa" },
+					{ "time": 0.4667, "color": "ffffff00" }
+				]
+			},
+			"ExplosionYellow": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.1333, "color": "ffffff45" },
+					{ "time": 0.3333, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1333, "x": 12.1, "y": 0 },
+					{ "time": 0.2333, "x": 19.24, "y": 0 },
+					{ "time": 0.3, "x": 26.82, "y": 0 }
+				]
+			},
+			"BoneExplodeWhite": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 3.886, "y": 0.19 },
+					{ "time": 0.3, "x": 7.6, "y": 0.031 },
+					{ "time": 0.4667, "x": 6.663, "y": 0.031 }
+				]
+			},
+			"BoneExplodeYellow": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.1333, "x": 1.5, "y": 1.5 },
+					{ "time": 0.3333, "x": 2.5, "y": 2.5 }
+				]
+			}
+		},
+		"drawOrder": [
+			{
+				"time": 0,
+				"offsets": [
+					{ "slot": "ExplosionWhite", "offset": 1 }
+				]
+			}
+		],
+		"events": [
+			{ "time": 0.4667, "name": "DeleteSelf" }
+		]
+	}
+}
+}

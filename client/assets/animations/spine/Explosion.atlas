@@ -1,0 +1,20 @@
+
+Explosion.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ExplosionWhite
+  rotate: true
+  xy: 516, 18
+  size: 512, 498
+  orig: 512, 498
+  offset: 0, 0
+  index: -1
+ExplosionYellow
+  rotate: false
+  xy: 2, 2
+  size: 512, 528
+  orig: 512, 528
+  offset: 0, 0
+  index: -1

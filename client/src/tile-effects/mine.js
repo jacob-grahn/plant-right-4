@@ -1,10 +1,14 @@
 /* global Phaser */
 
+import { Explosion } from '../Explosion.js'
 import { rotateVector } from '../rotateVector'
 import { recoveryTimer, SetRecovery } from '../player'
 
 export const mine = (playerSprite, tile) => {
-  const explodeForce = 400
+  //  Spawn explosion
+  Explosion.CreateExplosion(tile.getCenterX(), tile.getCenterY())
+
+  const explodeForce = 700
 
   // Set recovery for 2 seconds if not recovering
   if (recoveryTimer <= 0) {
