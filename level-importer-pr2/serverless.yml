@@ -21,6 +21,8 @@ provider:
 functions:
   import-level:
     handler: src/index.handler
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 30 # optional, in seconds, default is 6
     environment:
       BUCKET: ${self:custom.bucket}
     events:

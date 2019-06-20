@@ -34,7 +34,7 @@ test('render a line, and save the image', async () => {
   const imageMatadataList = await renderLines(levelId, lines)
 
   //
-  const key = 'pr2/123/34707f30dbf66b5f8e9da895825db9fe.png'
+  const key = '34707f30dbf66b5f8e9da895825db9fe.png'
   expect(imageMatadataList).toEqual([{
     key,
     x: 0,
@@ -42,5 +42,5 @@ test('render a line, and save the image', async () => {
     width: 512,
     height: 512
   }])
-  expect(stashFile.lastCallParams).toEqual({ buffer, key })
+  expect(stashFile.lastCallParams).toEqual({ buffer, key: `pr2/levels/123/${key}` })
 })
