@@ -56,8 +56,8 @@ const renderImages = async (levelId, big, bounds) => {
       big.render(ctx, x, y)
       const image = canvas.toBuffer('image/png')
       const hash = toHash(image)
-      const key = `pr2/${levelId}/${hash}.png`
-      await stashFile(key, image)
+      const key = `${hash}.png`
+      await stashFile(`pr2/levels/${levelId}/${key}`, image)
       clearCtx(ctx)
       imageMetadataList.push({
         x,

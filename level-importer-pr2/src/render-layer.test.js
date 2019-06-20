@@ -21,7 +21,7 @@ test('convert lines to pre-rendered stamps', async () => {
   }
   const newLayer = await renderLayer(levelId, layer)
   expect(newLayer.objects[0]).toEqual({
-    gid: 'pr2/1/68a5cdf36daaad4339aa444c0ecea58f.png',
+    gid: '68a5cdf36daaad4339aa444c0ecea58f.png',
     height: 512,
     width: 512,
     x: 0,

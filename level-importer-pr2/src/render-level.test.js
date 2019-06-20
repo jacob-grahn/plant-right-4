@@ -30,7 +30,7 @@ test('pre-render art layers', async () => {
     {
       type: 'objectgroup',
       objects: [{
-        gid: 'pr2/1/68a5cdf36daaad4339aa444c0ecea58f.png',
+        gid: '68a5cdf36daaad4339aa444c0ecea58f.png',
         height: 512,
         width: 512,
         x: 0,

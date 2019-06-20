@@ -13,52 +13,52 @@ module.exports = {
   tileheight: 711,
   tiles: {
     '0': {
-      image: 'pr2/stamps/tree-1.png',
+      image: 'tree-1.png',
       imageheight: 384,
       imagewidth: 507
     },
     '1': {
-      image: 'pr2/stamps/tree-2.png',
+      image: 'tree-2.png',
       imageheight: 553,
       imagewidth: 417
     },
     '2': {
-      image: 'pr2/stamps/tree-3.png',
+      image: 'tree-3.png',
       imageheight: 526,
       imagewidth: 431
     },
     '3': {
-      image: 'pr2/stamps/petrified-tree.png',
+      image: 'petrified-tree.png',
       imageheight: 226,
       imagewidth: 171
     },
     '4': {
-      image: 'pr2/stamps/cactus.png',
+      image: 'cactus.png',
       imageheight: 338,
       imagewidth: 282
     },
     '5': {
-      image: 'pr2/stamps/rock-1.png',
+      image: 'rock-1.png',
       imageheight: 202,
       imagewidth: 194
     },
     '6': {
-      image: 'pr2/stamps/rock-2.png',
+      image: 'rock-2.png',
       imageheight: 263,
       imagewidth: 279
     },
     '7': {
-      image: 'pr2/stamps/spire-1.png',
+      image: 'spire-1.png',
       imageheight: 711,
       imagewidth: 253
     },
     '8': {
-      image: 'pr2/stamps/spire-2.png',
+      image: 'spire-2.png',
       imageheight: 596,
       imagewidth: 654
     },
     '9': {
-      image: 'pr2/stamps/building.png',
+      image: 'building.png',
       imageheight: 622,
       imagewidth: 286
     }

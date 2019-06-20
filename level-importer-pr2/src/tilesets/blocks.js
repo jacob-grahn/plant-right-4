@@ -1,7 +1,7 @@
 module.exports = {
   columns: 10,
   firstgid: 1,
-  image: 'pr2/blocks.png',
+  image: 'blocks.png',
   imageheight: 120,
   imagewidth: 300,
   margin: 0,
