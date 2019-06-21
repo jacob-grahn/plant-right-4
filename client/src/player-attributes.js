@@ -10,7 +10,7 @@ export class PlayerAttributes {
   }
 
   get velY () {
-    return (this.jump * 5) + 500
+    return (this.jump * 3) + 500
   }
 
   get ease () {

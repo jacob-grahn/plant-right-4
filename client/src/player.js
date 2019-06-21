@@ -2,15 +2,13 @@ import { rotateVector } from './rotateVector'
 import { PlayerAttributes } from './player-attributes'
 import { CreateTween, deltaTime, BlockedSide, TileOverlapping } from './main.js'
 import { PlayerSpine } from './playerSpine.js'
+import { Maths } from './Maths.js'
 import 'phaser'
 
 export let recoveryTimer = 0
 let rotating = false
 let playerSpine = null
-let extraSideVel = 0
 
-let grounded = false
-let crouching = false
 let blockAbove = false
 
 export class Player {
@@ -18,7 +16,7 @@ export class Player {
     // Used as base but set to invisible
     this.sprite = scene.physics.add.sprite(x, y, 'dude')
     this.sprite.visible = false
-    this.sprite.body.gravity = { x: 0, y: 1000 }
+    this.sprite.body.gravity = { x: 0, y: 750 }
     this.sprite.body.maxSpeed = 1000
     this.sprite.body.setSize(25, 25)
     this.setupPlayerHeadCheck(scene)
@@ -86,25 +84,25 @@ export class Player {
     const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
 
     if (BlockedSide('down')) {
-      grounded = true
+      this.grounded = true
     } else {
-      grounded = false
+      this.grounded = false
     }
 
-    if (grounded && blockAbove) {
+    if (this.grounded && blockAbove) {
       console.log('Crawl man')
-      crouching = true
+      this.crouching = true
     } else {
-      crouching = false
+      this.crouching = false
     }
 
     if (recoveryTimer <= 0) {
       if (cursors.left.isDown) {
         playerSpine.flipPlayer(true)
-        if (!crouching) {
+        if (!this.crouching) {
           accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
-          if (grounded) {
+          if (this.grounded) {
             playerSpine.playAnimation('run', true)
           }
         } else {
@@ -113,10 +111,10 @@ export class Player {
         }
       } else if (cursors.right.isDown) {
         playerSpine.flipPlayer(false)
-        if (!crouching) {
+        if (!this.crouching) {
           accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
-          if (grounded) {
+          if (this.grounded) {
             playerSpine.playAnimation('run', true)
           }
         } else {
@@ -125,21 +123,20 @@ export class Player {
         }
       } else {
         accel.x = (0 - rotatedVelocity.x) * this.attributes.ease
-        if (grounded && !crouching) {
+        if (this.grounded && !this.crouching) {
           playerSpine.playAnimation('idle', true)
-        } else if (crouching) {
+        } else if (this.crouching) {
           playerSpine.playAnimation('crouch', true)
         }
       }
 
-      if (cursors.up.isDown && sprite.body.blocked[this.dir] && !crouching) {
-        // Placeholder until find better way of doing this, without this if you do ledge jump you'll just hit the brick above you, maybe set x position to be outside of block when jump?
-        accel.x -= extraSideVel
-
-        accel.y = -this.attributes.velY
+      if (cursors.up.isDown) {
+        this.jump(accel)
+      } else {
+        this.stillHoldingUp = false
       }
 
-      if (!grounded) { playerSpine.playAnimation('jump', false) }
+      if (!this.grounded) { playerSpine.playAnimation('jump', false) }
 
       if (cursors.down.isDown) {
         if (this.canRotate) {
@@ -166,6 +163,29 @@ export class Player {
     this.sprite.externalAcceleration.y = 0
 
     this.onRotate()
+  }
+
+  jump (accel) {
+    let jumpVal = 0
+    let velY = 0
+    if (this.grounded || this.velY > 0) {
+      this.stillHoldingUp = false
+    }
+    if ((this.grounded && !this.crouching) || this.stillHoldingUp) {
+      if (!this.stillHoldingUp) {
+        this.stillHoldingUp = true
+        this.remainingJumpVel = 0.25 + this.attributes.velY * 0.02
+      }
+      if (this.stillHoldingUp) {
+        //  Made similar to pr3's method of handling jumps
+        //  can change if anyone knows a better way
+        jumpVal = this.remainingJumpVel * (1.0 - Math.pow(1.0 - 10.0 / 27.0, 27.0 * deltaTime / 1000.0))
+        jumpVal = Maths.clamp(jumpVal, 0, this.remainingJumpVel)
+        this.remainingJumpVel = this.remainingJumpVel - jumpVal
+        velY = velY + jumpVal / deltaTime
+      }
+    }
+    accel.y = accel.y - velY * this.attributes.velY
   }
 
   rotationComplete (tween, targets, body) {
