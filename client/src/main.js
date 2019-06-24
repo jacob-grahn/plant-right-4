@@ -118,6 +118,7 @@ function update (time, delta) {
   // Set delta time for export variable to be accessed elsewhere(Should eventually multiply movement by this so that movement is framerate independent)
   deltaTime = delta
   const cursors = this.input.keyboard.createCursorKeys()
+  cursors.rKey = this.input.keyboard.addKey(82) // r key -- used to test rotation during development
   player.update(cursors)
   this.cameras.main.setAngle(-player.sprite.angle)
 

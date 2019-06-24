@@ -8,6 +8,7 @@ dist/
 build/
 dev/
 .vscode/
+*.code-workspace
 .idea
 *.log
 src_old

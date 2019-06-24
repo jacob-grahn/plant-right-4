@@ -138,7 +138,7 @@ export class Player {
 
       if (!this.grounded) { playerSpine.playAnimation('jump', false) }
 
-      if (cursors.down.isDown) {
+      if (cursors.rKey.isDown) { // dev -- test rotation using the R key
         if (this.canRotate) {
           this.rotate(90)
           this.canRotate = false
