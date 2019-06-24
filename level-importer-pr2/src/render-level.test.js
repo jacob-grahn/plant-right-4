@@ -20,22 +20,12 @@ test('pre-render art layers', async () => {
             ]
           }
         ] }
-    ]
+    ],
+    tilesets: []
   }
   const levelId = 1
   const result = await renderLevel(levelId, level)
 
-  expect(result.layers).toEqual([
-    { type: 'tiles', somevalue: 'yay' },
-    {
-      type: 'objectgroup',
-      objects: [{
-        gid: '68a5cdf36daaad4339aa444c0ecea58f.png',
-        height: 512,
-        width: 512,
-        x: 0,
-        y: 0
-      }]
-    }
-  ])
+  expect(result.layers[0].type).toEqual('tiles')
+  expect(result.layers[1].type).toEqual('objectgroup')
 })

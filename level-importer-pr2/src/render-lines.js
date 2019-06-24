@@ -2,8 +2,10 @@ const BigRender = require('big-render')
 const { createCanvas } = require('canvas')
 const toHash = require('./to-hash')
 const stashFile = require('./stash-file')
-const imageWidth = 512
-const imageHeight = 512
+const { renderSize } = require('./settings')
+const imageWidth = renderSize
+const imageHeight = renderSize
+const emptyHash = toHash(createCanvas(imageWidth, imageHeight).toBuffer('image/png'))
 
 const renderLines = async (levelId, lines) => {
   const bounds = {
@@ -57,15 +59,17 @@ const renderImages = async (levelId, big, bounds) => {
       const image = canvas.toBuffer('image/png')
       const hash = toHash(image)
       const key = `${hash}.png`
-      await stashFile(`pr2/levels/${levelId}/${key}`, image)
+      if (hash !== emptyHash) {
+        await stashFile(`pr2/levels/${levelId}/${key}`, image)
+        imageMetadataList.push({
+          x,
+          y,
+          width: imageWidth,
+          height: imageHeight,
+          key
+        })
+      }
       clearCtx(ctx)
-      imageMetadataList.push({
-        x,
-        y,
-        width: imageWidth,
-        height: imageHeight,
-        key
-      })
     }
   }
 
