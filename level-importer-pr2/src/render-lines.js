@@ -24,7 +24,11 @@ const renderLines = async (levelId, lines) => {
     if (line.y > bounds.maxY) bounds.maxY = line.y
     if (line.y < bounds.minY) bounds.minY = line.y
 
-    drawLine(line, bigCtx)
+    if (line.mode === 'erase') {
+      eraseLine(line, bigCtx)
+    } else {
+      drawLine(line, bigCtx)
+    }
   })
 
   const imageMetadataList = await renderImages(levelId, bigCtx, bounds)
@@ -42,6 +46,10 @@ const drawLine = (line, ctx) => {
     ctx.lineTo(x, y)
   })
   ctx.stroke()
+}
+
+const eraseLine = (line, ctx) => {
+  drawLine(line, ctx)
 }
 
 const renderImages = async (levelId, big, bounds) => {

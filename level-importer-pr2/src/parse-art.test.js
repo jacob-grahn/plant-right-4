@@ -18,7 +18,8 @@ test('parse art', () => {
     ],
     properties: {
       color: '000000',
-      thickness: 1
+      thickness: 1,
+      mode: 'draw'
     }
   }])
 })

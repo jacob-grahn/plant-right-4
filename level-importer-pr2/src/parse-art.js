@@ -6,6 +6,7 @@ const parseStamp = require('./parse-stamp')
  */
 const parseArt = (artArr = []) => {
   let color = '000000'
+  let mode = 'draw'
   let thickness = 1
   const objects = []
 
@@ -17,7 +18,9 @@ const parseArt = (artArr = []) => {
     } else if (type === 't') {
       thickness = Number(content)
     } else if (type === 'd') {
-      objects.push(parseLine(content, color, thickness))
+      objects.push(parseLine(content, color, thickness, mode))
+    } else if (type === 'm') {
+      mode = content
     } else {
       objects.push(parseStamp(command))
     }
