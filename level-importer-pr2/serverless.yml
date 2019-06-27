@@ -9,7 +9,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   stage: dev
   region: us-east-1
   iamRoleStatements:
@@ -25,6 +25,7 @@ functions:
     timeout: 30 # optional, in seconds, default is 6
     environment:
       BUCKET: ${self:custom.bucket}
+      SAVE_TARGET: 's3' # s3 or local
     events:
       - http:
           path: import-from-pr2/{levelId}

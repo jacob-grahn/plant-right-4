@@ -24,7 +24,7 @@ const renderLines = async (levelId, lines) => {
     if (line.y > bounds.maxY) bounds.maxY = line.y
     if (line.y < bounds.minY) bounds.minY = line.y
 
-    if (line.mode === 'erase') {
+    if (line.properties.mode === 'erase') {
       eraseLine(line, bigCtx)
     } else {
       drawLine(line, bigCtx)
@@ -49,7 +49,9 @@ const drawLine = (line, ctx) => {
 }
 
 const eraseLine = (line, ctx) => {
+  ctx.globalCompositeOperation = 'destination-out'
   drawLine(line, ctx)
+  ctx.globalCompositeOperation = 'source-over'
 }
 
 const renderImages = async (levelId, big, bounds) => {
