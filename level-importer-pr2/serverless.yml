@@ -25,7 +25,7 @@ functions:
     timeout: 30 # optional, in seconds, default is 6
     environment:
       BUCKET: ${self:custom.bucket}
-      SAVE_TARGET: 's3' # s3 or local
+      SAVE_TARGET: ${env:SAVE_TARGET, 's3'} # s3 or local
     events:
       - http:
           path: import-from-pr2/{levelId}

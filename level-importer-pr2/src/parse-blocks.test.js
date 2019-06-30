@@ -7,7 +7,7 @@ test('parse blocks', () => {
     '-6;4;0',
     '1;0'
   ]
-  const result = parseBlocks(blocks)
+  const result = parseBlocks(blocks, 16)
   expect(result).toEqual([
     {
       data: [
