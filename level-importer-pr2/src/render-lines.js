@@ -3,6 +3,7 @@ const { createCanvas } = require('canvas')
 const toHash = require('./to-hash')
 const stashFile = require('./stash-file')
 const { renderSize } = require('./settings')
+const compressImage = require('./compress-image')
 const imageWidth = renderSize
 const imageHeight = renderSize
 const emptyHash = toHash(createCanvas(imageWidth, imageHeight).toBuffer('image/png'))
@@ -68,9 +69,10 @@ const renderImages = async (levelId, big, bounds) => {
       big.render(ctx, x, y)
       const image = canvas.toBuffer('image/png')
       const hash = toHash(image)
-      const key = `${hash}.png`
       if (hash !== emptyHash) {
-        await stashFile(`pr2/levels/${levelId}/${key}`, image)
+        const key = `${x}_${y}.webp`
+        const compressedImage = await compressImage(image)
+        await stashFile(`pr2/levels/${levelId}/${key}`, compressedImage)
         imageMetadataList.push({
           x,
           y,
