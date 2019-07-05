@@ -3,8 +3,8 @@
 const renderLines = require('./render-lines')
 const { createCanvas } = require('canvas')
 const stashFile = require('./stash-file')
-const toHash = require('./to-hash')
 const { renderSize } = require('./settings')
+const compressImage = require('./compress-image')
 jest.mock('./stash-file')
 
 afterEach(() => {
@@ -24,7 +24,7 @@ test('render a line, and save the image', async () => {
   ctx.lineTo(20, 155)
   ctx.stroke()
   const buffer = canvas.toBuffer('image/png')
-  const key = toHash(buffer) + '.png'
+  const compressedBuffer = await compressImage(buffer)
 
   // hopefuly good
   const lines = [{
@@ -40,13 +40,16 @@ test('render a line, and save the image', async () => {
 
   // compare the two
   expect(imageMatadataList).toEqual([{
-    key,
+    key: '0_0.webp',
     x: 0,
     y: 0,
     width: renderSize,
     height: renderSize
   }])
-  expect(stashFile.lastCallParams).toEqual({ buffer, key: `pr2/levels/123/${key}` })
+  expect(stashFile.lastCallParams).toEqual({
+    buffer: compressedBuffer,
+    key: `pr2/levels/123/0_0.webp`
+  })
 })
 
 test('do not save a blank image', async () => {

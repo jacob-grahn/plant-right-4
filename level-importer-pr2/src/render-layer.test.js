@@ -22,6 +22,7 @@ test('convert lines to pre-rendered stamps', async () => {
   }
   const lastgid = 7
   const { renderedLayer, tileset } = await renderLayer(levelId, layer, lastgid)
+  const tile = tileset.tiles['0']
   expect(renderedLayer.objects[0]).toEqual({
     gid: 7,
     height: renderSize,
@@ -30,10 +31,7 @@ test('convert lines to pre-rendered stamps', async () => {
     y: renderSize
   })
   expect(tileset.tilecount).toBe(1)
-  expect(tileset.tiles['0']).toEqual({
-    image: '8fdf34f0458f924f685ba0c448a971b7.png',
-    imageheight: renderSize,
-    imagewidth: renderSize
-  }
-  )
+  expect(tile.imageheight).toEqual(renderSize)
+  expect(tile.imagewidth).toEqual(renderSize)
+  expect(tile.image).toBeTruthy()
 })

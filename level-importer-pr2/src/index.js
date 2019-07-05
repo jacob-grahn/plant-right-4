@@ -15,6 +15,7 @@ const pr2LevelImporter = async (event) => {
     return { statusCode: 200, body: renderedPr4Level }
   } catch (e) {
     const statusCode = e.message.indexOf('404') >= 0 ? 404 : 500
+    console.log(e)
     return { statusCode, body: JSON.stringify({ error: e.message }) }
   }
 }
