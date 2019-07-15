@@ -1,22 +1,35 @@
-service: platform-racing
+service: pr2-level-importer
 
 package:
   exclude:
-    - "node_modules/.bin"
+    - "layers/**"
+    - "stashed/**"
 
 custom:
-  bucket: pr4-levels
+  bucket: ${self:provider.stage}-pr4-levels
 
 provider:
   name: aws
-  runtime: nodejs8.10
-  stage: dev
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:PutObject
       Resource: "arn:aws:s3:::${self:custom.bucket}/pr2/*"
+
+# https://github.com/jwerre/node-canvas-lambda
+layers:
+  lib64:
+    package:
+      artifact: layers/canvas-lib64-layer.zip
+  canvas:
+    package:
+      artifact: layers/node10_canvas_layer.zip
+  cwebp:
+    package:
+      artifact: layers/cwebp.zip
 
 functions:
   import-level:
@@ -34,3 +47,7 @@ functions:
             parameters:
                paths:
                  levelId: true
+    layers:
+     - { Ref: Lib64LambdaLayer }
+     - { Ref: CanvasLambdaLayer }
+     - { Ref: CwebpLambdaLayer }

@@ -1,7 +1,6 @@
 const fs = require('fs')
 const { execFile } = require('child_process')
 const { promisify } = require('util')
-const cwebp = require('cwebp-bin')
 const execFilePromise = promisify(execFile)
 let i = 1
 
@@ -14,7 +13,7 @@ const compressImage = async (imageBuffer) => {
   const out = `/tmp/${i}.webp`
   i++
   fs.writeFileSync(src, imageBuffer)
-  await execFilePromise(cwebp, [
+  await execFilePromise('cwebp', [
     src,
     '-q', '90',
     '-alpha_q', '100',

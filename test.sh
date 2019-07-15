@@ -2,7 +2,7 @@
 
 set -e
 
-packages="client level-importer-pr2"
+packages="client pr2-level-importer"
 
 for package in $packages; do
   cd $package
