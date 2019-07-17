@@ -4,6 +4,7 @@ package:
   exclude:
     - "layers/**"
     - "stashed/**"
+    - "node_modules/**"
 
 custom:
   bucket: ${self:provider.stage}-pr4-levels
@@ -19,17 +20,13 @@ provider:
         - s3:PutObject
       Resource: "arn:aws:s3:::${self:custom.bucket}/pr2/*"
 
-# https://github.com/jwerre/node-canvas-lambda
 layers:
-  lib64:
+  nodemodules:
     package:
-      artifact: layers/canvas-lib64-layer.zip
-  canvas:
+      artifact: layers/node_modules.zip
+  bin:
     package:
-      artifact: layers/node10_canvas_layer.zip
-  cwebp:
-    package:
-      artifact: layers/cwebp.zip
+      artifact: layers/bin.zip
 
 functions:
   import-level:
@@ -48,6 +45,5 @@ functions:
                paths:
                  levelId: true
     layers:
-     - { Ref: Lib64LambdaLayer }
-     - { Ref: CanvasLambdaLayer }
-     - { Ref: CwebpLambdaLayer }
+     - { Ref: NodemodulesLambdaLayer }
+     - { Ref: BinLambdaLayer }

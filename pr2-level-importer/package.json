@@ -7,17 +7,17 @@
     "aws-sdk": "^2.491.0",
     "axios": "^0.19.0",
     "big-render": "^1.0.3",
+    "canvas": "^2.5.0",
     "query-string": "^6.8.1"
   },
   "devDependencies": {
     "jest": "^24.8.0",
-    "standard": "^12.0.1",
-    "canvas": "^2.5.0"
+    "standard": "^12.0.1"
   },
   "scripts": {
     "lint": "standard",
     "test": "jest",
-    "deploy": "./docker-deploy.sh",
+    "build-layers": "cd build-layers && ./build-layers.sh",
     "invoke": "export SAVE_TARGET=local && sls invoke local -f import-level -p data.json"
   },
   "author": "Jacob Grahn",
