@@ -18,6 +18,7 @@ provider:
     - Effect: Allow
       Action:
         - s3:PutObject
+        - s3:GetObject
       Resource: "arn:aws:s3:::${self:custom.bucket}/pr2/*"
 
 layers:
@@ -39,25 +40,6 @@ functions:
     events:
       - http:
           path: import-from-pr2/{levelId}
-          method: get
-          request:
-            parameters:
-               paths:
-                 levelId: true
-    layers:
-     - { Ref: NodemodulesLambdaLayer }
-     - { Ref: BinLambdaLayer }
-     
-  import-level-async:
-    handler: src/import-async.handler
-    memorySize: 1024 # optional, in MB, default is 1024
-    timeout: 30 # optional, in seconds, default is 6
-    environment:
-      BUCKET: ${self:custom.bucket}
-      SAVE_TARGET: ${env:SAVE_TARGET, 's3'} # s3 or local
-    events:
-      - http:
-          path: import/{levelId}
           method: get
           request:
             parameters:

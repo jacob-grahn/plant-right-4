@@ -8,6 +8,6 @@ test('Import a level from pr2, and import it as a pr4 level', async () => {
   const levelId = 50815
   const result = await pr2LevelImporter.handler({ pathParameters: { levelId } })
   expect(result.statusCode).toBe(200)
-  expect(stashFile.lastCallParams.key).toEqual('pr2/levels/50815/50815.json')
+  expect(stashFile.lastCallParams.key).toEqual('pr2/levels/50815/status.txt')
   expect(stashFile.lastCallParams.buffer).toBeTruthy()
 })
