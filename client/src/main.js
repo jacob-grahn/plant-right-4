@@ -11,7 +11,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0, y: 0 },
-      debug: false
+      debug: true
     }
   },
   scene: {
@@ -33,7 +33,6 @@ const config = {
 const game = new Phaser.Game(config)
 export let deltaTime
 let physics
-let tweener
 let sceneInstance
 let player
 let tileLayer
@@ -69,10 +68,6 @@ function create () {
 
   // physics
   physics = this.physics
-
-  // tweens
-  tweener = this.tweens
-
   sceneInstance = this.scene.scene
 
   // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
@@ -90,10 +85,11 @@ function create () {
   if (startPositions.length > 0) {
     const startPosition = startPositions[0]
     // Comment this out if you want to hard code position for debugging(easier to test ledge jump)
-    player.sprite.setPosition(startPosition.x, startPosition.y)
+    // player.sprite.setPosition(startPosition.x, startPosition.y)
   }
 
   // camera
+  console.log(player.sprite.x, player.sprite.y)
   this.cameras.main.startFollow(player.sprite)
   this.cameras.main.setLerp(0.1, 0.1)
   this.cameras.main.zoom = 1.5
@@ -104,7 +100,7 @@ function create () {
   this.physics.world.bounds.height = tileLayer.height
 }
 
-function update (time, delta) {
+function update (_time, delta) {
   // Set delta time for export variable to be accessed elsewhere(Should eventually multiply movement by this so that movement is framerate independent)
   deltaTime = delta
   const cursors = this.input.keyboard.createCursorKeys()
@@ -145,16 +141,8 @@ function findStartTileIndexes (tileMap) {
   return tileIndexes
 }
 
-export function CreateTween (config) {
-  tweener.add(config)
-}
-
 export function GetScene () {
   return sceneInstance
-}
-
-export function IsTweenRunning () {
-  return tweener._active.length > 0
 }
 
 export function AddParticle (particle) {
@@ -170,7 +158,7 @@ export function RemoveParticle (particle) {
 }
 
 export function BlockedSide (side) {
-  return player.sprite.body.blocked[rotateSide(side, player.sprite.angle)]
+  return player.body.blocked[rotateSide(side, player.sprite.angle)]
 }
 
 export function TileOverlapping (sprite) {
