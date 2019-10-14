@@ -3,32 +3,31 @@ import { Player } from './player'
 import { tileEffects, tileOverlap } from './tile-effects'
 
 const config = {
-  type: Phaser.AUTO,
-  parent: 'content',
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { x: 0, y: 0 },
-      debug: true
+    type: Phaser.AUTO,
+    parent: 'content',
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { x: 0, y: 0 },
+            debug: true
+        }
+    },
+    scene: {
+        preload,
+        create,
+        update,
+        pack: {
+            files: [{
+                type: 'scenePlugin', 
+                key: 'SpinePlugin', 
+                url: 'plugins/SpinePlugin.js', 
+                sceneKey: 'spine',
+                start: true
+            }]
+        }
     }
-  },
-  scene: {
-    preload,
-    create,
-    update,
-    pack: {
-      files: [
-        {
-          type: 'scenePlugin',
-          key: 'SpineWebGLPlugin',
-          url: 'plugins/SpineWebGLPlugin.js',
-          start: true,
-          sceneKey: 'spine'
-        }]
-    }
-  }
 }
 const game = new Phaser.Game(config)
 export let deltaTime
@@ -40,10 +39,10 @@ let tileLayer
 let particleList = []
 
 let sides = [
-  'down',
-  'left',
-  'up',
-  'right'
+    'down',
+    'left',
+    'up',
+    'right'
 ]
 
 function preload () {
@@ -85,14 +84,14 @@ function create () {
   if (startPositions.length > 0) {
     const startPosition = startPositions[0]
     // Comment this out if you want to hard code position for debugging(easier to test ledge jump)
-    // player.sprite.setPosition(startPosition.x, startPosition.y)
+    player.sprite.setPosition(startPosition.x, startPosition.y)
   }
 
   // camera
   console.log(player.sprite.x, player.sprite.y)
   this.cameras.main.startFollow(player.sprite)
   this.cameras.main.setLerp(0.1, 0.1)
-  this.cameras.main.zoom = 1.5
+  this.cameras.main.zoom = 1
 
   // physics
   this.physics.add.collider(player.sprite, tileLayer, tileEffects)

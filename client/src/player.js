@@ -14,11 +14,12 @@ export class Player {
     this.externalAcceleration = { x: 0, y: 0 }
     this.playerSpine = new PlayerSpine(scene, x, y)
 
-    scene.physics.add.existing(this.playerSpine.spine)
+    this.sprite = scene.physics.add.sprite(x, y, 'dude')
+    this.body = this.sprite.body
+    // scene.physics.add.existing(this.playerSpine.spine)
 
-    this.body = this.playerSpine.spine.body
-    this.sprite = this.playerSpine.spine
-    console.log(this.body.x, this.body.y)
+    // this.body = this.playerSpine.spine.body
+    // this.sprite = this.playerSpine.spine
     this.body.gravity = { ...baseGravityVector }
     this.body.maxSpeed = 1000
     this.body.setSize(25, 25)
@@ -67,7 +68,6 @@ export class Player {
     }
 
     if (cursors.left.isDown) {
-      console.log(this.sprite.x, this.sprite.y)
       this.playerSpine.flipPlayer(true)
       if (!this.crouching) {
         accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
