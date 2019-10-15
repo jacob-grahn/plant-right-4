@@ -7,6 +7,7 @@ import 'phaser'
 
 let blockAbove = false
 const baseGravityVector = { x: 0, y: 750 }
+const offsetVector = { x: 0, y: 50 }
 
 export class Player {
   constructor (scene, x, y) {
@@ -14,15 +15,13 @@ export class Player {
     this.externalAcceleration = { x: 0, y: 0 }
     this.playerSpine = new PlayerSpine(scene, x, y)
 
-    this.sprite = scene.physics.add.sprite(x, y, 'dude')
-    this.body = this.sprite.body
-    // scene.physics.add.existing(this.playerSpine.spine)
+    scene.physics.add.existing(this.playerSpine.spine)
 
-    // this.body = this.playerSpine.spine.body
-    // this.sprite = this.playerSpine.spine
+    this.body = this.playerSpine.spine.body
+    this.sprite = this.playerSpine.spine
     this.body.gravity = { ...baseGravityVector }
     this.body.maxSpeed = 1000
-    this.body.setSize(25, 25)
+    this.body.setSize(25 * 5, 25 * 5)
     this.setupPlayerHeadCheck(scene)
     this.rotate(0)
   }
@@ -150,6 +149,8 @@ export class Player {
   rotate (degrees) {
     this.sprite.setAngle(this.sprite.angle + degrees)
     this.body.gravity = rotateVector(baseGravityVector, this.sprite.angle)
+    const offset = rotateVector(offsetVector, this.sprite.angle)
+    this.body.setOffset(0 + offset.x, 150 + offset.y)
   }
 }
 
