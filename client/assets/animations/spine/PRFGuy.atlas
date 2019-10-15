@@ -5,85 +5,85 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Body1Color
-  rotate: false
-  xy: 2, 63
+  rotate: true
+  xy: 2, 276
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
 Body2Color
-  rotate: false
-  xy: 2, 63
+  rotate: true
+  xy: 2, 276
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
 Body1Outline
-  rotate: false
-  xy: 71, 63
+  rotate: true
+  xy: 2, 207
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
 Body2Outline
-  rotate: false
-  xy: 140, 80
+  rotate: true
+  xy: 2, 138
   size: 67, 145
   orig: 67, 145
   offset: 0, 0
   index: -1
 Foot1Color
   rotate: false
-  xy: 2, 3
+  xy: 149, 180
   size: 90, 58
   orig: 90, 58
   offset: 0, 0
   index: -1
 Foot1Outline
   rotate: false
-  xy: 123, 227
+  xy: 149, 120
   size: 90, 58
   orig: 90, 58
   offset: 0, 0
   index: -1
 Foot2Color
   rotate: false
-  xy: 94, 2
+  xy: 184, 406
   size: 68, 59
   orig: 68, 59
   offset: 0, 0
   index: -1
 Foot2Outline
-  rotate: true
-  xy: 164, 10
+  rotate: false
+  xy: 184, 345
   size: 68, 59
   orig: 68, 59
   offset: 0, 0
   index: -1
 Head1Color
   rotate: false
-  xy: 124, 287
+  xy: 149, 240
   size: 103, 103
   orig: 103, 103
   offset: 0, 0
   index: -1
 Head1Outline
-  rotate: false
-  xy: 2, 328
+  rotate: true
+  xy: 2, 345
   size: 120, 180
   orig: 120, 180
   offset: 0, 0
   index: -1
 Head2Color
   rotate: false
-  xy: 2, 210
+  xy: 2, 20
   size: 119, 116
   orig: 119, 116
   offset: 0, 0
   index: -1
 Head2Outline
   rotate: false
-  xy: 124, 392
+  xy: 123, 2
   size: 119, 116
   orig: 119, 116
   offset: 0, 0
