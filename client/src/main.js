@@ -70,7 +70,7 @@ function create () {
   sceneInstance = this.scene.scene
 
   // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
-  player = new Player(this, 10000, 0)
+  player = new Player(this, 6700, 0)
 
   // map
   const map = this.make.tilemap({ key: 'map', tileWidth: 30, tileHeight: 30 })
@@ -84,7 +84,7 @@ function create () {
   if (startPositions.length > 0) {
     const startPosition = startPositions[0]
     // Comment this out if you want to hard code position for debugging(easier to test ledge jump)
-    player.sprite.setPosition(startPosition.x, startPosition.y)
+    // player.sprite.setPosition(startPosition.x, startPosition.y)
   }
 
   // camera
