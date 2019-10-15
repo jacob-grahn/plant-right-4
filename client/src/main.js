@@ -88,13 +88,12 @@ function create () {
   }
 
   // camera
-  console.log(player.sprite.x, player.sprite.y)
   this.cameras.main.startFollow(player.sprite)
   this.cameras.main.setLerp(0.1, 0.1)
   this.cameras.main.zoom = 1
 
   // physics
-  this.physics.add.collider(player.sprite, tileLayer, tileEffects)
+  this.physics.add.collider(player, tileLayer, tileEffects)
   this.physics.world.bounds.width = tileLayer.width
   this.physics.world.bounds.height = tileLayer.height
 }

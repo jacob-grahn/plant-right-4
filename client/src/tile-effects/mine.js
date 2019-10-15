@@ -19,7 +19,7 @@ export const mine = (player, tile) => {
   const velY = Math.sin(angle) * explodeForce
   const rotatedVel = rotateVector(new Phaser.Math.Vector2(velX, velY), player.angle)
 
-  // player.body.velocity.x = rotatedVel.x
-  /// player.body.velocity.y = rotatedVel.y
+  player.body.velocity.x = rotatedVel.x
+  player.body.velocity.y = rotatedVel.y
   tile.tilemap.removeTile(tile)
 }
