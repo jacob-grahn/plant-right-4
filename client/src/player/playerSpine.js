@@ -7,7 +7,6 @@ let feetNum = 1
 export class PlayerSpine {
   constructor (scene, x, y, spine = 'PRFGuy', animation = 'idle', play = true) {
     this.spine = scene.add.spine(x, y, spine, animation, play)
-    this.spine.depth = 1
     this.spine.setScale(0.2)
 
     // Set the part and color
@@ -48,24 +47,5 @@ export class PlayerSpine {
       this.spine.customParams.animation = animation
       this.spine.play(this.spine.customParams.animation, repeat)
     }
-  }
-
-  flipPlayer (flip = false) {
-    this.spine.flipX = flip
-  }
-
-  update (player) {
-    let newVel = player.sprite.body.newVelocity
-
-    // Make sure we dont move the sprite to a position that the body will be blocked at
-    if (player.sprite.body.blocked.left || player.sprite.body.blocked.right) {
-      newVel.x = 0
-    }
-    if (player.sprite.body.blocked.down || player.sprite.body.blocked.up) {
-      newVel.y = 0
-    }
-
-    this.spine.x = player.sprite.x + newVel.x
-    this.spine.y = player.sprite.y + newVel.y
   }
 }

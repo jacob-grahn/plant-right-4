@@ -21,7 +21,7 @@ import { heal } from './heal'
 import { time } from './time'
 */
 import { BlockedSide } from '../main.js'
-import { SetBlockAbove } from '../player.js'
+import { SetBlockAbove } from '../player/player.js'
 import { brick } from './brick'
 
 const collideHandlers = {
@@ -49,13 +49,13 @@ const bumpHandlers = {
   brick
 }
 
-export function tileEffects (playerSprite, tile) {
+export function tileEffects (player, tile) {
   if (tile.properties.collideHandlers) {
     const collideHandlerNames = tile.properties.collideHandlers.split(',')
     collideHandlerNames.forEach((handlerName) => {
       const handler = collideHandlers[handlerName]
       if (handler) {
-        handler(playerSprite, tile)
+        handler(player, tile)
       }
     })
   } else if (tile.properties.bumpHandlers && BlockedSide('up')) {
@@ -63,7 +63,7 @@ export function tileEffects (playerSprite, tile) {
     bumpHandlerNames.forEach((handlerName) => {
       const handler = bumpHandlers[handlerName]
       if (handler) {
-        handler(playerSprite, tile)
+        handler(player, tile)
       }
     })
   }

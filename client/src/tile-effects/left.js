@@ -1,3 +1,3 @@
-export const left = (playerSprite) => {
-  playerSprite.externalAcceleration.x -= 400
+export const left = (player) => {
+  player.externalAcceleration.x -= 400
 }

@@ -2,6 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -34,7 +35,11 @@ module.exports = {
             server: {
                 baseDir: ['./', './dev']
             }
-        })
+        }),
+        new CopyPlugin([
+            { from: 'node_modules/phaser/plugins/spine/dist/SpinePlugin.js', to: 'plugins/SpinePlugin.js' },
+            { from: 'other', to: 'public' },
+        ]),
     ],
     module: {
         rules: [

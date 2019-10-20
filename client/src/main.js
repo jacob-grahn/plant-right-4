@@ -1,39 +1,37 @@
 import 'phaser'
-import { Player } from './player'
+import { Player } from './player/player'
 import { tileEffects, tileOverlap } from './tile-effects'
 
 const config = {
-  type: Phaser.AUTO,
-  parent: 'content',
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { x: 0, y: 0 },
-      debug: false
+    type: Phaser.AUTO,
+    parent: 'content',
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { x: 0, y: 0 },
+            debug: true
+        }
+    },
+    scene: {
+        preload,
+        create,
+        update,
+        pack: {
+            files: [{
+                type: 'scenePlugin', 
+                key: 'SpinePlugin', 
+                url: 'plugins/SpinePlugin.js', 
+                sceneKey: 'spine',
+                start: true
+            }]
+        }
     }
-  },
-  scene: {
-    preload,
-    create,
-    update,
-    pack: {
-      files: [
-        {
-          type: 'scenePlugin',
-          key: 'SpineWebGLPlugin',
-          url: 'plugins/SpineWebGLPlugin.js',
-          start: true,
-          sceneKey: 'spine'
-        }]
-    }
-  }
 }
 const game = new Phaser.Game(config)
 export let deltaTime
 let physics
-let tweener
 let sceneInstance
 let player
 let tileLayer
@@ -41,10 +39,10 @@ let tileLayer
 let particleList = []
 
 let sides = [
-  'down',
-  'left',
-  'up',
-  'right'
+    'down',
+    'left',
+    'up',
+    'right'
 ]
 
 function preload () {
@@ -69,14 +67,10 @@ function create () {
 
   // physics
   physics = this.physics
-
-  // tweens
-  tweener = this.tweens
-
   sceneInstance = this.scene.scene
 
   // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
-  player = new Player(this, 10000, 0)
+  player = new Player(this, 6700, 0)
 
   // map
   const map = this.make.tilemap({ key: 'map', tileWidth: 30, tileHeight: 30 })
@@ -90,21 +84,21 @@ function create () {
   if (startPositions.length > 0) {
     const startPosition = startPositions[0]
     // Comment this out if you want to hard code position for debugging(easier to test ledge jump)
-    player.sprite.setPosition(startPosition.x, startPosition.y)
+    // player.sprite.setPosition(startPosition.x, startPosition.y)
   }
 
   // camera
   this.cameras.main.startFollow(player.sprite)
   this.cameras.main.setLerp(0.1, 0.1)
-  this.cameras.main.zoom = 1.5
+  this.cameras.main.zoom = 1
 
   // physics
-  this.physics.add.collider(player.sprite, tileLayer, tileEffects)
+  this.physics.add.collider(player, tileLayer, tileEffects)
   this.physics.world.bounds.width = tileLayer.width
   this.physics.world.bounds.height = tileLayer.height
 }
 
-function update (time, delta) {
+function update (_time, delta) {
   // Set delta time for export variable to be accessed elsewhere(Should eventually multiply movement by this so that movement is framerate independent)
   deltaTime = delta
   const cursors = this.input.keyboard.createCursorKeys()
@@ -145,16 +139,8 @@ function findStartTileIndexes (tileMap) {
   return tileIndexes
 }
 
-export function CreateTween (config) {
-  tweener.add(config)
-}
-
 export function GetScene () {
   return sceneInstance
-}
-
-export function IsTweenRunning () {
-  return tweener._active.length > 0
 }
 
 export function AddParticle (particle) {
@@ -170,7 +156,7 @@ export function RemoveParticle (particle) {
 }
 
 export function BlockedSide (side) {
-  return player.sprite.body.blocked[rotateSide(side, player.sprite.angle)]
+  return player.body.blocked[rotateSide(side, player.sprite.angle)]
 }
 
 export function TileOverlapping (sprite) {
