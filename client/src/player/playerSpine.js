@@ -7,7 +7,6 @@ let feetNum = 1
 export class PlayerSpine {
   constructor (scene, x, y, spine = 'PRFGuy', animation = 'idle', play = true) {
     this.spine = scene.add.spine(x, y, spine, animation, play)
-    this.spine.depth = 1
     this.spine.setScale(0.2)
 
     // Set the part and color
@@ -48,9 +47,5 @@ export class PlayerSpine {
       this.spine.customParams.animation = animation
       this.spine.play(this.spine.customParams.animation, repeat)
     }
-  }
-
-  flipPlayer (flip = false) {
-    this.spine.flipX = flip
   }
 }

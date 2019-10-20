@@ -1,5 +1,5 @@
-const hurtDuration = 1000
-const invincibleDuration = 2000
+const hurtDuration = 1500
+const invincibleDuration = 2500
 
 export class HurtTimer {
 
@@ -20,11 +20,11 @@ export class HurtTimer {
 
     isHurt () {
         const curTime = new Date().getTime()
-        return curTime > this.hurtUntil
+        return curTime < this.hurtUntil
     }
 
     isInvincible () {
         const curTime = new Date().getTime()
-        return curTime > this.invincibleUntil
+        return curTime < this.invincibleUntil
     }
 }

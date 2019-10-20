@@ -55,6 +55,21 @@ export class Player {
         const body = this.body
         const accel = new Phaser.Math.Vector2(0, 0)
         const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
+        const curTime = new Date().getTime()
+
+        if (this.hurtTimer.isInvincible() && Math.round(curTime / 150) % 2 === 0) {
+            this.sprite.alpha = 0.25
+        } else {
+            this.sprite.alpha = 1
+        }
+
+        if (this.hurtTimer.isHurt()) {
+            cursors.up.isDown = false
+            cursors.down.isDown = false
+            cursors.left.isDown = false
+            cursors.right.isDown = false
+            cursors.rKey.isDown = false
+        }
 
         if (BlockedSide('down')) {
             this.grounded = true
@@ -69,7 +84,7 @@ export class Player {
         }
 
         if (cursors.left.isDown) {
-            this.playerSpine.flipPlayer(true)
+            this.sprite.flipX = true
             if (!this.crouching) {
                 accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
@@ -81,7 +96,7 @@ export class Player {
                 accel.x = (-this.attributes.velX * 0.2 - rotatedVelocity.x) * this.attributes.ease
             }
         } else if (cursors.right.isDown) {
-            this.playerSpine.flipPlayer(false)
+            this.sprite.flipX = false
             if (!this.crouching) {
                 accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
