@@ -21,7 +21,7 @@ import { heal } from './heal'
 import { time } from './time'
 */
 import { BlockedSide } from '../main.js'
-import { SetBlockAbove } from '../player.js'
+import { SetBlockAbove } from '../player/player.js'
 import { brick } from './brick'
 
 const collideHandlers = {

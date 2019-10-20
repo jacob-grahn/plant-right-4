@@ -1,5 +1,5 @@
 import 'phaser'
-import { Player } from './player'
+import { Player } from './player/player'
 import { tileEffects, tileOverlap } from './tile-effects'
 
 const config = {

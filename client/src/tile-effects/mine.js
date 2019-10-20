@@ -13,6 +13,7 @@ export const mine = (player, tile) => {
 
   player.externalAcceleration.x -= velX
   player.externalAcceleration.y -= velY
+  player.getHurt()
 
   tile.tilemap.removeTile(tile)
 }
