@@ -8,32 +8,34 @@ import 'phaser'
 
 let blockAbove = false
 const baseGravityVector = { x: 0, y: 750 }
-const offsetVector = { x: 0, y: 50 }
+const offsetVector = { x: 0, y: 13 }
 
 export class Player {
     constructor (scene, x, y) {
         this.attributes = new PlayerAttributes()
         this.externalAcceleration = { x: 0, y: 0 }
-        this.playerSpine = new PlayerSpine(scene, x, y)
+        this.playerSpine = new PlayerSpine(scene, 0, 0)
         this.hurtTimer = new HurtTimer()
+        this.container = scene.add.container(x, y, [this.playerSpine.spine])
 
-        scene.physics.add.existing(this.playerSpine.spine)
+        scene.physics.add.existing(this.container)
+        this.container.body.setSize(26, 26)
+        this.container.body.setOffset(-13, -13)
 
-        this.body = this.playerSpine.spine.body
-        this.sprite = this.playerSpine.spine
+        this.body = this.container.body
+        this.sprite = this.container
         this.body.gravity = { ...baseGravityVector }
         this.body.maxSpeed = 1000
-        this.body.setSize(25 * 5, 25 * 5)
-        this.setupPlayerHeadCheck(scene)
+        // this.setupPlayerHeadCheck(scene)
         this.rotate(0)
     }
 
-    setupPlayerHeadCheck (scene) {
+    /* setupPlayerHeadCheck (scene) {
         this.headChecker = scene.physics.add.sprite(0, 0, 'dude')
         this.headChecker.visible = false
         this.headChecker.body.setSize(25, 25)
         this.headChecker.onCollide = false
-    }
+    } */
 
     crouchCheck () {
         //  Reset to false before checking if a block is above
@@ -41,9 +43,8 @@ export class Player {
         let headCheckPos = new Phaser.Math.Vector2(0, -25)
         headCheckPos = rotateVector(headCheckPos, this.sprite.angle)
         headCheckPos.add(this.body.position)
-        this.headChecker.body.position = headCheckPos
-
-        TileOverlapping(this.headChecker)
+        // this.headChecker.body.position = headCheckPos
+        // TileOverlapping(this.headChecker)
     }
 
     update (cursors) {
@@ -84,7 +85,7 @@ export class Player {
         }
 
         if (cursors.left.isDown) {
-            this.sprite.flipX = true
+            this.playerSpine.setFlipXHack(true)
             if (!this.crouching) {
                 accel.x = (-this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
@@ -96,7 +97,7 @@ export class Player {
                 accel.x = (-this.attributes.velX * 0.2 - rotatedVelocity.x) * this.attributes.ease
             }
         } else if (cursors.right.isDown) {
-            this.sprite.flipX = false
+            this.playerSpine.setFlipXHack(false)
             if (!this.crouching) {
                 accel.x = (this.attributes.velX - rotatedVelocity.x) * this.attributes.ease
 
@@ -166,8 +167,8 @@ export class Player {
     rotate (degrees) {
         this.sprite.setAngle(this.sprite.angle + degrees)
         this.body.gravity = rotateVector(baseGravityVector, this.sprite.angle)
-        const offset = rotateVector(offsetVector, this.sprite.angle)
-        this.body.setOffset(0 + offset.x, 150 + offset.y)
+        this.playerSpine.spine.x = offsetVector.x
+        this.playerSpine.spine.y = offsetVector.y
     }
 
     getHurt () {

@@ -3,11 +3,12 @@ import 'phaser'
 let headNum = 1
 let bodyNum = 1
 let feetNum = 1
+let scale = 0.2
 
 export class PlayerSpine {
   constructor (scene, x, y, spine = 'PRFGuy', animation = 'idle', play = true) {
     this.spine = scene.add.spine(x, y, spine, animation, play)
-    this.spine.setScale(0.2)
+    this.spine.setScale(scale, scale)
 
     // Set the part and color
     this.setParts()
@@ -46,6 +47,14 @@ export class PlayerSpine {
     if (this.spine.customParams.animation !== animation) {
       this.spine.customParams.animation = animation
       this.spine.play(this.spine.customParams.animation, repeat)
+    }
+  }
+
+  setFlipXHack (flip) {
+    const isFlipped = this.spine.scaleX < 0
+    if (flip !== isFlipped) {
+      this.spine.scaleX = flip ? -scale : scale
+      console.log(this.scaleX)
     }
   }
 }

@@ -1,10 +1,10 @@
 import 'phaser'
 
-export const rotateVector = (vector, degrees) => {
+export const rotateVectorSnap = (vector, degrees) => {
   const rads = Phaser.Math.DegToRad(degrees)
   const v = new Phaser.Math.Vector2(vector.x, vector.y)
-  let sin = Math.sin(rads)
-  let cos = Math.cos(rads)
+  let sin = Math.round(Math.sin(rads))
+  let cos = Math.round(Math.cos(rads))
 
   let tx = v.x
   let ty = v.y
