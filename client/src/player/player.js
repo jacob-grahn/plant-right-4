@@ -128,7 +128,6 @@ export class Player {
             }
             if (this.stillHoldingUp) {
                 accel.y -= this.jumpGumption.getGumption(delta)
-                console.log(this.jumpGumption.getGumption(delta))
             }
         } else {
             if (this.stillHoldingUp) {
