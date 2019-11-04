@@ -9,8 +9,8 @@ export class PlayerAttributes {
     return (this.speed * 5) + 100
   }
 
-  get velY () {
-    return (this.jump * 3) + 500
+  get jumpVel () {
+    return (this.jump * 2) + 200
   }
 
   get ease () {

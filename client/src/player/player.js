@@ -4,6 +4,7 @@ import { deltaTime, BlockedSide, TileOverlapping } from '../main.js'
 import { PlayerSpine } from './playerSpine.js'
 import { Maths } from '../Maths.js'
 import { HurtTimer } from './hurt-timer'
+import { JumpGumption } from './jump-gumption'
 import 'phaser'
 
 let blockAbove = false
@@ -16,6 +17,7 @@ export class Player {
         this.externalAcceleration = { x: 0, y: 0 }
         this.playerSpine = new PlayerSpine(scene, 0, 0)
         this.hurtTimer = new HurtTimer()
+        this.jumpGumption = new JumpGumption()
         this.container = scene.add.container(x, y, [this.playerSpine.spine])
 
         scene.physics.add.existing(this.container)
@@ -47,12 +49,12 @@ export class Player {
         // TileOverlapping(this.headChecker)
     }
 
-    update (cursors) {
+    update (cursors, delta) {
         this.crouchCheck()
-        this.handleMovement(cursors)
+        this.handleMovement(cursors, delta)
     }
 
-    handleMovement (cursors) {
+    handleMovement (cursors, delta) {
         const body = this.body
         const accel = new Phaser.Math.Vector2(0, 0)
         const rotatedVelocity = rotateVector(body.velocity, -this.sprite.angle)
@@ -117,10 +119,21 @@ export class Player {
             }
         }
 
+        // jump
         if (cursors.up.isDown) {
-            this.jump(accel)
+            if (this.grounded) {
+                this.stillHoldingUp = true
+                this.jumpGumption.reset()
+                accel.y -= this.attributes.jumpVel
+            }
+            if (this.stillHoldingUp) {
+                accel.y -= this.jumpGumption.getGumption(delta)
+                console.log(this.jumpGumption.getGumption(delta))
+            }
         } else {
-            this.stillHoldingUp = false
+            if (this.stillHoldingUp) {
+                this.stillHoldingUp = false
+            }
         }
 
         if (!this.grounded) {
@@ -141,27 +154,6 @@ export class Player {
 
         this.externalAcceleration.x = 0
         this.externalAcceleration.y = 0
-    }
-
-    jump (accel) {
-        let jumpVal = 0
-        let velY = 0
-        if (this.grounded || this.velY > 0) {
-            this.stillHoldingUp = false
-        }
-        if ((this.grounded && !this.crouching) || this.stillHoldingUp) {
-            if (!this.stillHoldingUp) {
-                this.stillHoldingUp = true
-                this.remainingJumpVel = 0.25 + this.attributes.velY * 0.02
-            }
-            if (this.stillHoldingUp) {
-                jumpVal = this.remainingJumpVel * (1.0 - Math.pow(1.0 - 10.0 / 27.0, 27.0 * deltaTime / 1000.0))
-                jumpVal = Maths.clamp(jumpVal, 0, this.remainingJumpVel)
-                this.remainingJumpVel = this.remainingJumpVel - jumpVal
-                velY = velY + jumpVal / deltaTime
-            }
-        }
-        accel.y = accel.y - velY * this.attributes.velY
     }
 
     rotate (degrees) {

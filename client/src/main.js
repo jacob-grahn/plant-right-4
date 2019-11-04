@@ -70,7 +70,7 @@ function create () {
   sceneInstance = this.scene.scene
 
   // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
-  player = new Player(this, 6700, 0)
+  player = new Player(this, 6700, 1000)
 
   // map
   const map = this.make.tilemap({ key: 'map', tileWidth: 30, tileHeight: 30 })
@@ -103,7 +103,7 @@ function update (_time, delta) {
   deltaTime = delta
   const cursors = this.input.keyboard.createCursorKeys()
   cursors.rKey = this.input.keyboard.addKey(82) // r key -- used to test rotation during development
-  player.update(cursors)
+  player.update(cursors, delta)
   this.cameras.main.setAngle(-player.sprite.angle)
 
   particleList.forEach(updateParticles)
