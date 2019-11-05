@@ -1,8 +1,8 @@
 // If you hold up after jumping, you will jump higher
 // let's call this magic extra energy "gumption"
 
-const accel = 1 // force of gumption
-const durationMs = 1000 // how long gumption lasts
+const accel = 0.7 // force of gumption
+const durationMs = 700 // how long gumption lasts
 
 export class JumpGumption {
 
