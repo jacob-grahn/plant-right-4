@@ -2,34 +2,35 @@ import { rotateVector } from '../rotateVector'
 import { PlayerAttributes } from './player-attributes'
 import { deltaTime, BlockedSide, TileOverlapping } from '../main.js'
 import { PlayerSpine } from './playerSpine.js'
-import { Maths } from '../Maths.js'
 import { HurtTimer } from './hurt-timer'
 import { JumpGumption } from './jump-gumption'
+import { SmoothRotator } from './smooth-rotator'
 import 'phaser'
 
 let blockAbove = false
 const baseGravityVector = { x: 0, y: 750 }
-const offsetVector = { x: 0, y: 13 }
 
 export class Player {
     constructor (scene, x, y) {
+        this.scene = scene
         this.attributes = new PlayerAttributes()
         this.externalAcceleration = { x: 0, y: 0 }
+        this.lastAngle = undefined
         this.playerSpine = new PlayerSpine(scene, 0, 0)
         this.hurtTimer = new HurtTimer()
         this.jumpGumption = new JumpGumption()
+        this.smoothRotator = new SmoothRotator()
         this.container = scene.add.container(x, y, [this.playerSpine.spine])
 
         scene.physics.add.existing(this.container)
         this.container.body.setSize(26, 26)
         this.container.body.setOffset(-13, -13)
-
         this.body = this.container.body
         this.sprite = this.container
         this.body.gravity = { ...baseGravityVector }
         this.body.maxSpeed = 1000
+
         // this.setupPlayerHeadCheck(scene)
-        this.rotate(0)
     }
 
     /* setupPlayerHeadCheck (scene) {
@@ -139,8 +140,8 @@ export class Player {
             this.playerSpine.playAnimation('jump', false)
         }
 
-        if (cursors.rKey.isDown) { // dev -- test rotation using the R key
-            this.rotate(1)
+        if (cursors.rKey.isDown && !this.smoothRotator.isRotating()) { // dev -- test rotation using the R key
+            this.smoothRotator.rotate(this.scene, this.sprite, 90)
         }
 
         const rotatedAccel = rotateVector(accel, this.sprite.angle)
@@ -153,13 +154,13 @@ export class Player {
 
         this.externalAcceleration.x = 0
         this.externalAcceleration.y = 0
-    }
 
-    rotate (degrees) {
-        this.sprite.setAngle(this.sprite.angle + degrees)
-        this.body.gravity = rotateVector(baseGravityVector, this.sprite.angle)
-        this.playerSpine.spine.x = offsetVector.x
-        this.playerSpine.spine.y = offsetVector.y
+        // adjust to rotations
+        if (this.sprite.angle !== this.lastAngle) {
+            this.body.gravity = rotateVector(baseGravityVector, this.sprite.angle)
+            this.playerSpine.spine.setPosition(0, 13)
+            this.lastAngle = this.sprite.angle
+        }
     }
 
     getHurt () {
