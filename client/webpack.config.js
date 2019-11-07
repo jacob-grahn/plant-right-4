@@ -37,8 +37,7 @@ module.exports = {
             }
         }),
         new CopyPlugin([
-            { from: 'node_modules/phaser/plugins/spine/dist/SpinePlugin.js', to: 'plugins/SpinePlugin.js' },
-            { from: 'other', to: 'public' },
+            { from: 'node_modules/phaser/plugins/spine/dist/SpinePlugin.js', to: 'plugins/SpinePlugin.js' }
         ]),
     ],
     module: {

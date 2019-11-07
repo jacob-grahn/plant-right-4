@@ -1,5 +1,5 @@
-import { AddParticle, RemoveParticle } from './main.js'
-import { rotateVector } from './rotateVector.js'
+import { AddParticle, RemoveParticle } from './scenes/race/race'
+import { rotateVector } from './rotateVector'
 
 // Just the start of particle system, will be used for shatter effect on block. Used some code from pr3 so its very similar so far
 export class ParticleEffect {

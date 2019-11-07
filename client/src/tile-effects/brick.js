@@ -1,4 +1,4 @@
-import { GetScene } from '../main.js'
+import { GetScene } from '../scenes/race/race'
 import { ParticleEffect } from '../particleEffect.js'
 
 export const brick = (player, tile) => {

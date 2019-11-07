@@ -2,7 +2,7 @@
 
 import { rotateVector } from '../rotateVector'
 import { PlayerAttributes } from './player-attributes'
-import { BlockedSide } from '../main.js'
+import { BlockedSide } from '../scenes/race/race'
 import { PlayerSpine } from './playerSpine.js'
 import { HurtTimer } from './hurt-timer'
 import { JumpGumption } from './jump-gumption'

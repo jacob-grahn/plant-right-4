@@ -1,4 +1,4 @@
-import { GetScene } from './main.js'
+import { GetScene } from './scenes/race/race'
 
 export class Explosion {
   static CreateExplosion (x, y) {

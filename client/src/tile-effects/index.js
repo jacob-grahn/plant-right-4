@@ -20,7 +20,7 @@ import { sad } from './sad'
 import { heal } from './heal'
 import { time } from './time'
 */
-import { BlockedSide } from '../main.js'
+import { BlockedSide } from '../scenes/race/race'
 import { SetBlockAbove } from '../player/player.js'
 import { brick } from './brick'
 
