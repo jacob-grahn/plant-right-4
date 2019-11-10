@@ -15,6 +15,7 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
   let x = 0
   let y = 0
   let tileId = 0
+
   blockArr.forEach(command => {
     const [moveX, moveY, newTileId] = command.split(';')
     if (newTileId !== undefined) {
@@ -24,7 +25,33 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
     y += Number(moveY)
     placeTile(chunkDict, chunkSize, x, y, tileId)
   })
-  return Object.values(chunkDict)
+
+  const chunks = Object.values(chunkDict)
+
+  // calculate bounds
+  let minPos = { x: Infinity, y: Infinity }
+  let maxPos = { x: -Infinity, y: -Infinity }
+  chunks.forEach(chunk => {
+    minPos.x = Math.min(chunk.x, minPos.x)
+    minPos.y = Math.min(chunk.y, minPos.y)
+    maxPos.x = Math.max(chunk.x, maxPos.x)
+    maxPos.y = Math.max(chunk.y, maxPos.y)
+  })
+
+  return {
+    opacity: 1,
+    startx: 0,
+    starty: 0,
+    type: 'tilelayer',
+    visible: true,
+    offsetX: minPos.x * chunkSize,
+    offsetY: minPos.y * chunkSize,
+    width: maxPos.x - minPos.x + chunkSize,
+    height: maxPos.y - minPos.y + chunkSize,
+    x: minPos.x,
+    y: minPos.y,
+    chunks: Object.values(chunkDict)
+  }
 }
 
 /**

@@ -17,6 +17,7 @@
   "scripts": {
     "lint": "standard",
     "test": "jest",
+    "watch": "jest --watch",
     "build-layers": "cd build-layers && ./build-layers.sh",
     "invoke": "export SAVE_TARGET=local && sls invoke local -f import-level -p data.json",
     "deploy": "sls deploy"

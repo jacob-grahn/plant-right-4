@@ -24,12 +24,11 @@ export class ImportPR2Level extends Phaser.Scene {
         })
 
         element.on('click', function (event) {
-            console.log('click', event)
             if (event.target.name === 'importButton') {
                 const inputElement = this.getChildByName('levelIdInput')
-                const inputText = inputElement.value
-                if (inputText) {
-                    console.log(inputText)
+                const levelId = inputElement.value
+                if (levelId) {
+                    fetch(`https://hlnoli4gfl.execute-api.us-east-1.amazonaws.com/dev/import-from-pr2/${levelId}`)
                 }
             }
         })

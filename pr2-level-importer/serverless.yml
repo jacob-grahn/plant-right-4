@@ -1,3 +1,5 @@
+org: jacobgrahn
+app: platform-racing
 service: pr2-level-importer
 
 package:
@@ -33,7 +35,7 @@ functions:
   import-level:
     handler: src/index.handler
     memorySize: 1024 # optional, in MB, default is 1024
-    timeout: 30 # optional, in seconds, default is 6
+    timeout: 900 # optional, in seconds, default is 6
     environment:
       BUCKET: ${self:custom.bucket}
       SAVE_TARGET: ${env:SAVE_TARGET, 's3'} # s3 or local
@@ -41,6 +43,7 @@ functions:
       - http:
           path: import-from-pr2/{levelId}
           method: get
+          async: true
           request:
             parameters:
                paths:

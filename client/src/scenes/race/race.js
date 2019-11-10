@@ -103,7 +103,7 @@ export class Race extends Phaser.Scene {
     }
 
     preload () {
-        this.load.tilemapTiledJSON('map', 'assets/tilemaps/50815.json')
+        this.load.tilemapTiledJSON('map', 'https://dev-pr4-levels.s3.amazonaws.com/pr2/levels/3480351/3480351.json')
         // Used for shatter particle effect
         this.load.spritesheet(
             'blocksSH',
@@ -124,9 +124,7 @@ export class Race extends Phaser.Scene {
         // physics
         physics = this.physics
         sceneInstance = this.scene.scene
-
-        // Changed this to 10000 to be right at the ledge area if you comment out the set start position for debugging
-        player = new Player(this, 6700, 1000)
+        player = new Player(this, 0, 0)
 
         // map
         const map = this.make.tilemap({ key: 'map', tileWidth: 30, tileHeight: 30 })
@@ -139,8 +137,7 @@ export class Race extends Phaser.Scene {
         const startPositions = findStartPositions(startTileIndexes, tileLayer)
         if (startPositions.length > 0) {
             const startPosition = startPositions[0]
-            // Comment this out if you want to hard code position for debugging(easier to test ledge jump)
-            // player.sprite.setPosition(startPosition.x, startPosition.y)
+            player.sprite.setPosition(startPosition.x, startPosition.y)
         }
 
         // camera

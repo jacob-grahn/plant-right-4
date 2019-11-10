@@ -15,19 +15,7 @@ const pr2ToPr4 = (pr2Data) => {
     height: 100,
     infinite: true,
     layers: [
-      {
-        name: 'Tile Layer',
-        opacity: 1,
-        startx: 0,
-        starty: 0,
-        type: 'tilelayer',
-        visible: true,
-        width: 100,
-        height: 100,
-        x: 0,
-        y: 0,
-        chunks: parseBlocks(pr2Data.blocks, 4)
-      },
+      parseBlocks(pr2Data.blocks, 4),
       ...artLayers
     ],
     orientation: 'orthogonal',
