@@ -8,6 +8,7 @@ const httpHandler = async (event) => {
 
   try {
     let status = await fetchFile(path) || 'not-started'
+    status = 'not-started'
 
     // begin an import if the level has not been imported yet
     if (status === 'not-started') {

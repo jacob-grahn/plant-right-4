@@ -54,7 +54,6 @@ export class PlayerSpine {
     const isFlipped = this.spine.scaleX < 0
     if (flip !== isFlipped) {
       this.spine.scaleX = flip ? -scale : scale
-      console.log(this.scaleX)
     }
   }
 }

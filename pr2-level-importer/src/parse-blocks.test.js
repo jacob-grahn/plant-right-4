@@ -66,16 +66,10 @@ test('block layer deminsions are set', () => {
     '1;0'
   ]
   const result = parseBlocks(blocks, 4)
-  console.log(result)
   expect(result.width).toEqual(8)
   expect(result.height).toEqual(8)
   expect(result.x).toEqual(328)
   expect(result.y).toEqual(332)
   expect(result.offsetX).toEqual(328 * 4)
   expect(result.offsetY).toEqual(332 * 4)
-
-  /* chunks: [
-    { x: 4, y: 0, width: 4, height: 4, data: [Array] },
-    { x: 0, y: 4, width: 4, height: 4, data: [Array] }
-  ] */
 })

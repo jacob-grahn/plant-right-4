@@ -11,19 +11,16 @@ const fetchFile = async (key) => {
         Bucket: bucket,
         Key: key
       }).promise()
-      console.log(result)
-      console.log(result.Body)
-      console.log(result.Body.toString())
       return result.Body.toString()
     } catch (e) {
       console.log(e)
       return undefined
     }
   } else if (saveTarget === 'local') {
-    console.log('save target is local')
     try {
       return fs.readFileSync(`./stashed/${key}`).toString()
     } catch (e) {
+      console.log(e)
       return undefined
     }
   }
