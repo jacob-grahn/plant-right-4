@@ -1,5 +1,6 @@
 {
     "pathParameters": {
-        "levelId": "3480351"
+        "levelId": "3480351",
+        "force": true
     }
 }

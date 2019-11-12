@@ -4,11 +4,15 @@ const importPr2Level = require('./import-pr2-level')
 
 const httpHandler = async (event) => {
   const levelId = event.pathParameters.levelId
+  const force = event.pathParameters.force
   const path = `pr2/levels/${levelId}/status.txt`
 
   try {
     let status = await fetchFile(path) || 'not-started'
-    status = 'not-started'
+
+    if (force) {
+      status = 'not-started'
+    }
 
     // begin an import if the level has not been imported yet
     if (status === 'not-started') {
