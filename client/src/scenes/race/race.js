@@ -85,6 +85,15 @@ function rotateSide (side, angle) {
   return (sides[(sideIndex + i) % sides.length])
 }
 
+function getLevelId () {
+    const url = window.location.href
+    const dirs = url.replace('?', '').split('/')
+    if (dirs.length >= 2 && dirs[dirs.length - 2] === 'level') {
+        return dirs[dirs.length - 1]
+    }
+    return undefined
+}
+
 export class Race extends Phaser.Scene {
 
     constructor () {
@@ -103,7 +112,8 @@ export class Race extends Phaser.Scene {
     }
 
     preload () {
-        this.load.tilemapTiledJSON('map', 'https://dev-pr4-levels.s3.amazonaws.com/pr2/levels/3480351/3480351.json')
+        const levelId = getLevelId() || 50815 // 3480351
+        this.load.tilemapTiledJSON('map', `https://dev-pr4-levels.s3.amazonaws.com/pr2/levels/${levelId}/${levelId}.json`)
         // Used for shatter particle effect
         this.load.spritesheet(
             'blocksSH',
