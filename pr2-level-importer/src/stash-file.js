@@ -5,6 +5,7 @@ const bucket = process.env.BUCKET || 'test-bucket'
 const saveTarget = process.env.SAVE_TARGET || 's3'
 
 const stashFile = (key, buffer) => {
+  console.log('stashFile', key)
   if (saveTarget === 's3') {
     return s3.putObject({
       Bucket: bucket,

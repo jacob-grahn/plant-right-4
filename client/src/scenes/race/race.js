@@ -113,7 +113,7 @@ export class Race extends Phaser.Scene {
 
     preload () {
         const levelId = getLevelId() || 50815 // 3480351
-        this.load.tilemapTiledJSON('map', `https://dev-pr4-levels.s3.amazonaws.com/pr2/levels/${levelId}/${levelId}.json`)
+        this.load.tilemapTiledJSON('map', `https://dev-levels.platformracing.com/pr2/levels/${levelId}/${levelId}.json`)
         // Used for shatter particle effect
         this.load.spritesheet(
             'blocksSH',
@@ -139,7 +139,7 @@ export class Race extends Phaser.Scene {
         // map
         const map = this.make.tilemap({ key: 'map', tileWidth: 30, tileHeight: 30 })
         const tileset = map.addTilesetImage('blocks', 'blocks')
-        tileLayer = map.createDynamicLayer('Tile Layer', tileset, 0, 0)
+        tileLayer = map.createDynamicLayer('tilelayer', tileset, 0, 0)
         tileLayer.setCollisionByProperty({ collides: true })
 
         // start position

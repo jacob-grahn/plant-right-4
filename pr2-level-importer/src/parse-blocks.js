@@ -43,6 +43,7 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
     startx: 0,
     starty: 0,
     type: 'tilelayer',
+    name: 'tilelayer',
     visible: true,
     offsetX: minPos.x * chunkSize,
     offsetY: minPos.y * chunkSize,
