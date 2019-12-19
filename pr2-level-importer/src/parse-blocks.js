@@ -34,8 +34,8 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
   chunks.forEach(chunk => {
     minPos.x = Math.min(chunk.x, minPos.x)
     minPos.y = Math.min(chunk.y, minPos.y)
-    maxPos.x = Math.max(chunk.x, maxPos.x)
-    maxPos.y = Math.max(chunk.y, maxPos.y)
+    maxPos.x = Math.max(chunk.x + chunkSize, maxPos.x)
+    maxPos.y = Math.max(chunk.y + chunkSize, maxPos.y)
   })
 
   return {
@@ -45,10 +45,10 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
     type: 'tilelayer',
     name: 'tilelayer',
     visible: true,
-    offsetX: minPos.x * chunkSize,
-    offsetY: minPos.y * chunkSize,
-    width: maxPos.x - minPos.x + chunkSize,
-    height: maxPos.y - minPos.y + chunkSize,
+    offsetX: 0,
+    offsetY: 0,
+    width: maxPos.x - minPos.x,
+    height: maxPos.y - minPos.y,
     x: minPos.x,
     y: minPos.y,
     chunks: Object.values(chunkDict)

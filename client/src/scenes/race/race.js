@@ -1,5 +1,6 @@
 import { Player } from '../../player/player'
 import { tileEffects, tileOverlap } from '../../tile-effects'
+import { buildBG } from './build-bg'
 
 let physics
 let sceneInstance
@@ -24,7 +25,7 @@ function findStartPositions (tileIndexes, tileLayer) {
   tileIndexes.forEach(tileIndex => {
     const tile = tileLayer.findByIndex(tileIndex)
     if (tile) {
-      startPositions.push({ x: tile.pixelX, y: tile.pixelY })
+      startPositions.push({ x: tile.pixelX + 15, y: tile.pixelY + 15 })
     }
   })
   return startPositions
@@ -37,7 +38,7 @@ function findStartTileIndexes (tileMap) {
       Object.keys(tileset.tileProperties).forEach(tileIndex => {
         const tilePropertyObj = tileset.tileProperties[tileIndex]
         if (tilePropertyObj.startpos) {
-          tileIndexes.push(Number(tileIndex))
+          tileIndexes.push(Number(tileIndex) + 1)
         }
       })
     }
@@ -147,6 +148,7 @@ export class Race extends Phaser.Scene {
         const startPositions = findStartPositions(startTileIndexes, tileLayer)
         if (startPositions.length > 0) {
             const startPosition = startPositions[0]
+            console.log(startPosition)
             player.sprite.setPosition(startPosition.x, startPosition.y)
         }
 
@@ -154,11 +156,16 @@ export class Race extends Phaser.Scene {
         this.cameras.main.startFollow(player.sprite)
         this.cameras.main.setLerp(0.1, 0.1)
         this.cameras.main.zoom = 1
+        this.cameras.main.backgroundColor.setTo(100,200,255)
 
         // physics
         this.physics.add.collider(player, tileLayer, tileEffects)
         this.physics.world.bounds.width = tileLayer.width
         this.physics.world.bounds.height = tileLayer.height
+
+        // load bg
+        let rawMap = this.cache.tilemap.get('map').data
+        buildBG(this, rawMap)
     }
 
     update (_time, delta) {

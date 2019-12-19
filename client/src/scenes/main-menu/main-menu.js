@@ -21,5 +21,8 @@ export class MainMenu extends Phaser.Scene {
         this.add.text(100, 300, 'Import a Level from PR2', { fill: '#0f0' })
             .setInteractive()
             .on('pointerdown', () => this.scene.start('ImportPR2Level') )
+
+        this.scene.start('Race') 
+        window.history.pushState('race', 'PR4: Play', `?level/${levelId}`)
     }
 }
