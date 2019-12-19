@@ -1,5 +1,5 @@
 export const loadBGImages = (scene, images) => {
-    scene.load.setPath('');
+    scene.load.setPath('')
     images.forEach(image => {
         let path
         if(image.image.indexOf('.png') !== -1) {
