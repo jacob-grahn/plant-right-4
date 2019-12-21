@@ -71,19 +71,19 @@ export function TileOverlapping (sprite) {
 }
 
 function rotateSide (side, angle) {
-  const sideIndex = sides.indexOf(side)
-  let i = 0
+    const sideIndex = sides.indexOf(side)
+    let i = 0
 
-  if (angle > -45 && angle < 50) {
-    i = 0
-  } else if (angle >= 45 && angle <= 135) {
-    i += 1
-  } else if (angle > 135 || angle < -135) {
-    i += 2
-  } else {
-    i += 3
-  }
-  return (sides[(sideIndex + i) % sides.length])
+    if (angle > -45 && angle < 50) {
+        i = 0
+    } else if (angle >= 45 && angle <= 135) {
+        i += 1
+    } else if (angle > 135 || angle < -135) {
+        i += 2
+    } else {
+        i += 3
+    }
+    return (sides[(sideIndex + i) % sides.length])
 }
 
 function getLevelId () {
@@ -148,7 +148,6 @@ export class Race extends Phaser.Scene {
         const startPositions = findStartPositions(startTileIndexes, tileLayer)
         if (startPositions.length > 0) {
             const startPosition = startPositions[0]
-            console.log(startPosition)
             player.sprite.setPosition(startPosition.x, startPosition.y)
         }
 
