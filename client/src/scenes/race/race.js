@@ -142,6 +142,7 @@ export class Race extends Phaser.Scene {
         const tileset = map.addTilesetImage('blocks', 'blocks')
         tileLayer = map.createDynamicLayer('tilelayer', tileset, 0, 0)
         tileLayer.setCollisionByProperty({ collides: true })
+        tileLayer.setDepth(6)
 
         // start position
         const startTileIndexes = findStartTileIndexes(map)
@@ -149,6 +150,7 @@ export class Race extends Phaser.Scene {
         if (startPositions.length > 0) {
             const startPosition = startPositions[0]
             player.sprite.setPosition(startPosition.x, startPosition.y)
+            player.sprite.setDepth(10)
         }
 
         // camera
