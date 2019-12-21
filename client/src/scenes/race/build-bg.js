@@ -28,7 +28,8 @@ export const buildBG = (scene, tilemap) => {
                 const { gid, x, y } = object
                 const imageUrl = gidLookup[gid].image
                 if (imageUrl === key) {
-                    const image = scene.add.sprite(x - offsetX + 128, y - offsetY - 128, imageUrl)
+                    const image = scene.add.sprite(x - offsetX, y - offsetY, imageUrl)
+                    image.setOrigin(0, 1)
                     containers[layerIndex].add(image)
                 }
             })
