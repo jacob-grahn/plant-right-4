@@ -12,10 +12,15 @@ module.exports = {
         ]
     },
     devtool: 'cheap-source-map',
+    devServer: {
+        port: 3000,
+        historyApiFallback: true
+    },
     output: {
-      pathinfo: true,
+        publicPath: "/",
+        pathinfo: true,
         path: path.resolve(__dirname, 'dev'),
-        publicPath: './dev/',
+        // publicPath: './dev/',
         library: '[name]',
         libraryTarget: 'umd',
         filename: '[name].js'

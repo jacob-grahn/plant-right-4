@@ -104,7 +104,7 @@ export class Race extends Phaser.Scene {
                 files: [{
                     type: 'scenePlugin', 
                     key: 'SpinePlugin', 
-                    url: 'plugins/SpinePlugin.js', 
+                    url: '/plugins/SpinePlugin.js', 
                     sceneKey: 'spine',
                     start: true
                 }]
@@ -118,15 +118,15 @@ export class Race extends Phaser.Scene {
         // Used for shatter particle effect
         this.load.spritesheet(
             'blocksSH',
-            'assets/images/pr2-blocks.png',
+            '/assets/images/pr2-blocks.png',
             { frameWidth: 30, frameHeight: 30 }
         )
-        this.load.image('blocks', 'assets/images/pr2-blocks.png')
+        this.load.image('blocks', '/assets/images/pr2-blocks.png')
 
-        this.load.setPath('assets/sounds')
+        this.load.setPath('/assets/sounds')
         this.load.audio('explodesfx', 'explosion.mp3')
 
-        this.load.setPath('assets/animations/spine/')
+        this.load.setPath('/assets/animations/spine/')
         this.load.spine('PRFGuy', 'PRFGuy.json', 'PRFGuy.atlas')
         this.load.spine('Explosion', 'Explosion.json', 'Explosion.atlas')
     }
