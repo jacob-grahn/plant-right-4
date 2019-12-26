@@ -10,7 +10,7 @@ export class MainMenu extends Phaser.Scene {
     create () {
         this.add.text(100, 100, 'This is the Main Menu', { fill: '#00f' })
 
-        const levelId = 50815
+        const levelId = 6497061
         this.add.text(100, 200, 'Play', { fill: '#0f0' })
             .setInteractive()
             .on('pointerdown', () => {

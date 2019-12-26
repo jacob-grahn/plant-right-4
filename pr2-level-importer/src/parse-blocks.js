@@ -19,7 +19,11 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
   blockArr.forEach(command => {
     const [moveX, moveY, newTileId] = command.split(';')
     if (newTileId !== undefined) {
-      tileId = Number(newTileId) + 1
+      if (Number(newTileId) >= 100) {
+        tileId = Number(newTileId) - 99
+      } else {
+        tileId = Number(newTileId) + 1
+      }
     }
     x += Number(moveX)
     y += Number(moveY)

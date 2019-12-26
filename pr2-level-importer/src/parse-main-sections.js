@@ -4,6 +4,7 @@ const safeSplit = require('./safe-split')
  * split up the data block into easier to digest sections
  */
 const parseMainSections = (str) => {
+  // file version = m3
   const mainSections = str.split('`')
   const [
     fileVersion,
@@ -13,8 +14,8 @@ const parseMainSections = (str) => {
     art2,
     art3,
     art4,
-    u1,
-    u2,
+    art0,
+    art00,
     bg
   ] = mainSections
 
@@ -26,8 +27,8 @@ const parseMainSections = (str) => {
     art2: safeSplit(art2),
     art3: safeSplit(art3),
     art4: safeSplit(art4),
-    u1: safeSplit(u1),
-    u2: safeSplit(u2),
+    art0: safeSplit(art0),
+    art00: safeSplit(art00),
     bg
   }
 }
