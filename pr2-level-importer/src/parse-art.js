@@ -28,7 +28,7 @@ const parseArt = (artArr = []) => {
 
   return {
     draworder: 'topdown',
-    name: 'Art Layer',
+    name: 'artlayer',
     objects,
     offsetx: 0,
     offsety: 0,

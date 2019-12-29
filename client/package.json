@@ -5,7 +5,7 @@
   "author": "Jacob Grahn <jacob@grahn.io>",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack",
+    "dev": "webpack-dev-server",
     "build": "webpack --config webpack.production.config.js",
     "test": "webpack --config webpack.production.config.js",
     "lint": "standard ./src/**/**.js"
@@ -17,8 +17,6 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
-    "browser-sync": "^2.26.7",
-    "browser-sync-webpack-plugin": "^2.2.2",
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "^5.0.4",
     "expose-loader": "^0.7.5",
@@ -26,7 +24,8 @@
     "raw-loader": "^2.0.0",
     "standard": "^12.0.1",
     "webpack": "^4.41.1",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
     "phaser": "3.20.0"

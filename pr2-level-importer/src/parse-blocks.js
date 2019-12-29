@@ -19,7 +19,11 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
   blockArr.forEach(command => {
     const [moveX, moveY, newTileId] = command.split(';')
     if (newTileId !== undefined) {
-      tileId = Number(newTileId) + 1
+      if (Number(newTileId) >= 100) {
+        tileId = Number(newTileId) - 99
+      } else {
+        tileId = Number(newTileId) + 1
+      }
     }
     x += Number(moveX)
     y += Number(moveY)
@@ -34,8 +38,8 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
   chunks.forEach(chunk => {
     minPos.x = Math.min(chunk.x, minPos.x)
     minPos.y = Math.min(chunk.y, minPos.y)
-    maxPos.x = Math.max(chunk.x, maxPos.x)
-    maxPos.y = Math.max(chunk.y, maxPos.y)
+    maxPos.x = Math.max(chunk.x + chunkSize, maxPos.x)
+    maxPos.y = Math.max(chunk.y + chunkSize, maxPos.y)
   })
 
   return {
@@ -45,10 +49,10 @@ const parseBlocks = (blockArr = [], chunkSize = 16) => {
     type: 'tilelayer',
     name: 'tilelayer',
     visible: true,
-    offsetX: minPos.x * chunkSize,
-    offsetY: minPos.y * chunkSize,
-    width: maxPos.x - minPos.x + chunkSize,
-    height: maxPos.y - minPos.y + chunkSize,
+    offsetX: 0,
+    offsetY: 0,
+    width: maxPos.x - minPos.x,
+    height: maxPos.y - minPos.y,
     x: minPos.x,
     y: minPos.y,
     chunks: Object.values(chunkDict)

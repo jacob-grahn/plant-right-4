@@ -70,7 +70,7 @@ const renderImages = async (levelId, big, bounds) => {
       const image = canvas.toBuffer('image/png')
       const hash = toHash(image)
       if (hash !== emptyHash) {
-        const key = `${x}_${y}.webp`
+        const key = `${hash}.webp`
         const compressedImage = await compressImage(image)
         await stashFile(`pr2/levels/${levelId}/${key}`, compressedImage)
         imageMetadataList.push({

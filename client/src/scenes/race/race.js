@@ -1,5 +1,6 @@
 import { Player } from '../../player/player'
 import { tileEffects, tileOverlap } from '../../tile-effects'
+import { buildBG } from './build-bg'
 
 let physics
 let sceneInstance
@@ -24,7 +25,7 @@ function findStartPositions (tileIndexes, tileLayer) {
   tileIndexes.forEach(tileIndex => {
     const tile = tileLayer.findByIndex(tileIndex)
     if (tile) {
-      startPositions.push({ x: tile.pixelX, y: tile.pixelY })
+      startPositions.push({ x: tile.pixelX + 15, y: tile.pixelY + 15 })
     }
   })
   return startPositions
@@ -37,7 +38,7 @@ function findStartTileIndexes (tileMap) {
       Object.keys(tileset.tileProperties).forEach(tileIndex => {
         const tilePropertyObj = tileset.tileProperties[tileIndex]
         if (tilePropertyObj.startpos) {
-          tileIndexes.push(Number(tileIndex))
+          tileIndexes.push(Number(tileIndex) + 1)
         }
       })
     }
@@ -70,19 +71,19 @@ export function TileOverlapping (sprite) {
 }
 
 function rotateSide (side, angle) {
-  const sideIndex = sides.indexOf(side)
-  let i = 0
+    const sideIndex = sides.indexOf(side)
+    let i = 0
 
-  if (angle > -45 && angle < 50) {
-    i = 0
-  } else if (angle >= 45 && angle <= 135) {
-    i += 1
-  } else if (angle > 135 || angle < -135) {
-    i += 2
-  } else {
-    i += 3
-  }
-  return (sides[(sideIndex + i) % sides.length])
+    if (angle > -45 && angle < 50) {
+        i = 0
+    } else if (angle >= 45 && angle <= 135) {
+        i += 1
+    } else if (angle > 135 || angle < -135) {
+        i += 2
+    } else {
+        i += 3
+    }
+    return (sides[(sideIndex + i) % sides.length])
 }
 
 function getLevelId () {
@@ -103,7 +104,7 @@ export class Race extends Phaser.Scene {
                 files: [{
                     type: 'scenePlugin', 
                     key: 'SpinePlugin', 
-                    url: 'plugins/SpinePlugin.js', 
+                    url: '/plugins/SpinePlugin.js', 
                     sceneKey: 'spine',
                     start: true
                 }]
@@ -117,15 +118,15 @@ export class Race extends Phaser.Scene {
         // Used for shatter particle effect
         this.load.spritesheet(
             'blocksSH',
-            'assets/images/pr2-blocks.png',
+            '/assets/images/pr2-blocks.png',
             { frameWidth: 30, frameHeight: 30 }
         )
-        this.load.image('blocks', 'assets/images/pr2-blocks.png')
+        this.load.image('blocks', '/assets/images/pr2-blocks.png')
 
-        this.load.setPath('assets/sounds')
+        this.load.setPath('/assets/sounds')
         this.load.audio('explodesfx', 'explosion.mp3')
 
-        this.load.setPath('assets/animations/spine/')
+        this.load.setPath('/assets/animations/spine/')
         this.load.spine('PRFGuy', 'PRFGuy.json', 'PRFGuy.atlas')
         this.load.spine('Explosion', 'Explosion.json', 'Explosion.atlas')
     }
@@ -141,6 +142,7 @@ export class Race extends Phaser.Scene {
         const tileset = map.addTilesetImage('blocks', 'blocks')
         tileLayer = map.createDynamicLayer('tilelayer', tileset, 0, 0)
         tileLayer.setCollisionByProperty({ collides: true })
+        tileLayer.setDepth(6)
 
         // start position
         const startTileIndexes = findStartTileIndexes(map)
@@ -148,17 +150,23 @@ export class Race extends Phaser.Scene {
         if (startPositions.length > 0) {
             const startPosition = startPositions[0]
             player.sprite.setPosition(startPosition.x, startPosition.y)
+            player.sprite.setDepth(10)
         }
 
         // camera
         this.cameras.main.startFollow(player.sprite)
         this.cameras.main.setLerp(0.1, 0.1)
         this.cameras.main.zoom = 1
+        this.cameras.main.backgroundColor.setTo(100,200,255)
 
         // physics
         this.physics.add.collider(player, tileLayer, tileEffects)
         this.physics.world.bounds.width = tileLayer.width
         this.physics.world.bounds.height = tileLayer.height
+
+        // load bg
+        let rawMap = this.cache.tilemap.get('map').data
+        buildBG(this, rawMap)
     }
 
     update (_time, delta) {
