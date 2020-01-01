@@ -1,19 +1,19 @@
 export class ImportPR2Level extends Phaser.Scene {
 
     constructor () {
-        super({ key: 'ImportPR2Level' });
+        super({ key: 'import-pr2-level' });
     }
 
     preload () {
-        this.load.html('main-menu', 'assets/html/main-menu.html')
+        this.load.html('import-pr2-level', 'assets/html/import-pr2-level.html')
     }
 
     create () {
         this.add.text(100, 100, 'Main Menu', { fill: '#0f0' })
             .setInteractive()
-            .on('pointerdown', () => this.scene.start('MainMenu'))
+            .on('pointerdown', () => window.prf.router.go('main-menu'))
 
-        var element = this.add.dom(400, 0).createFromCache('main-menu')
+        var element = this.add.dom(400, 0).createFromCache('import-pr2-level')
         element.addListener('click')
 
         this.tweens.add({

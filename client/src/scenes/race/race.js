@@ -99,7 +99,7 @@ export class Race extends Phaser.Scene {
 
     constructor () {
         super({
-            key: 'Race',
+            key: 'level',
             pack: {
                 files: [{
                     type: 'scenePlugin', 
