@@ -86,15 +86,6 @@ function rotateSide (side, angle) {
     return (sides[(sideIndex + i) % sides.length])
 }
 
-function getLevelId () {
-    const url = window.location.href
-    const dirs = url.replace('?', '').split('/')
-    if (dirs.length >= 2 && dirs[dirs.length - 2] === 'level') {
-        return dirs[dirs.length - 1]
-    }
-    return undefined
-}
-
 export class Race extends Phaser.Scene {
 
     constructor () {
@@ -113,7 +104,7 @@ export class Race extends Phaser.Scene {
     }
 
     preload () {
-        const levelId = getLevelId() || 50815 // 3480351
+        const levelId = prf.router.params.levelId || 50815
         this.load.tilemapTiledJSON('map', `https://dev-levels.platformracing.com/pr2/levels/${levelId}/${levelId}.json`)
         // Used for shatter particle effect
         this.load.spritesheet(

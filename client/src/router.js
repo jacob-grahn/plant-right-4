@@ -7,7 +7,7 @@ export class Router {
         this.routes = routes.map(strRoute => new Route(strRoute))
         this.defaultRoute = this.routes[0]
         this.curSceneId = this.defaultRoute.sceneId
-
+        this.params = {}
         window.addEventListener('popstate', this.apply);
     }
 
@@ -27,6 +27,7 @@ export class Router {
         }
         this.curSceneId = route.sceneId
         this.game.scene.start(route.sceneId)
+        this.params = route.getParams(url)
     }
 
     getMatchingRoute = (url) => {

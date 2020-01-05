@@ -10,4 +10,22 @@ export class Route {
     matches (url) {
         return this.regex.test(url)
     }
+
+    getParams (url) {
+        const routeDirs = this.strRoute.split('/')
+        const urlDirs = url.split('/')
+        const params = {}
+        routeDirs.forEach((routeDir, index) => {
+            if (urlDirs.length <= index) {
+                return
+            }
+            if (routeDir.charAt(0) !== ':') {
+                return
+            }
+            const key = routeDir.substring(1)
+            const value = urlDirs[index]
+            params[key] = value
+        })
+        return params
+    }
 }
