@@ -125,6 +125,7 @@ export class Player {
     // jump
     if (cursors.up.isDown) {
       if (this.grounded) {
+        console.log(this.sprite.x, this.sprite.y)
         this.stillHoldingUp = true
         this.jumpGumption.reset()
         accel.y -= this.attributes.jumpVel

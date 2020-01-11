@@ -9,6 +9,15 @@ const parseArt = require('./parse-art')
  */
 const pr2ToPr4 = (pr2Data) => {
   const artLayers = (pr2Data.artLayers || []).map(parseArt)
+
+  // apply parallax settings
+  artLayers[0].parallax = 0.25
+  artLayers[1].parallax = 0.5
+  artLayers[2].parallax = 1
+  artLayers[3].parallax = 1
+  artLayers[4].parallax = 2
+  artLayers[5].parallax = 3
+
   return {
     backgroundcolor: '#FFFFFF',
     width: 100,
