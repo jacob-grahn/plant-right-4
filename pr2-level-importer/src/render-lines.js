@@ -40,7 +40,7 @@ const drawLine = (line, ctx) => {
   ctx.beginPath()
   ctx.moveTo(line.x, line.y)
   ctx.strokeStyle = '#' + line.properties.color
-  ctx.lineWidth = line.properties.width
+  ctx.lineWidth = line.properties.thickness
   line.polyline.forEach(point => {
     let x = line.x + point.x
     let y = line.y + point.y

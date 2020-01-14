@@ -148,7 +148,7 @@ export class Race extends Phaser.Scene {
         // camera
         this.cameras.main.startFollow(player.sprite)
         this.cameras.main.setLerp(0.1, 0.1)
-        this.cameras.main.zoom = 0.5
+        this.cameras.main.zoom = 0.1
         this.cameras.main.backgroundColor.setTo(100,200,255)
 
         // physics

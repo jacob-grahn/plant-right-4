@@ -17,9 +17,8 @@ export const buildBG = (scene, tilemap) => {
         const container = scene.add.container()
         container.setDepth(layerIndex)
         container.setScrollFactor(layer.parallax)
-        console.log(layer.parallax)
-        //container.x = -offsetX
-        //container.y = -offsetY
+        container.x = -offsetX * layer.parallax
+        container.y = -offsetY * layer.parallax
         containers.push(container)
     })
 
@@ -27,12 +26,14 @@ export const buildBG = (scene, tilemap) => {
     scene.load.on('filecomplete', (key, type, texture) => {
         artLayers.forEach((layer, layerIndex) => {
             layer.objects.forEach(object => {
-                const { gid, x, y } = object
+                const { gid, x, y, width, height } = object
                 const imageUrl = gidLookup[gid].image
                 if (imageUrl === key) {
-                    console.log(key, layer.parallax, x, y)
-                    const image = scene.add.sprite(x - offsetX * layer.parallax, y - offsetY * layer.parallax, imageUrl)
-                    // image.setOrigin(0, 1)
+                    const image = scene.add.sprite(x, y, imageUrl)
+                    image.setOrigin(0, 1)
+                    console.log(width, height, image.width, image.height)
+                    image.scaleX = width / image.width
+                    image.scaleY = height / image.height
                     containers[layerIndex].add(image)
                 }
             })

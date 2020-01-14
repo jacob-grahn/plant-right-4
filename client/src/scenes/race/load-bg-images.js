@@ -1,5 +1,6 @@
+// global prf
 export const loadBGImages = (scene, images) => {
-    const levelId = '6497061'
+    const levelId = prf.router.params.levelId
     scene.load.setPath('')
     images.forEach(image => {
         let path
